@@ -49,28 +49,51 @@ https://jsfiddle.net/Jaason/yztaebxm/
 
 ## Milestone 1 — Project foundation
 
-- [ ] Initialize package.json
-- [ ] Configure Vite
-- [ ] Create src/ directory
-- [ ] Create demo/ directory
-- [ ] Extract Star class
-- [ ] Extract ShootingStar class
-- [ ] Extract Starfield class
-- [ ] Extract default configuration
-- [ ] Extract shared utilities where appropriate
-- [ ] Create public entry point
-- [ ] Verify development environment
-- [ ] Verify visual parity with the original prototype
+- [x] Initialize package.json
+- [x] Configure Vite
+- [x] Create src/ directory
+- [x] Create demo/ directory
+- [x] Extract Star class
+- [x] Extract ShootingStar class
+- [x] Extract Starfield class
+- [x] Extract default configuration
+- [x] Review shared utility extraction (none needed for this extraction)
+- [x] Create public entry point
+- [x] Verify development environment
+- [x] Verify visual parity with the original prototype
 
 ### Acceptance criteria
 
-- [ ] Project runs locally using Vite
-- [ ] Original prototype remains unchanged
-- [ ] Existing visual effects are preserved
-- [ ] Existing configuration values are preserved
-- [ ] Code is organized into ES modules
-- [ ] No unnecessary abstractions introduced
-- [ ] No runtime errors
+- [x] Project runs locally using Vite
+- [x] Original prototype remains unchanged
+- [x] Existing visual effects are preserved
+- [x] Existing configuration values are preserved
+- [x] Code is organized into ES modules
+- [x] No unnecessary abstractions introduced
+- [x] No runtime errors
+
+### Foundation verification and approved scope exception
+
+Implemented, verified, and approved by the user on 2026-11-25.
+Milestone 1 is complete with the approved scope exception below.
+No later milestone has been started.
+
+- Vite development server, production build, and production preview verified.
+- Public entry point imported in Node without browser globals.
+- All three prototype SHA-256 hashes match their pre-extraction values.
+- Eighteen seeded Chrome comparisons matched canvas pixels and particle state:
+  nine scenarios at each of DPR 1 and DPR 3. See README verification notes.
+- Development and production preview rendered without JavaScript exceptions.
+- Runtime dependency tree is empty. No shared utility abstraction was necessary.
+- Short rendering-cost samples were recorded; these do not establish FPS targets,
+  post-GC memory stability, cross-browser compatibility, or long-running stability.
+
+The user approved the foundation-only plan, including deferring inherited lifecycle
+limitations to Milestone 3. For this milestone only, the definition-of-done resource
+cleanup requirement is deferred: listeners and animation callbacks still retain
+instances, and stop/destroy, visibility handling, and duplicate-loop protection
+are not implemented. This is an explicit scope exception, not a claim that those
+issues are resolved. Configuration isolation remains Milestone 2 work.
 
 ---
 
