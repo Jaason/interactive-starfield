@@ -91,7 +91,7 @@ function validate(config) {
 }
 
 // Merge only the known two-level configuration shape; never retain caller data.
-export function createConfig(options = {}) {
+export function createConfig(options = {}, base = defaultConfig) {
   requireObject(options, 'options');
   rejectUnknownKeys(options, defaultConfig, '');
 
@@ -103,9 +103,9 @@ export function createConfig(options = {}) {
     rejectUnknownKeys(overrides, defaults, `${name}.`);
 
     const section = {};
-    for (const [key, fallback] of Object.entries(defaults)) {
+    for (const key of Object.keys(defaults)) {
       const suppliedValue = Object.hasOwn(overrides, key) ? overrides[key] : undefined;
-      const value = suppliedValue === undefined ? fallback : suppliedValue;
+      const value = suppliedValue === undefined ? base[name][key] : suppliedValue;
       section[key] = Array.isArray(value) ? [...value] : value;
     }
     config[name] = section;
@@ -115,4 +115,13 @@ export function createConfig(options = {}) {
   Object.freeze(config.stars.colors);
   for (const section of Object.values(config)) Object.freeze(section);
   return Object.freeze(config);
+}
+
+export function equalConfigSection(a, b) {
+  return Object.keys(a).every(key => {
+    const value = a[key];
+    return Array.isArray(value)
+      ? value.length === b[key].length && value.every((item, index) => item === b[key][index])
+      : value === b[key];
+  });
 }

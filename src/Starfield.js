@@ -1,4 +1,4 @@
-import { createConfig } from './config.js';
+import { createConfig, equalConfigSection } from './config.js';
 import Star from './Star.js';
 import ShootingStar from './ShootingStar.js';
 
@@ -35,52 +35,176 @@ export default class Starfield {
     this.canvas = canvas;
     this.ctx = ctx;
     this.view = view;
-    this.stars = [];
+    this.document = canvas.ownerDocument;
     this.config = config;
-    if (!this.resize()) {
-      throw new RangeError('Starfield: set CSS width and height independently of the canvas backing dimensions.');
-    }
-    this.pointer = {
-      x: this.width / 2,
-      y: this.height / 2,
-      normalizedX: 0,
-      normalizedY: 0,
-      active: true,
+    this.stars = [];
+    this.shootingStar = null;
+    this.pointer = null;
+    this._destroyed = false;
+    this._started = false;
+    this._frameId = null;
+    this._frameCallback = null;
+    this._observer = null;
+    this._sizeValid = false;
+    this._sizeDirty = false;
+    this.lastTime = null;
+    this.elapsedTime = 0;
+    this.lastShootingStarTime = 0;
+
+    this._onResize = () => {
+      if (this._destroyed) return;
+      this._sizeDirty = true;
+      this._syncPlayback();
+    };
+    this._onMouseMove = (event) => {
+      if (!this._destroyed) this.updatePointer(event.clientX, event.clientY);
+    };
+    this._onTouchMove = (event) => {
+      if (this._destroyed) return;
+      const touch = event.touches[0];
+      if (touch) this.updatePointer(touch.clientX, touch.clientY);
+    };
+    this._onVisibility = () => {
+      if (this._destroyed) return;
+      this._sizeDirty = true;
+      this._syncPlayback();
     };
 
-    this.createStars();
+    try {
+      this.resize();
+      if (!this._sizeValid) {
+        throw new RangeError('Starfield: set CSS width and height independently of the canvas backing dimensions.');
+      }
+      this.pointer = {
+        x: this.width / 2,
+        y: this.height / 2,
+        normalizedX: 0,
+        normalizedY: 0,
+        active: true,
+      };
+      this.stars = this.createStars();
+      this.shootingStar = new ShootingStar(this.width, this.height, this.config);
 
-    this.shootingStar = new ShootingStar(
-      this.width,
-      this.height,
-      this.config,
-    );
-    this.lastShootingStarTime = 0;
-    this.lastTime = 0;
+      this.view.addEventListener('resize', this._onResize);
+      this.view.addEventListener('mousemove', this._onMouseMove);
+      this.view.addEventListener('touchmove', this._onTouchMove, { passive: true });
+      this.document.addEventListener('visibilitychange', this._onVisibility);
+      if (typeof this.view.ResizeObserver === 'function') {
+        this._observer = new this.view.ResizeObserver(this._onResize);
+        this._observer.observe(this.canvas);
+      }
+      this.start();
+    } catch (error) {
+      this.destroy();
+      throw error;
+    }
+  }
 
-    this.view.addEventListener('resize', () => {
-      if (!this.resize()) return;
-      this.createStars();
-      this.shootingStar.reset(this.width, this.height);
-    });
+  start() {
+    if (this._destroyed) throw new Error('Starfield: cannot start a destroyed instance.');
+    if (!this._started) {
+      this._started = true;
+      this._sizeDirty = true;
+    }
+    this._syncPlayback();
+    return this;
+  }
 
-    this.view.addEventListener('mousemove', (event) => {
-      this.updatePointer(event.clientX, event.clientY);
-    });
+  stop() {
+    if (this._destroyed) return this;
+    this._started = false;
+    this._suspend();
+    return this;
+  }
 
-    this.view.addEventListener(
-      'touchmove',
-      (event) => {
-        const touch = event.touches[0];
-        if (!touch) return;
+  destroy() {
+    if (this._destroyed) return;
+    this._destroyed = true;
+    this._started = false;
+    this._suspend();
+    this.view.removeEventListener('resize', this._onResize);
+    this.view.removeEventListener('mousemove', this._onMouseMove);
+    this.view.removeEventListener('touchmove', this._onTouchMove);
+    this.document.removeEventListener('visibilitychange', this._onVisibility);
+    this._observer?.disconnect();
 
-        this.updatePointer(touch.clientX, touch.clientY);
-      },
-      { passive: true },
-    );
+    this.ctx.save();
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.restore();
+    this.stars.length = 0;
+    this.stars = null;
+    this.shootingStar = null;
+    this.pointer = null;
+    this.config = null;
+    this._observer = null;
+    this._onResize = null;
+    this._onMouseMove = null;
+    this._onTouchMove = null;
+    this._onVisibility = null;
+    this.canvas = null;
+    this.ctx = null;
+    this.document = null;
+    this.view = null;
+  }
 
-    this.animate = this.animate.bind(this);
-    this.view.requestAnimationFrame(this.animate);
+  updateConfig(patch = {}) {
+    if (this._destroyed) throw new Error('Starfield: cannot configure a destroyed instance.');
+    const next = createConfig(patch, this.config);
+    const changed = Object.keys(next).filter(name => !equalConfigSection(this.config[name], next[name]));
+    if (changed.length === 0) return this;
+
+    // Prepare replacement particles before committing any state changes.
+    const regenerate = changed.some(name => ['stars', 'generation', 'galaxy'].includes(name));
+    const stars = regenerate ? this.createStars(next) : this.stars;
+    this.config = next;
+    this.stars = stars;
+    for (const star of this.stars) star.config = next;
+    this.shootingStar.config = next;
+    return this;
+  }
+
+  _suspend() {
+    if (this._frameId !== null) this.view.cancelAnimationFrame(this._frameId);
+    this._frameId = null;
+    this._frameCallback = null;
+    this.lastTime = null;
+  }
+
+  _syncPlayback() {
+    if (this._destroyed) return;
+    if (!this._started || this.document.hidden) {
+      this._suspend();
+      return;
+    }
+    if (this._sizeDirty) {
+      this._sizeDirty = false;
+      if (this.resize()) {
+        this.stars = this.createStars();
+        this.shootingStar.reset(this.width, this.height);
+      }
+    }
+    if (!this._sizeValid) {
+      this._suspend();
+      return;
+    }
+    this._queueFrame();
+  }
+
+  _queueFrame() {
+    if (this._destroyed || !this._started || !this._sizeValid ||
+        this.document.hidden || this._frameId !== null) return;
+    if (this._frameCallback === null) {
+      // Reuse one callback per running period. A callback from a previous period
+      // cannot consume the new frame or restart a stopped/destroyed instance.
+      const callback = (time) => {
+        if (this._destroyed || this._frameCallback !== callback) return;
+        this._frameId = null;
+        this._animate(time);
+      };
+      this._frameCallback = callback;
+    }
+    this._frameId = this.view.requestAnimationFrame(this._frameCallback);
   }
 
   updatePointer(clientX, clientY) {
@@ -104,24 +228,24 @@ export default class Starfield {
   resize() {
     const width = this.canvas.clientWidth;
     const height = this.canvas.clientHeight;
-    // Keep the last valid drawing size if a running canvas becomes hidden.
-    if (width <= 0 || height <= 0) return false;
+    this._sizeValid = width > 0 && height > 0;
+    if (!this._sizeValid) return false;
     const dpr = this.view.devicePixelRatio || 1;
+    if (width === this.width && height === this.height && dpr === this.dpr) return false;
     const previousWidth = this.canvas.width;
     const previousHeight = this.canvas.height;
     this.canvas.width = width * dpr;
     this.canvas.height = height * dpr;
 
-    // Intrinsic sizing can feed the DPR-scaled buffer size back into layout.
-    // Reject that layout instead of growing the buffer on every resize event.
+    // Prevent intrinsic sizing from feeding the scaled buffer back into layout.
     if (this.canvas.clientWidth !== width || this.canvas.clientHeight !== height) {
       this.canvas.width = previousWidth;
       this.canvas.height = previousHeight;
       const previousDpr = this.dpr || 1;
       this.ctx.setTransform(previousDpr, 0, 0, previousDpr, 0, 0);
+      this._sizeValid = false;
       return false;
     }
-
     this.width = width;
     this.height = height;
     this.dpr = dpr;
@@ -129,43 +253,36 @@ export default class Starfield {
     return true;
   }
 
-  createStars() {
-    this.stars = Array.from(
-      { length: this.config.stars.count },
-      () => new Star(
-        this.width,
-        this.height,
-        this.config,
-        this.pointer,
-      ),
+  createStars(config = this.config) {
+    return Array.from(
+      { length: config.stars.count },
+      () => new Star(this.width, this.height, config, this.pointer),
     );
   }
 
-  animate(time) {
-    const deltaTime = this.lastTime ? (time - this.lastTime) / 1000 : 0;
+  _animate(time) {
+    if (this._destroyed) return;
+    if (!this._started || !this._sizeValid || this.document.hidden) {
+      this._suspend();
+      return;
+    }
+    const elapsed = this.lastTime === null ? 0 : Math.max(0, Math.min(50, time - this.lastTime));
     this.lastTime = time;
+    this.elapsedTime += elapsed;
+    const deltaTime = elapsed / 1000;
 
     this.ctx.clearRect(0, 0, this.width, this.height);
-
-    for (const star of this.stars) {
-      star.update(this.width, this.height, deltaTime);
-    }
-
+    for (const star of this.stars) star.update(this.width, this.height, deltaTime);
     this.drawConnections();
+    for (const star of this.stars) star.draw(this.ctx, this.elapsedTime);
 
-    for (const star of this.stars) {
-      star.draw(this.ctx, time);
-    }
-
-    if (time - this.lastShootingStarTime > 8000 && !this.shootingStar.active) {
+    if (this.elapsedTime - this.lastShootingStarTime > 8000 && !this.shootingStar.active) {
       this.shootingStar.launch(this.width, this.height);
-      this.lastShootingStarTime = time;
+      this.lastShootingStarTime = this.elapsedTime;
     }
-
     this.shootingStar.update(this.width, this.height, deltaTime);
     this.shootingStar.draw(this.ctx);
-
-    this.view.requestAnimationFrame(this.animate);
+    this._queueFrame();
   }
 
   drawConnections() {
