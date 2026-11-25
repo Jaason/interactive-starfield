@@ -76,7 +76,7 @@ https://jsfiddle.net/Jaason/yztaebxm/
 
 Implemented, verified, and approved by the user on 2026-11-25.
 Milestone 1 is complete with the approved scope exception below.
-No later milestone has been started.
+Subsequent milestone progress is recorded below.
 
 - Vite development server, production build, and production preview verified.
 - Public entry point imported in Node without browser globals.
@@ -99,26 +99,54 @@ issues are resolved. Configuration isolation remains Milestone 2 work.
 
 ## Milestone 2 — Public library API
 
-- [ ] Design Starfield constructor API
-- [ ] Support canvas elements and CSS selectors
-- [ ] Support partial user configuration
-- [ ] Implement nested configuration merging
-- [ ] Remove global mutable state
-- [ ] Support multiple independent instances
-- [ ] Support container-based sizing
-- [ ] Validate configuration
-- [ ] Handle invalid configuration gracefully
-- [ ] Prevent mutation of default configuration
-- [ ] Prevent shared mutable configuration between instances
+- [x] Design Starfield constructor API
+- [x] Support canvas elements and CSS selectors
+- [x] Support partial user configuration
+- [x] Implement nested configuration merging
+- [x] Remove global mutable state
+- [x] Support multiple independent instances
+- [x] Support container-based sizing
+- [x] Validate configuration
+- [x] Handle invalid configuration gracefully
+- [x] Prevent mutation of default configuration
+- [x] Prevent shared mutable configuration between instances
 
 ### Acceptance criteria
 
-- [ ] Library can be initialized through its public API
-- [ ] Partial configuration preserves default values
-- [ ] Multiple instances operate independently
-- [ ] Each instance owns its configuration and state
-- [ ] Invalid initialization produces meaningful errors
-- [ ] No framework-specific dependencies
+- [x] Library can be initialized through its public API
+- [x] Partial configuration preserves default values
+- [x] Multiple instances operate independently
+- [x] Each instance owns its configuration and state
+- [x] Invalid initialization produces meaningful errors
+- [x] No framework-specific dependencies
+
+### API verification and approved scope exception
+
+Implemented, verified, and approved by the user on 2026-11-25.
+Milestone 2 is complete with the approved scope exception below.
+Milestone 3 has not been started.
+
+- Constructor accepts a canvas or selector and optional partial configuration.
+- Each instance owns a copied, validated, frozen configuration and local state.
+- CSS determines canvas size; DPR scales only the drawing buffer. A size guard
+  prevents intrinsic canvas layout from repeatedly multiplying buffer dimensions.
+- Mouse/touch positions are mapped to each canvas, including after scrolling.
+- Thirteen focused Node check groups passed with `npm run verify:api`.
+- Forty-two deterministic Chrome comparisons matched the original canvas output
+  and particle state at DPR 1 and DPR 3. Multiple-instance checks passed at DPR 2.
+- Invalid initialization registered no event listeners or animation frames.
+- Development preview, production build/preview, and zero runtime dependencies
+  were verified. The original prototype remains unchanged.
+- Bounded rendering samples and their limitations are documented in README.
+
+The user approved extending the lifecycle scope exception through Milestone 2.
+Window listeners and animation callbacks still retain successfully initialized
+instances; cleanup, stop/start/destroy, duplicate-loop protection, visibility,
+and large-delta handling remain Milestone 3 work. No observers or global instance
+registry were added. Container dimensions refresh at initialization and window
+resize; independent container resize observation also remains Milestone 3 work.
+The overall cleanup requirement is explicitly deferred for this milestone, not
+claimed as satisfied. Full Vitest setup remains Milestone 5 work.
 
 ---
 
