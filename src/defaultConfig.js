@@ -57,4 +57,10 @@ const defaultConfig = {
   },
 };
 
+Object.freeze(defaultConfig.stars.colors);
+for (const section of Object.values(defaultConfig)) {
+  Object.freeze(section);
+}
+Object.freeze(defaultConfig);
+
 export default defaultConfig;

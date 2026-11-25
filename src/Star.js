@@ -50,7 +50,7 @@ export default class Star {
     if (this.y < -10) this.y = height + 10;
     if (this.y > height + 10) this.y = -10;
 
-    if (this.config.repulsion.enabled) {
+    if (this.config.repulsion.enabled && this.pointer.active) {
       this.applyMouseRepulsion();
     }
 
