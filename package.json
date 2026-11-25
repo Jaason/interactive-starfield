@@ -1,0 +1,19 @@
+{
+  "name": "interactive-starfield",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A lightweight, dependency-free Canvas 2D starfield library.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.3.8"
+  }
+}
