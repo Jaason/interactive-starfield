@@ -5,58 +5,13 @@ import { runInNewContext } from 'node:vm';
 import { Starfield } from '../src/index.js';
 import defaultConfig from '../src/defaultConfig.js';
 import { createConfig } from '../src/config.js';
+import { fixture } from './helpers/browser-fixture.mjs';
 
 let checks = 0;
 function check(name, run) {
   run();
   checks++;
   console.log(`PASS ${name}`);
-}
-
-function fixture(width = 400, height = 240, dpr = 2) {
-  const listeners = new Map();
-  const frames = [];
-  const calls = [];
-  const view = {
-    devicePixelRatio: dpr,
-    addEventListener(type, callback, options) {
-      const entries = listeners.get(type) ?? [];
-      entries.push({ callback, options });
-      listeners.set(type, entries);
-    },
-    requestAnimationFrame(callback) { frames.push(callback); return frames.length; },
-  };
-  class Canvas {
-    constructor() {
-      this.ownerDocument = { defaultView: view };
-      this.clientWidth = width;
-      this.clientHeight = height;
-      this.width = 300;
-      this.height = 150;
-      this.style = {};
-      this.rect = { left: 100, top: 200, width, height };
-      this.context = new Proxy({}, {
-        get: (_, key) => (...args) => {
-          calls.push([key, ...args]);
-          if (key === 'createLinearGradient') return { addColorStop() {} };
-        },
-      });
-    }
-    getContext() { return this.context; }
-    getBoundingClientRect() { return this.rect; }
-  }
-  view.HTMLCanvasElement = Canvas;
-  const canvas = new Canvas();
-  return {
-    canvas, Canvas, view, listeners, frames, calls,
-    emit(type, event = {}) {
-      for (const { callback } of listeners.get(type) ?? []) callback(event);
-    },
-    step(time) {
-      for (const callback of frames.splice(0)) callback(time);
-      calls.length = 0;
-    },
-  };
 }
 
 const prototype = await readFile(new URL('../prototype/starfield.js', import.meta.url), 'utf8');
@@ -175,7 +130,7 @@ check('invalid initialization leaves listeners, frames, and canvas dimensions un
     const env = fixture();
     assert.throws(() => new Starfield(env.canvas, options));
     assert.equal(env.listeners.size, 0);
-    assert.equal(env.frames.length, 0);
+    assert.equal(env.frames.size, 0);
     assert.equal(env.canvas.width, 300);
     assert.equal(env.canvas.height, 150);
   }
@@ -183,13 +138,13 @@ check('invalid initialization leaves listeners, frames, and canvas dimensions un
     const env = fixture(width, height);
     assert.throws(() => new Starfield(env.canvas), /positive CSS width and height/);
     assert.equal(env.listeners.size, 0);
-    assert.equal(env.frames.length, 0);
+    assert.equal(env.frames.size, 0);
   }
   const env = fixture();
   env.canvas.context = null;
   assert.throws(() => new Starfield(env.canvas), /2D context is not available/);
   assert.equal(env.listeners.size, 0);
-  assert.equal(env.frames.length, 0);
+  assert.equal(env.frames.size, 0);
   for (const target of [null, undefined, {}, 123]) assert.throws(() => new Starfield(target), /target must be a canvas/);
 });
 
@@ -206,7 +161,7 @@ check('selector resolution distinguishes malformed, missing, and wrong elements'
     assert.throws(() => new Starfield('#missing'), /no canvas matches/);
     assert.throws(() => new Starfield('#div'), /target must be a canvas/);
     assert.equal(env.listeners.size, 0);
-    assert.equal(env.frames.length, 0);
+    assert.equal(env.frames.size, 0);
     assert.equal(new Starfield('#canvas').canvas, env.canvas);
   } finally {
     delete globalThis.document;
@@ -271,7 +226,7 @@ check('window resize refreshes instance size and hidden canvases keep the last v
   env.emit('resize');
   assert.equal(field.width, 600);
   assert.equal(field.stars, resizedStars);
-  assert.equal(env.frames.length, 1);
+  assert.equal(env.frames.size, 0);
 });
 
 check('intrinsic sizing cannot grow the DPR backing store on repeated resize', () => {
@@ -281,7 +236,7 @@ check('intrinsic sizing cannot grow the DPR backing store on repeated resize', (
   assert.throws(() => new Starfield(env.canvas), /CSS width and height independently/);
   assert.equal(env.canvas.width, 300);
   assert.equal(env.canvas.height, 150);
-  assert.equal(env.frames.length, 0);
+  assert.equal(env.frames.size, 0);
   assert.equal(env.listeners.size, 0);
 
   const running = fixture();
@@ -295,7 +250,7 @@ check('intrinsic sizing cannot grow the DPR backing store on repeated resize', (
   assert.equal(running.canvas.height, previousHeight);
   assert.equal(field.width, 400);
   assert.equal(field.height, 240);
-  assert.equal(running.frames.length, 1);
+  assert.equal(running.frames.size, 0);
 });
 
 check('multiple instances own their configuration, particles, pointer, and frame chain', () => {
@@ -320,7 +275,7 @@ check('multiple instances own their configuration, particles, pointer, and frame
   assert.equal(b.pointer.normalizedX, -0.25);
   for (let i = 0; i < 100; i++) {
     env.step(i * 1000 / 60);
-    assert.equal(env.frames.length, 2);
+    assert.equal(env.frames.size, 2);
   }
   assert.equal(a.stars.length, 3);
   assert.equal(b.stars.length, 5);
