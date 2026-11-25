@@ -5,7 +5,7 @@ export default defineConfig({
   root: fileURLToPath(new URL('./demo', import.meta.url)),
   base: './',
   server: {
-    // Use manual page reloads until instance cleanup exists in Milestone 3.
+    // The minimal demo uses manual page reloads for source changes.
     hmr: false,
   },
   build: {

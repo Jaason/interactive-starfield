@@ -124,7 +124,7 @@ issues are resolved. Configuration isolation remains Milestone 2 work.
 
 Implemented, verified, and approved by the user on 2026-11-25.
 Milestone 2 is complete with the approved scope exception below.
-Milestone 3 has not been started.
+Milestone 3 implementation and verification are recorded below.
 
 - Constructor accepts a canvas or selector and optional partial configuration.
 - Each instance owns a copied, validated, frozen configuration and local state.
@@ -152,31 +152,60 @@ claimed as satisfied. Full Vitest setup remains Milestone 5 work.
 
 ## Milestone 3 — Lifecycle management
 
-- [ ] Implement start()
-- [ ] Implement stop()
-- [ ] Implement destroy()
-- [ ] Implement updateConfig()
-- [ ] Prevent duplicate animation loops
-- [ ] Clean up event listeners
-- [ ] Cancel animation frames
-- [ ] Handle container resizing
-- [ ] Disconnect observers when destroyed
-- [ ] Handle document visibility changes
-- [ ] Handle large deltaTime values after inactivity
-- [ ] Evaluate off-screen rendering suspension
-- [ ] Define behavior after an instance is destroyed
+- [x] Implement start()
+- [x] Implement stop()
+- [x] Implement destroy()
+- [x] Implement updateConfig()
+- [x] Prevent duplicate animation loops
+- [x] Clean up event listeners
+- [x] Cancel animation frames
+- [x] Handle container resizing
+- [x] Disconnect observers when destroyed
+- [x] Handle document visibility changes
+- [x] Handle large deltaTime values after inactivity
+- [x] Evaluate off-screen rendering suspension
+- [x] Define behavior after an instance is destroyed
 
 ### Acceptance criteria
 
-- [ ] start() does not create duplicate animation loops
-- [ ] stop() suspends animation
-- [ ] Animation can be restarted safely
-- [ ] destroy() releases instance-owned resources
-- [ ] Repeated lifecycle operations do not accumulate resources
-- [ ] No active animation frames after stop() or destroy()
-- [ ] No retained event listeners after destroy()
-- [ ] Returning from a background tab does not cause
+- [x] start() does not create duplicate animation loops
+- [x] stop() suspends animation
+- [x] Animation can be restarted safely
+- [x] destroy() releases instance-owned resources
+- [x] Repeated lifecycle operations do not accumulate resources
+- [x] No active animation frames after stop() or destroy()
+- [x] No retained event listeners after destroy()
+- [x] Returning from a background tab does not cause
       unexpected animation jumps
+
+### Lifecycle verification
+
+Implemented, verified, and approved by the user on 2026-11-25.
+Milestone 3 is complete. Milestone 4 has not been started. The lifecycle scope exceptions from
+Milestones 1 and 2 are resolved by this implementation and its cleanup checks.
+
+- Added idempotent start/stop, destroy with listener/observer/frame cleanup,
+  and atomic partial configuration updates against the current configuration.
+- Guarded stale callbacks and partial initialization failures.
+- Implemented native document-visibility suspension, a shared active-time clock,
+  zero delta on resume, and a 50 ms cap for other delayed frames.
+- Added ResizeObserver with a window-resize fallback, unchanged-size detection,
+  deferred resizing while stopped/hidden, and zero-size suspension/recovery.
+- Evaluated off-screen suspension: viewport-only IntersectionObserver suspension
+  is deferred; document visibility and invalid/zero-size suspension are supported.
+  Off-screen nonzero canvases can be stopped explicitly by the host.
+- All 13 API and 20 lifecycle check groups passed, including repeated operations,
+  rollback, failed updates, post-destroy behavior, and multiple instances.
+- Chrome verified native tab switching, native container resize observation,
+  100 start/stop operations, configuration updates, and resource cleanup.
+- A bounded browser memory test completed three batches of 100 destroy cycles
+  after warm-up. Post-GC weak references found no retained tested instances or
+  removed canvases; no tracked listeners, observers, or frames remained.
+- Forty-two rendering comparisons passed with the reference timeline normalized
+  for the approved clock change. All prototype files remain unchanged.
+- Build, development/production preview, and zero runtime dependencies verified.
+- README records method contracts, timing changes, measurements, and limits.
+  Long-running animation and cross-browser stability are not claimed by these tests.
 
 ---
 

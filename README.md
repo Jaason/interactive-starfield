@@ -17,18 +17,18 @@ npm run dev
 ```
 
 Open the URL printed by Vite. Manually reload after source or CSS edits:
-hot updates are disabled until instance cleanup is implemented, so editing
-does not create additional running instances in the same document.
+hot module updates remain disabled in the minimal demo.
 
 Run focused API checks, build, and inspect the production demo:
 
 ```sh
 npm run verify:api
+npm run verify:lifecycle
 npm run build
 npm run preview
 ```
 
-The API checks use Node built-ins without additional dependencies. The full
+The API and lifecycle checks use Node built-ins without additional dependencies. The full
 Vitest suite remains planned for Milestone 5. The build writes the demo to
 `dist/`; library distribution builds and npm package exports are Milestone 8 work.
 
@@ -76,8 +76,8 @@ retains the default star colors, sizes, speeds, and other effects.
 - Both defaults and each resolved configuration are deeply frozen for this schema.
 - Input objects are never mutated or retained. Changing caller data after
   construction does not update the instance.
-- Runtime configuration changes through `updateConfig()` remain Milestone 3 work;
-  direct writes to instance internals are not a supported API.
+- Use `updateConfig()` for runtime changes. Direct writes to instance internals
+  are not a supported API.
 
 All numeric settings must be finite numbers; numeric strings are not converted.
 The following constraints apply even when an effect is disabled:
@@ -108,6 +108,89 @@ Initialization throws a `TypeError`, `RangeError`, or `Error` with a descriptive
 malformed selectors, non-canvas targets, unavailable contexts, and invalid initial
 sizes are rejected before event listeners or animation frames are registered.
 There is no silent fallback to defaults for invalid values.
+
+### Lifecycle and runtime configuration
+
+```js
+const field = new Starfield('#starfield');
+field.stop();
+field.updateConfig({ stars: { count: 120 }, glow: { enabled: false } });
+field.start();
+
+// When the host removes this background:
+field.destroy();
+```
+
+| Method | Behavior |
+| --- | --- |
+| `start()` | Requests playback; preserves the scene and never creates a second frame chain. Returns the instance. |
+| `stop()` | Cancels the pending frame and freezes animation time, leaving the last image. Returns the instance. |
+| `updateConfig(patch?)` | Validates and merges into the current configuration without changing requested playback. Returns the instance. |
+| `destroy()` | Cancels playback, removes listeners, disconnects observers, clears the image, and releases instance-owned references. Returns `undefined`. |
+
+The constructor requests playback automatically. Repeated `start()` and `stop()`
+are safe. After destruction, `stop()` and `destroy()` do nothing; `start()` and
+`updateConfig()` throw a descriptive error. Create a new instance to reuse the
+canvas. Destroy the old instance before reinitializing the same canvas.
+
+`stop()` retains input listeners and the resize observer so the instance can
+resume. `destroy()` removes them, including the owning document's visibility
+listener. Pending callbacks from earlier playback periods cannot restart rendering.
+If resource registration fails during construction, registrations already made
+are rolled back before the error is rethrown.
+
+Destruction leaves the canvas in the DOM, with its CSS and backing dimensions
+unchanged. The remaining canvas belongs to the host and may still retain browser
+or GPU backing storage; removing the element is the host application's decision.
+
+#### Automatic suspension and time
+
+A hidden document pauses rendering through `visibilitychange` and `document.hidden`.
+This includes switching to another browser tab. Returning resumes only instances
+that still have playback requested: a manually stopped instance stays stopped.
+A document hidden during construction starts no frame loop until it becomes visible.
+
+Movement, twinkle, and shooting-star scheduling share an active-animation clock
+starting at zero. It does not advance during manual stop, document hiding, or
+suspension for invalid/zero canvas size. The first frame after resuming has a
+zero movement delta. Remaining frame gaps are clamped to 50 ms without catch-up
+loops, so very slow rendering slows simulation instead of jumping ahead.
+
+The shooting-star threshold remains greater than 8000 ms, now measured in active
+instance time rather than document age. Existing shooting-star motion and fade
+resume from their paused state. This time policy intentionally replaces the
+prototype's behavior after inactivity; ordinary rendering formulas and all visual
+configuration defaults remain unchanged.
+
+Automatic suspension solely because a nonzero canvas is outside the viewport
+was evaluated and deferred. Document visibility and zero-size suspension are
+implemented; no `IntersectionObserver`, per-frame viewport polling, or additional
+configuration flag has been introduced. Off-screen canvases with positive size
+can still consume rendering resources until the host calls `stop()`.
+
+#### Updating configuration
+
+`updateConfig()` merges into the current configuration, not the original defaults.
+Omitted fields and `undefined` preserve their current values. The constructor's
+validation, copying, freezing, and array-replacement rules also apply to updates.
+An empty or value-equivalent patch does not replace configuration or particles.
+
+| Changed settings | Effect |
+| --- | --- |
+| Twinkle, parallax, repulsion, connections, glow | Existing stars retain their state; new values apply when rendering resumes or on the next frame. |
+| Any star setting, generation mode, or galaxy parameter | Regenerate the star collection with the new configuration. |
+| Shooting-star speed range | Apply on the next launch; an active shooting star keeps its existing speed. |
+| Shooting-star line width | Apply on the next rendered frame. |
+
+Replacement particles are prepared before the new state is committed. Validation
+or particle-construction failure leaves configuration, particles, and playback
+unchanged. Updates add no listeners, observers, or animation loops. An update while
+stopped changes internal state but does not draw or start playback.
+
+Regenerating stars for structural changes keeps the implementation simple but
+visibly rerandomizes the scene. Visual-only changes avoid that regeneration.
+Changing a twinkle parameter can intentionally change its phase/appearance;
+pausing alone does not advance its clock.
 
 ### Container sizing and interaction
 
@@ -141,15 +224,23 @@ in CSS pixels, sizes its backing buffer for DPR, and draws in logical coordinate
 It does not assign inline CSS sizes. Use canvases without padding, borders, or CSS
 transforms; set presentation and borders on their containers instead.
 
-Dimensions are read at initialization and on window resize. Successful resize
-regenerates the stars and resets the shooting star, preserving prototype behavior.
-Changes to a container alone are not automatically observed until Milestone 3.
-An initially hidden or zero-size canvas is rejected. If an existing canvas becomes
-hidden, a resize keeps its last valid drawing size; rendering is not suspended yet.
+Dimensions are read at initialization, on window resize, and through one
+`ResizeObserver` per instance when available. A real size or DPR change regenerates
+stars and resets the shooting star. Repeated notifications for unchanged dimensions
+do not regenerate or clear the scene. No layout is read in the animation loop.
+Without `ResizeObserver`, window resize remains supported; changes to a container
+alone require a subsequent window resize or a stop/start cycle to be detected.
+
+An initially hidden or zero-size canvas is rejected. An observed zero size on a
+running canvas suspends rendering while preserving its last valid buffer. A valid
+size resumes playback only if the instance was not manually stopped. During manual
+stop or document hiding, resize work is deferred until playback can resume, so the
+stored last frame is not cleared by resize notifications.
 
 Intrinsic layout that changes when the backing buffer is scaled is rejected at
 initialization. If that condition arises later, resizing restores the previous
-buffer dimensions and keeps the last valid logical size. This prevents repeated
+buffer dimensions, keeps the last valid logical size, and suspends playback until
+a valid layout is detected. This prevents repeated
 DPR multiplication from growing the canvas indefinitely. This guard adds layout
 reads on resize, not on each animation frame.
 
@@ -175,22 +266,23 @@ state in this milestone.
 - `src/index.js`: public `Starfield` export.
 - `demo/`: minimal page, styling, and initialization through the entry point.
 - `scripts/verify-api.mjs`: focused, repeatable API verification using Node built-ins.
+- `scripts/verify-lifecycle.mjs`: lifecycle, update, rollback, and resource checks.
+- `scripts/helpers/browser-fixture.mjs`: shared browser doubles for those checks.
 
 ## Preserved behavior and current limitations
 
-The prototype's defaults, generation formulas, drawing order, timing constants,
-resize regeneration, and visual effects are preserved for full-screen use. The
-original files remain unchanged. The demo loads the supplied CSS, which the
-original HTML does not link. Container coordinates and outside-pointer behavior
-are intentional API changes for embedded and multiple instances.
+The prototype's defaults, generation formulas, drawing order, and visual effects
+are preserved. The original files remain unchanged. The demo loads the supplied
+CSS, which the original HTML does not link. Container coordinates, the active-time
+clock, and skipping redundant resize regeneration are intentional API/lifecycle
+changes documented above. The previous lifecycle cleanup exception is resolved
+by the implementation and verification in Milestone 3.
 
-The approved Milestone 2 scope retains these inherited limitations:
+Remaining limitations:
 
-- No `start()`, `stop()`, `destroy()`, or `updateConfig()` API; window listeners
-  and animation callbacks retain instances. Initialize each canvas once per page
-  and reload the page to discard instances. Cleanup remains Milestone 3 work.
-- No explicit hidden/off-screen pause, duplicate-loop guard, or delta-time
-  limit. Returning after inactivity can cause animation jumps.
+- Off-screen canvases with positive size are not automatically suspended.
+- The canvas must have a positive, independent CSS size at initialization.
+- Resize observation depends on browser support; there is a window-resize fallback.
 - Repulsion and friction depend on frame rate. Connections use undisplaced
   positions, while visible stars also include parallax and repulsion offsets.
 - Galaxy generation is an initial distribution; stars subsequently drift and wrap.
@@ -201,6 +293,83 @@ The approved Milestone 2 scope retains these inherited limitations:
 
 These behaviors are retained for parity, not presented as production guarantees.
 No performance improvement or long-running memory stability is claimed.
+
+## Milestone 3 verification
+
+Verified on 2026-11-25 with Node 26.2.0, Vite 8.3.8, and headless Chrome
+158.0.8127.37 on macOS 15.8.1 (arm64). The original prototype files are unchanged.
+
+- All 13 API check groups and 20 lifecycle check groups passed. The lifecycle
+  script covers 100 start/stop cycles, 100 same-canvas initialization/destruction
+  cycles, 100 configuration updates/resizes, stale callbacks, frame ID zero,
+  visibility, clock limits, resize suspension, atomic updates, multiple instances,
+  and rollback after partial listener/observer/frame initialization failures.
+- Production build and development/production preview passed. No runtime
+  dependencies were added. The demo screenshot was visually inspected.
+- Forty-two deterministic canvas/state comparisons passed across galaxy, random,
+  and disabled-effect configurations at DPR 1 and DPR 3. Seven checkpoints covered
+  initial rendering, mouse, touch/launch boundary, active/faded shooting stars,
+  resize, and continued motion. The harness used matching seeded input and an
+  active timeline beginning at zero. In-memory reference code changed only the
+  prototype's initial `lastTime` sentinel from `0` to `null` and its corresponding
+  check; movement and drawing formulas were unchanged. The prototype on disk was
+  never modified. These checks do not assert parity with the old pause behavior.
+- Real Chrome tab switching produced native `visibilitychange`: a hidden tab had
+  no pending library frame and its elapsed time stayed fixed. Returning resumed
+  playback; repeating the switch after manual `stop()` did not restart it.
+- Real `ResizeObserver` notifications verified independent container resizing,
+  deferred resizing while stopped, and zero-size pause/recovery without a window
+  resize. Two instances maintained one frame each; destroying both left no tracked
+  window/document listeners, connected observers, or pending callbacks. Canvas
+  pixels were cleared on destruction.
+- Browser checks also exercised 100 start/stop operations and 100 configuration
+  changes. Invalid updates left state unchanged; stopped updates did not draw.
+
+### Cleanup and memory sample
+
+A dedicated Chrome run performed 100 warm-up initialization/destruction cycles,
+then three batches of 100 measured cycles. Each cycle created a canvas and a
+240-star instance, stepped one frame, destroyed the instance, and removed the
+canvas. The harness yielded for native observer delivery, invoked
+`HeapProfiler.collectGarbage`, and checked weak references in a subsequent task.
+Control weak references were cleared between batches before measuring heap usage.
+
+| Measured cycles | Post-GC JS heap (bytes) | Live tested instances | Live removed canvases | Pending library frames |
+| --- | ---: | ---: | ---: | ---: |
+| Warm-up baseline | 725,404 | — | — | 0 |
+| 100 | 731,544 | 0 | 0 | 0 |
+| 200 | 732,728 | 0 | 0 | 0 |
+| 300 | 733,136 | 0 | 0 | 0 |
+
+Each batch ended with zero tracked listeners and connected observers. Heap readings
+settled within a small range after warm-up; no tested instance or removed canvas
+remained reachable through the weak references after GC. An earlier run retained
+the harness's weak-reference records between batches and therefore included their
+allocation growth; the table reports the corrected bounded-instrumentation run.
+
+These observations support cleanup for the tested scenarios, not a universal
+memory guarantee. JS heap excludes most graphics memory; Chrome's reported backing
+storage metric remained 124,310 bytes but is not a measurement of total GPU memory.
+An application that retains its canvas after `destroy()` still owns that element
+and any associated browser backing storage.
+
+### Bounded rendering sample
+
+At 1280 × 720 / DPR 1 with defaults, 120 warm-up callbacks followed by 600 measured
+callbacks at synthetic 16 ms timestamp intervals produced:
+
+| Implementation | Mean callback time | Median | p95 | p99 |
+| --- | ---: | ---: | ---: | ---: |
+| Prototype reference | 4.72 ms | 4.30 ms | 8.40 ms | 16.00 ms |
+| Milestone 3 | 4.77 ms | 4.30 ms | 8.50 ms | 16.00 ms |
+
+The mean difference of approximately 0.05 ms is insufficient evidence of a
+performance change. This headless, synchronous test measures update/draw submission,
+not displayed FPS or completed GPU work. Chrome emitted display-link warnings;
+CPU/GPU utilization was not measured. No 30-minute or eight-hour animation study,
+physical-device test, Firefox test, or Safari test was performed in this milestone.
+Those broader checks remain Milestone 5 work; the lifecycle cleanup exception is
+no longer needed for the implemented and tested operations.
 
 ## Milestone 2 verification
 
