@@ -14,9 +14,16 @@
     "preview": "vite preview",
     "verify:api": "node scripts/verify-api.mjs",
     "verify:lifecycle": "node scripts/verify-lifecycle.mjs",
-    "verify:presets": "node scripts/verify-presets.mjs"
+    "verify:presets": "node scripts/verify-presets.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --project tests/types/tsconfig.json",
+    "benchmark": "vite --config benchmark/vite.config.js",
+    "build:benchmark": "vite build --config benchmark/vite.config.js"
   },
   "devDependencies": {
-    "vite": "^8.3.8"
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.2"
   }
 }

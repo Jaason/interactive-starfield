@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Starfield benchmark</title><link rel="stylesheet" href="./style.css"></head>
+<body><main><h1>Starfield benchmark</h1>
+<p>Keep this tab visible and prevent sleep for continuous tests. Export results before leaving. Timing includes instrumentation; compare identical conditions.</p>
+<form id="controls">
+<label>Preset <select name="preset"><option>default</option><option>deep-space</option><option>milky-way</option><option>constellation</option></select></label>
+<label>Stars per instance <input name="count" type="number" min="0" max="10000" value="240"></label>
+<label>Instances <input name="instances" type="number" min="1" max="8" value="1"></label>
+<label>DPR cap (0 = native) <input name="dpr" type="number" min="0" step="0.25" value="0"></label>
+<fieldset><legend>Effects (override preset)</legend><label><input name="twinkle" type="checkbox" checked>Twinkle</label><label><input name="parallax" type="checkbox" checked>Parallax</label><label><input name="repulsion" type="checkbox" checked>Repulsion</label><label><input name="connections" type="checkbox" checked>Connections</label><label><input name="glow" type="checkbox" checked>Glow</label></fieldset>
+<label>Target refresh rate <input name="hz" type="number" min="1" max="360" value="60"></label>
+<label>Duration <select name="duration"><option value="60">1 minute</option><option value="1800">30 minutes</option><option value="28800">8 hours</option></select></label>
+<button>Apply and restart measurement</button></form>
+<p><button id="start">Start</button> <button id="stop">Stop</button> <button id="destroy">Destroy</button> <button id="cycles">100 lifecycle cycles</button> <button id="export">Export JSON</button></p>
+<div id="stage"></div><pre id="stats" aria-live="off"></pre></main><script type="module" src="./main.js"></script></body></html>

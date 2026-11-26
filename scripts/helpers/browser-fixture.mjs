@@ -1,10 +1,11 @@
 // Minimal browser doubles shared by the focused API and lifecycle checks.
-export function fixture(width = 400, height = 240, dpr = 2, { observer = true, hidden = false } = {}) {
+export function fixture(width = 400, height = 240, dpr = 2, { observer = true, hidden = false, reducedMotion = null } = {}) {
   const listeners = new Map();
   const documentListeners = new Map();
   const frames = new Map();
   const observers = new Set();
   const calls = [];
+  const mediaListeners = new Map();
   let nextFrameId = 0;
   const events = (entries) => ({
     addEventListener(type, callback, options) {
@@ -28,6 +29,8 @@ export function fixture(width = 400, height = 240, dpr = 2, { observer = true, h
     },
     cancelAnimationFrame(id) { frames.delete(id); },
   };
+  const mediaQuery = { ...events(mediaListeners), matches: Boolean(reducedMotion) };
+  if (reducedMotion !== null) view.matchMedia = () => mediaQuery;
   const document = { ...events(documentListeners), defaultView: view, hidden };
   if (observer) {
     view.ResizeObserver = class {
@@ -62,6 +65,8 @@ export function fixture(width = 400, height = 240, dpr = 2, { observer = true, h
   };
   return {
     canvas, Canvas, view, document, listeners, documentListeners, frames, observers, calls,
+    mediaListeners,
+    motion(matches) { mediaQuery.matches = matches; emit(mediaListeners, 'change', { matches }); },
     emit(type, event = {}) { emit(listeners, type, event); },
     visibility(hidden) { document.hidden = hidden; emit(documentListeners, 'visibilitychange', {}); },
     resize() { for (const observer of observers) observer.callback([{ target: observer.target }]); },
