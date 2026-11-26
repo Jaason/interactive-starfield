@@ -24,11 +24,12 @@ Run focused API checks, build, and inspect the production demo:
 ```sh
 npm run verify:api
 npm run verify:lifecycle
+npm run verify:presets
 npm run build
 npm run preview
 ```
 
-The API and lifecycle checks use Node built-ins without additional dependencies. The full
+The API, lifecycle, and preset checks use Node built-ins without additional dependencies. The full
 Vitest suite remains planned for Milestone 5. The build writes the demo to
 `dist/`; library distribution builds and npm package exports are Milestone 8 work.
 
@@ -170,7 +171,7 @@ can still consume rendering resources until the host calls `stop()`.
 
 #### Updating configuration
 
-`updateConfig()` merges into the current configuration, not the original defaults.
+Without an explicit preset, `updateConfig()` merges into the current configuration.
 Omitted fields and `undefined` preserve their current values. The constructor's
 validation, copying, freezing, and array-replacement rules also apply to updates.
 An empty or value-equivalent patch does not replace configuration or particles.
@@ -191,6 +192,65 @@ Regenerating stars for structural changes keeps the implementation simple but
 visibly rerandomizes the scene. Visual-only changes avoid that regeneration.
 Changing a twinkle parameter can intentionally change its phase/appearance;
 pausing alone does not advance its clock.
+
+## Presets
+
+```js
+const field = new Starfield('#starfield', {
+  preset: 'deep-space',
+  stars: { count: 140 },
+});
+field.updateConfig({ stars: { count: 100 } }); // Keep other current settings.
+field.updateConfig({ preset: 'constellation', glow: { enabled: false } });
+field.updateConfig({ preset: 'default' }); // Restore every original default.
+```
+
+Names are exact and case-sensitive: `default`, `deep-space`, `milky-way`,
+`constellation`. Omitting the constructor preset produces the original default.
+Unknown names, `null`, and non-string values throw before changing instance state.
+
+An explicit preset resolves **original defaults → preset → overrides in the same
+call**. It discards all earlier overrides, including when reselecting the same
+preset. Omitted or `undefined` preset values preserve the current base during an
+update; undefined individual settings retain the selected preset's values.
+Arrays replace by copy. Resolved configurations and internal definitions are
+immutable. The selector is not stored in the resolved configuration, and no
+active-preset history or public preset registry is maintained.
+
+| Setting | Default | Deep Space | Milky Way | Constellation |
+| --- | --- | --- | --- | --- |
+| Star count | 240 | 90 | 360 | 180 |
+| Radius range | 0.5–2 | 0.4–1.6 | 0.4–1.5 | 0.8–2 |
+| Speed range | 8–18 | 2–6 | 3–8 | 2–5 |
+| Distribution | galaxy | random | galaxy | random |
+| Twinkle strength / speed | 0.35 / 0.002 | 0.18 / 0.001 | 0.25 / 0.0015 | 0.12 / 0.001 |
+| Parallax strength | 18 | 10 | 14 | 8 |
+| Repulsion enabled | yes | yes | yes | no |
+| Connections enabled | yes | no | no | yes |
+| Connection radius / pointer radius | 90 / 160 | 90 / 160 | 90 / 160 | 140 / 220 |
+| Connection opacity / width | 0.22 / 0.5 | 0.22 / 0.5 | 0.22 / 0.5 | 0.35 / 0.7 |
+| Glow strength | 4 | 2 | 3 | 2 |
+
+Deep Space uses white and pale blue (`255, 255, 255`; `180, 210, 255`).
+Constellation uses cool white and pale blue (`220, 235, 255`; `180, 210, 255`).
+Default and Milky Way retain all three original colors. Milky Way sets galaxy
+center strength to 1.4, spread to 0.65, and flattening to 0.22; rotation remains
+0.8. All unlisted settings, including shooting stars, retain original defaults.
+
+Deep Space gives a sparse, slow scene. Milky Way starts with a denser, flatter
+band using the existing galaxy formula; it has no spiral arms and stars still
+drift. Constellation emphasizes connections near the pointer, rather than a
+permanent global network. Its disabled repulsion reduces displacement, but the
+inherited parallax/connection alignment limitation remains.
+
+Switching follows the existing atomic update and lifecycle rules: changed star
+settings regenerate particles, a value-equivalent result is a no-op, and stopped
+or hidden instances stay paused. The active clock and shooting-star state are
+preserved. Switching intentionally rerandomizes the field without a transition.
+No work is added to the animation loop. Milky Way draws more stars; Constellation
+has a larger local connection search area. Disabling connections or lowering
+counts changes appearance as well as cost; these are visual choices, not a
+universal performance guarantee. The demo stays on Default until Milestone 6.
 
 ### Container sizing and interaction
 
@@ -259,6 +319,7 @@ state in this milestone.
 
 - `prototype/`: unchanged original implementation and parity reference.
 - `src/defaultConfig.js`: immutable original configuration values.
+- `src/presets.js`: immutable internal preset overrides.
 - `src/config.js`: configuration copying, merging, validation, and freezing.
 - `src/Star.js`: star generation, movement, interaction, and drawing.
 - `src/ShootingStar.js`: reusable shooting-star state and drawing.
@@ -267,6 +328,7 @@ state in this milestone.
 - `demo/`: minimal page, styling, and initialization through the entry point.
 - `scripts/verify-api.mjs`: focused, repeatable API verification using Node built-ins.
 - `scripts/verify-lifecycle.mjs`: lifecycle, update, rollback, and resource checks.
+- `scripts/verify-presets.mjs`: preset precedence, isolation, switching, and cleanup checks.
 - `scripts/helpers/browser-fixture.mjs`: shared browser doubles for those checks.
 
 ## Preserved behavior and current limitations
@@ -293,6 +355,47 @@ Remaining limitations:
 
 These behaviors are retained for parity, not presented as production guarantees.
 No performance improvement or long-running memory stability is claimed.
+
+## Milestone 4 verification
+
+Verified on 2026-11-26 with Node 26.2.0 and local headless Chrome
+158.0.8127.37 on macOS. All 46 focused check groups passed, including 13 new
+preset groups, plus the production build and empty runtime dependency tree.
+Prototype hashes remain unchanged. Ten seeded pixel comparisons matched omitted
+preset against explicit Default (five frames each at DPR 1 and 3). Browser
+captures confirmed distinct preset appearances at desktop and narrow viewports.
+
+Two simultaneous browser instances survived four batches of 100 preset switches
+with unchanged listener/observer/frame counts and the second instance's count
+unchanged. Weak references to replaced configurations and star arrays were all
+cleared after forced GC in every batch. Used JS heap after clearing measurement
+records and another GC was 862,416; 904,516; 916,572; 915,668 bytes. This bounded
+sample levels off in its final batches; it does not establish long-term stability
+or measure canvas/GPU memory. Destruction left no tracked resources.
+
+The following bounded samples use a seeded scene, centered pointer, controlled
+16 ms animation steps, 63 warm-up frames, and 180 measured frames. Each measured
+step includes a one-pixel canvas readback to synchronize drawing. Values are
+mean / p95 milliseconds, not display FPS or CPU/GPU utilization.
+
+| Preset | 1280×720 CSS, DPR 1 | 390×844 CSS, DPR 3 |
+| --- | --- | --- |
+| Default | 12.39 / 21.30 | 55.90 / 62.60 |
+| Deep Space | 0.45 / 0.40 | 0.70 / 0.70 |
+| Milky Way | 1.41 / 1.20 | 1.75 / 1.60 |
+| Constellation | 0.87 / 0.90 | 6.33 / 7.40 |
+
+Outliers can make the mean exceed p95. The high Default cost prompted a separate
+comparison against the previous commit, `3cccab1`, using the same method:
+DPR 1 means were 12.46 ms before / 12.58 ms after; DPR 3 means were 56.04 ms
+before / 55.76 ms after. These samples show the expensive default scene already
+exists; they do not demonstrate an improvement. Rendering code is unchanged.
+The concentrated galaxy and local connections remain profiling candidates for
+Milestone 5. Readback, scene age, viewport, pointer, and headless rendering make
+these results unsuitable for direct comparison with earlier milestone samples
+or claims about actual mobile devices. Chrome reported no display-link support.
+The original defaults are deliberately preserved; production FPS, long-running
+stability, and cross-browser testing remain outstanding.
 
 ## Milestone 3 verification
 

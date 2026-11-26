@@ -181,7 +181,7 @@ claimed as satisfied. Full Vitest setup remains Milestone 5 work.
 ### Lifecycle verification
 
 Implemented, verified, and approved by the user on 2026-11-25.
-Milestone 3 is complete. Milestone 4 has not been started. The lifecycle scope exceptions from
+Milestone 3 is complete. Milestone 4 progress is recorded below. The lifecycle scope exceptions from
 Milestones 1 and 2 are resolved by this implementation and its cleanup checks.
 
 - Added idempotent start/stop, destroy with listener/observer/frame cleanup,
@@ -211,22 +211,42 @@ Milestones 1 and 2 are resolved by this implementation and its cleanup checks.
 
 ## Milestone 4 — Presets
 
-- [ ] Create preset configuration architecture
-- [ ] Implement Default preset
-- [ ] Implement Deep Space preset
-- [ ] Implement Milky Way preset
-- [ ] Implement Constellation preset
-- [ ] Allow user configuration to override presets
-- [ ] Support changing presets at runtime
-- [ ] Document preset configuration
+- [x] Create preset configuration architecture
+- [x] Implement Default preset
+- [x] Implement Deep Space preset
+- [x] Implement Milky Way preset
+- [x] Implement Constellation preset
+- [x] Allow user configuration to override presets
+- [x] Support changing presets at runtime
+- [x] Document preset configuration
 
 ### Acceptance criteria
 
-- [ ] Each preset provides a distinct visual appearance
-- [ ] Presets do not mutate default configuration
-- [ ] User configuration takes precedence over preset values
-- [ ] Presets can be switched safely at runtime
-- [ ] Preset changes do not cause resource accumulation
+- [x] Each preset provides a distinct visual appearance
+- [x] Presets do not mutate default configuration
+- [x] User configuration takes precedence over preset values
+- [x] Presets can be switched safely at runtime
+- [x] Preset changes do not cause resource accumulation
+
+### Preset verification
+
+Implemented, verified, and approved by the user on 2026-11-26.
+Milestone 4 is complete.
+Milestone 5 has not been started.
+
+- Four immutable internal presets resolve through the existing configuration
+  validation and atomic update path; no rendering or lifecycle changes were needed.
+- Explicit preset selection resets previous overrides; overrides in the same call
+  win. Ordinary partial updates retain their existing behavior.
+- All 13 API, 20 lifecycle, and 13 preset check groups passed; build and zero
+  runtime dependencies verified. Original prototype hashes remain unchanged.
+- Ten deterministic Chrome comparisons matched Default against omitted preset at
+  DPR 1 and 3. Browser captures show distinct appearances for the four presets.
+- Four batches of 100 browser switches preserved two independent instances and
+  fixed resource counts. Post-GC checks found zero retained replaced configurations
+  or star collections; final destruction removed all tracked resources.
+- README records settings, switching semantics, bounded rendering/memory results,
+  and limitations. These checks do not establish long-running or mobile performance.
 
 ---
 
