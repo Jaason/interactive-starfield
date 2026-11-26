@@ -1,0 +1,1664 @@
+{
+  "status": "completed",
+  "startedAt": "2026-11-26T07:56:22.586Z",
+  "requestedSeconds": 1800,
+  "environment": "Native RAF in headless Chrome; not a physical display FPS certification.",
+  "samples": [
+    {
+      "wallMs": 21,
+      "activeMs": 0,
+      "hidden": false,
+      "fps": 0,
+      "frame": {
+        "count": 0,
+        "mean": 0,
+        "max": 0,
+        "windowP95": 0,
+        "windowP99": 0
+      },
+      "work": {
+        "count": 0,
+        "mean": 0,
+        "max": 0,
+        "windowP95": 0,
+        "windowP99": 0
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 12643651
+      },
+      "postGC": {
+        "usedSize": 3290216,
+        "totalSize": 5505024,
+        "embedderHeapUsedSize": 2247456,
+        "backingStorageSize": 1365093
+      },
+      "taskDurationSeconds": 0.094956
+    },
+    {
+      "wallMs": 60027,
+      "activeMs": 60014.3,
+      "hidden": false,
+      "fps": 60.00236610274551,
+      "frame": {
+        "count": 3601,
+        "mean": 16.666009441821718,
+        "max": 16.80000000000291,
+        "windowP95": 16.700000000004366,
+        "windowP99": 16.80000000000291
+      },
+      "work": {
+        "count": 3602,
+        "mean": 1.552581898959096,
+        "max": 14,
+        "windowP95": 3.7999999970197678,
+        "windowP99": 4.200000002980232
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 2199484
+      },
+      "postGC": null,
+      "taskDurationSeconds": 7.327185
+    },
+    {
+      "wallMs": 120030,
+      "activeMs": 120028.6,
+      "hidden": false,
+      "fps": 60.00236610274551,
+      "frame": {
+        "count": 7202,
+        "mean": 16.666009441821718,
+        "max": 16.80000000000291,
+        "windowP95": 16.70000000001164,
+        "windowP99": 16.80000000000291
+      },
+      "work": {
+        "count": 7203,
+        "mean": 1.0256004442746451,
+        "max": 14,
+        "windowP95": 0.6000000089406967,
+        "windowP99": 0.7000000029802322
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 2994316
+      },
+      "postGC": null,
+      "taskDurationSeconds": 10.037388
+    },
+    {
+      "wallMs": 180036,
+      "activeMs": 180026.1,
+      "hidden": false,
+      "fps": 60.002410761550685,
+      "frame": {
+        "count": 10802,
+        "mean": 16.665997037585633,
+        "max": 16.800000000017462,
+        "windowP95": 16.79999999998836,
+        "windowP99": 16.800000000017462
+      },
+      "work": {
+        "count": 10803,
+        "mean": 0.8531241321590204,
+        "max": 14,
+        "windowP95": 0.6000000089406967,
+        "windowP99": 0.7000000029802322
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 2131621
+      },
+      "postGC": null,
+      "taskDurationSeconds": 12.782212
+    },
+    {
+      "wallMs": 240039,
+      "activeMs": 240040.4,
+      "hidden": false,
+      "fps": 60.002399596067995,
+      "frame": {
+        "count": 14403,
+        "mean": 16.66600013885996,
+        "max": 16.800000000017462,
+        "windowP95": 16.70000000001164,
+        "windowP99": 16.800000000017462
+      },
+      "work": {
+        "count": 14404,
+        "mean": 0.7797000833223989,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 4933343
+      },
+      "postGC": null,
+      "taskDurationSeconds": 15.729767
+    },
+    {
+      "wallMs": 300045,
+      "activeMs": 300038,
+      "hidden": false,
+      "fps": 60.0023996960385,
+      "frame": {
+        "count": 18003,
+        "mean": 16.666000111092597,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000001164,
+        "windowP99": 16.800000000017462
+      },
+      "work": {
+        "count": 18004,
+        "mean": 0.7365696511796861,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 4417855
+      },
+      "postGC": null,
+      "taskDurationSeconds": 18.733548
+    },
+    {
+      "wallMs": 360052,
+      "activeMs": 360052.3,
+      "hidden": false,
+      "fps": 60.002394096635406,
+      "frame": {
+        "count": 21604,
+        "mean": 16.66600166635808,
+        "max": 16.800000000046566,
+        "windowP95": 16.79999999998836,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 21605,
+        "mean": 0.7062115250783396,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 3661436
+      },
+      "postGC": null,
+      "taskDurationSeconds": 21.657851
+    },
+    {
+      "wallMs": 420059,
+      "activeMs": 420066.5,
+      "hidden": false,
+      "fps": 60.00240438121107,
+      "frame": {
+        "count": 25205,
+        "mean": 16.66599880975997,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000001164,
+        "windowP99": 16.79999999998836
+      },
+      "work": {
+        "count": 25206,
+        "mean": 0.6859993652274265,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 4768837
+      },
+      "postGC": null,
+      "taskDurationSeconds": 24.66242
+    },
+    {
+      "wallMs": 480064,
+      "activeMs": 480064.1,
+      "hidden": false,
+      "fps": 60.00240384565311,
+      "frame": {
+        "count": 28805,
+        "mean": 16.665998958514145,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000001164,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 28806,
+        "mean": 0.6731097688124443,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 3990434
+      },
+      "postGC": null,
+      "taskDurationSeconds": 27.7454
+    },
+    {
+      "wallMs": 540071,
+      "activeMs": 540078.4,
+      "hidden": false,
+      "fps": 60.00239965160613,
+      "frame": {
+        "count": 32406,
+        "mean": 16.666000123433932,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000006985,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 32407,
+        "mean": 0.6653007066316612,
+        "max": 14,
+        "windowP95": 0.7999999970197678,
+        "windowP99": 0.8999999910593033
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 3317805
+      },
+      "postGC": null,
+      "taskDurationSeconds": 30.898349
+    },
+    {
+      "wallMs": 600076,
+      "activeMs": 600076,
+      "hidden": false,
+      "fps": 60.0023996960385,
+      "frame": {
+        "count": 36006,
+        "mean": 16.666000111092597,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000006985,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 36007,
+        "mean": 0.6547532424218561,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 3713993
+      },
+      "postGC": null,
+      "taskDurationSeconds": 33.862226
+    },
+    {
+      "wallMs": 660082,
+      "activeMs": 660090.3,
+      "hidden": false,
+      "fps": 60.00239664179279,
+      "frame": {
+        "count": 39607,
+        "mean": 16.666000959426366,
+        "max": 16.800000000046566,
+        "windowP95": 16.79999999993015,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 39608,
+        "mean": 0.6470940214171901,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 4623279
+      },
+      "postGC": null,
+      "taskDurationSeconds": 36.89768
+    },
+    {
+      "wallMs": 720089,
+      "activeMs": 720104.5,
+      "hidden": false,
+      "fps": 60.00240242909189,
+      "frame": {
+        "count": 43208,
+        "mean": 16.665999351971855,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000006985,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 43209,
+        "mean": 0.6415283853048617,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.800000011920929
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 4002089
+      },
+      "postGC": null,
+      "taskDurationSeconds": 39.949826
+    },
+    {
+      "wallMs": 780094,
+      "activeMs": 780102.2,
+      "hidden": false,
+      "fps": 60.00239455804637,
+      "frame": {
+        "count": 46808,
+        "mean": 16.666001538198596,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000006985,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 46809,
+        "mean": 0.6351898139579709,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 2364294
+      },
+      "postGC": null,
+      "taskDurationSeconds": 42.899507
+    },
+    {
+      "wallMs": 840154,
+      "activeMs": 840116.4,
+      "hidden": false,
+      "fps": 60.00239966747465,
+      "frame": {
+        "count": 50409,
+        "mean": 16.666000119026364,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000006985,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 50410,
+        "mean": 0.6291827018675149,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 4350060
+      },
+      "postGC": null,
+      "taskDurationSeconds": 45.862278
+    },
+    {
+      "wallMs": 900162,
+      "activeMs": 900114,
+      "hidden": false,
+      "fps": 60.0023996960385,
+      "frame": {
+        "count": 54009,
+        "mean": 16.666000111092597,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000006985,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 54010,
+        "mean": 0.6260451768511667,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.800000011920929
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 3028595
+      },
+      "postGC": null,
+      "taskDurationSeconds": 48.936373
+    },
+    {
+      "wallMs": 960169,
+      "activeMs": 960128.3,
+      "hidden": false,
+      "fps": 60.00239759623792,
+      "frame": {
+        "count": 57610,
+        "mean": 16.666000694323902,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000006985,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 57611,
+        "mean": 0.6249986982071307,
+        "max": 14,
+        "windowP95": 0.7999999970197678,
+        "windowP99": 0.800000011920929
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 4616989
+      },
+      "postGC": null,
+      "taskDurationSeconds": 52.115663
+    },
+    {
+      "wallMs": 1020176,
+      "activeMs": 1020142.5,
+      "hidden": false,
+      "fps": 60.00240162526314,
+      "frame": {
+        "count": 61211,
+        "mean": 16.665999575239745,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000006985,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 61212,
+        "mean": 0.6211772201850446,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 4893764
+      },
+      "postGC": null,
+      "taskDurationSeconds": 55.082705
+    },
+    {
+      "wallMs": 1080184,
+      "activeMs": 1080140.1,
+      "hidden": false,
+      "fps": 60.0024015403187,
+      "frame": {
+        "count": 64811,
+        "mean": 16.665999598833533,
+        "max": 16.800000000046566,
+        "windowP95": 16.799999999813735,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 64812,
+        "mean": 0.6177312843683199,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.800000011920929
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 2694627
+      },
+      "postGC": null,
+      "taskDurationSeconds": 58.04047
+    },
+    {
+      "wallMs": 1140190,
+      "activeMs": 1140154.4,
+      "hidden": false,
+      "fps": 60.002399674991395,
+      "frame": {
+        "count": 68412,
+        "mean": 16.666000116938548,
+        "max": 16.800000000046566,
+        "windowP95": 16.700000000186265,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 68413,
+        "mean": 0.61629076348293,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.800000011920929
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 7852755
+      },
+      "postGC": null,
+      "taskDurationSeconds": 61.134884
+    },
+    {
+      "wallMs": 1200197,
+      "activeMs": 1200152,
+      "hidden": false,
+      "fps": 60.0023996960385,
+      "frame": {
+        "count": 72012,
+        "mean": 16.666000111092597,
+        "max": 16.800000000046566,
+        "windowP95": 16.700000000186265,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 72013,
+        "mean": 0.6163303848215973,
+        "max": 14,
+        "windowP95": 0.7999999970197678,
+        "windowP99": 0.9000000059604645
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 7795001
+      },
+      "postGC": null,
+      "taskDurationSeconds": 64.377394
+    },
+    {
+      "wallMs": 1260204,
+      "activeMs": 1260166.2,
+      "hidden": false,
+      "fps": 60.00240285765481,
+      "frame": {
+        "count": 75613,
+        "mean": 16.665999232936134,
+        "max": 16.800000000046566,
+        "windowP95": 16.700000000186265,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 75614,
+        "mean": 0.6159772000166155,
+        "max": 14,
+        "windowP95": 0.7999999970197678,
+        "windowP99": 0.800000011920929
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 5296987
+      },
+      "postGC": null,
+      "taskDurationSeconds": 67.556467
+    },
+    {
+      "wallMs": 1320212,
+      "activeMs": 1320180.5,
+      "hidden": false,
+      "fps": 60.00240118680741,
+      "frame": {
+        "count": 79214,
+        "mean": 16.665999697023253,
+        "max": 16.800000000046566,
+        "windowP95": 16.700000000186265,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 79215,
+        "mean": 0.6135959098896339,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 7690505
+      },
+      "postGC": null,
+      "taskDurationSeconds": 70.540165
+    },
+    {
+      "wallMs": 1380219,
+      "activeMs": 1380178.1,
+      "hidden": false,
+      "fps": 60.00240113938918,
+      "frame": {
+        "count": 82814,
+        "mean": 16.66599971019393,
+        "max": 16.800000000046566,
+        "windowP95": 16.700000000186265,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 82815,
+        "mean": 0.6114351265038412,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 7623228
+      },
+      "postGC": null,
+      "taskDurationSeconds": 73.52134
+    },
+    {
+      "wallMs": 1440225,
+      "activeMs": 1440192.4,
+      "hidden": false,
+      "fps": 60.002399679376175,
+      "frame": {
+        "count": 86415,
+        "mean": 16.66600011572065,
+        "max": 16.800000000046566,
+        "windowP95": 16.700000000186265,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 86416,
+        "mean": 0.612309063157114,
+        "max": 14,
+        "windowP95": 0.7999999970197678,
+        "windowP99": 0.8999999910593033
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 7873711
+      },
+      "postGC": null,
+      "taskDurationSeconds": 76.791997
+    },
+    {
+      "wallMs": 1500233,
+      "activeMs": 1500190,
+      "hidden": false,
+      "fps": 60.0023996960385,
+      "frame": {
+        "count": 90015,
+        "mean": 16.666000111092597,
+        "max": 16.800000000046566,
+        "windowP95": 16.700000000186265,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 90016,
+        "mean": 0.6100182190005742,
+        "max": 14,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.800000011920929
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 7120515
+      },
+      "postGC": null,
+      "taskDurationSeconds": 79.744634
+    },
+    {
+      "wallMs": 1560239,
+      "activeMs": 1560204.3,
+      "hidden": false,
+      "fps": 60.00239840385006,
+      "frame": {
+        "count": 93616,
+        "mean": 16.666000470005127,
+        "max": 16.800000000046566,
+        "windowP95": 16.700000000186265,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 93617,
+        "mean": 0.6071760471131611,
+        "max": 14,
+        "windowP95": 0.699999988079071,
+        "windowP99": 0.7000000178813934
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 4213459
+      },
+      "postGC": null,
+      "taskDurationSeconds": 82.617139
+    },
+    {
+      "wallMs": 1620246,
+      "activeMs": 1620218.5,
+      "hidden": false,
+      "fps": 60.00240091074136,
+      "frame": {
+        "count": 97217,
+        "mean": 16.66599977370213,
+        "max": 16.800000000046566,
+        "windowP95": 16.700000000186265,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 97218,
+        "mean": 0.607030591078187,
+        "max": 14,
+        "windowP95": 0.7999999821186066,
+        "windowP99": 1
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 7723213
+      },
+      "postGC": null,
+      "taskDurationSeconds": 85.76195
+    },
+    {
+      "wallMs": 1680252,
+      "activeMs": 1680216.1,
+      "hidden": false,
+      "fps": 60.00240088164849,
+      "frame": {
+        "count": 100817,
+        "mean": 16.665999781782837,
+        "max": 16.800000000046566,
+        "windowP95": 16.700000000186265,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 100818,
+        "mean": 0.6043682676057346,
+        "max": 14,
+        "windowP95": 0.699999988079071,
+        "windowP99": 0.7999999821186066
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 8687383
+      },
+      "postGC": null,
+      "taskDurationSeconds": 88.608514
+    },
+    {
+      "wallMs": 1740259,
+      "activeMs": 1740230.3,
+      "hidden": false,
+      "fps": 60.00240313020639,
+      "frame": {
+        "count": 104418,
+        "mean": 16.66599915723343,
+        "max": 16.800000000046566,
+        "windowP95": 16.799999999813735,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 104419,
+        "mean": 0.6039983145207277,
+        "max": 14,
+        "windowP95": 0.7000000178813934,
+        "windowP99": 0.800000011920929
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 3543400
+      },
+      "postGC": null,
+      "taskDurationSeconds": 91.744738
+    },
+    {
+      "wallMs": 1800034,
+      "activeMs": 1799994.7,
+      "hidden": false,
+      "fps": 60.002398895952304,
+      "frame": {
+        "count": 108004,
+        "mean": 16.666000333320987,
+        "max": 16.800000000046566,
+        "windowP95": 16.799999999813735,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 108005,
+        "mean": 0.603750752313044,
+        "max": 14,
+        "windowP95": 0.7999999821186066,
+        "windowP99": 0.800000011920929
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 3544838
+      },
+      "postGC": null,
+      "taskDurationSeconds": 94.863275
+    },
+    {
+      "wallMs": 1801049,
+      "activeMs": 1801011.3,
+      "hidden": false,
+      "fps": 60.00239976284435,
+      "frame": {
+        "count": 108065,
+        "mean": 16.6660000925369,
+        "max": 16.800000000046566,
+        "windowP95": 16.799999999813735,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 108066,
+        "mean": 0.6037467844039519,
+        "max": 14,
+        "windowP95": 0.7999999821186066,
+        "windowP99": 0.800000011920929
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12643651,
+        "peak": 12643651,
+        "current": 8320801
+      },
+      "postGC": {
+        "usedSize": 1109996,
+        "totalSize": 2097152,
+        "embedderHeapUsedSize": 911480,
+        "backingStorageSize": 548621
+      },
+      "taskDurationSeconds": 94.92322
+    }
+  ],
+  "thirtyMinuteCheckpoint": "2026-11-26T08:26:23.773Z",
+  "final": {
+    "startedAt": "2026-11-26T07:56:22.719Z",
+    "exportedAt": "2026-11-26T08:26:23.773Z",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+    "viewport": [
+      1280,
+      900
+    ],
+    "devicePixelRatio": 1,
+    "targetHz": 60,
+    "config": {
+      "preset": "default",
+      "stars": {
+        "count": 240
+      },
+      "accessibility": {
+        "respectReducedMotion": false
+      },
+      "rendering": {
+        "maxDpr": null
+      },
+      "twinkle": {
+        "enabled": true
+      },
+      "parallax": {
+        "enabled": true
+      },
+      "repulsion": {
+        "enabled": true
+      },
+      "connections": {
+        "enabled": true
+      },
+      "glow": {
+        "enabled": true
+      }
+    },
+    "canvasSizes": [
+      {
+        "css": [
+          1200,
+          400
+        ],
+        "buffer": [
+          1200,
+          400
+        ]
+      }
+    ],
+    "instances": 1,
+    "requestedActiveMs": 28800000,
+    "activeMs": 1801028,
+    "hidden": false,
+    "fps": 60.00239863011569,
+    "frame": {
+      "count": 108066,
+      "mean": 16.666000407158588,
+      "max": 16.800000000046566,
+      "windowP95": 16.799999999813735,
+      "windowP99": 16.800000000046566
+    },
+    "instanceWork": {
+      "count": 108067,
+      "mean": 0.6037467497329574,
+      "max": 14,
+      "windowP95": 0.7999999821186066,
+      "windowP99": 0.800000011920929
+    },
+    "instanceRender": {
+      "count": 108067,
+      "mean": 0.5921585683282463,
+      "max": 13.899999991059303,
+      "windowP95": 0.7000000178813934,
+      "windowP99": 0.800000011920929
+    },
+    "instanceUpdate": {
+      "count": 108067,
+      "mean": 0.011588181404711052,
+      "max": 0.29999998211860657,
+      "windowP95": 0.09999999403953552,
+      "windowP99": 0.10000002384185791
+    },
+    "interruptions": 0,
+    "errors": 0,
+    "estimatedDroppedFrames": 0,
+    "longTasks": 0,
+    "heap": {
+      "initial": 12643651,
+      "peak": 12643651,
+      "current": 8320801
+    },
+    "history": [
+      {
+        "activeMs": 0,
+        "fps": 0,
+        "frame": {
+          "count": 0,
+          "mean": 0,
+          "max": 0,
+          "windowP95": 0,
+          "windowP99": 0
+        },
+        "work": {
+          "count": 0,
+          "mean": 0,
+          "max": 0,
+          "windowP95": 0,
+          "windowP99": 0
+        },
+        "heap": 12643651
+      },
+      {
+        "activeMs": 60914.3,
+        "fps": 60.00233114391858,
+        "frame": {
+          "count": 3655,
+          "mean": 16.666019151846786,
+          "max": 16.80000000000291,
+          "windowP95": 16.700000000004366,
+          "windowP99": 16.80000000000291
+        },
+        "work": {
+          "count": 3656,
+          "mean": 1.5368435448748865,
+          "max": 14,
+          "windowP95": 3.7999999970197678,
+          "windowP99": 4.199999988079071
+        },
+        "heap": 2683137
+      },
+      {
+        "activeMs": 120911.8,
+        "fps": 60.002414983483824,
+        "frame": {
+          "count": 7255,
+          "mean": 16.665995864920745,
+          "max": 16.80000000000291,
+          "windowP95": 16.70000000001164,
+          "windowP99": 16.80000000000291
+        },
+        "work": {
+          "count": 7256,
+          "mean": 1.021857772893226,
+          "max": 14,
+          "windowP95": 0.6000000089406967,
+          "windowP99": 0.7000000029802322
+        },
+        "heap": 1855265
+      },
+      {
+        "activeMs": 180909.4,
+        "fps": 60.00241004613359,
+        "frame": {
+          "count": 10855,
+          "mean": 16.665997236296636,
+          "max": 16.800000000017462,
+          "windowP95": 16.79999999998836,
+          "windowP99": 16.800000000017462
+        },
+        "work": {
+          "count": 10856,
+          "mean": 0.8513725128686419,
+          "max": 14,
+          "windowP95": 0.6000000089406967,
+          "windowP99": 0.7000000029802322
+        },
+        "heap": 4369736
+      },
+      {
+        "activeMs": 240907,
+        "fps": 60.002407568065685,
+        "frame": {
+          "count": 14455,
+          "mean": 16.665997924593565,
+          "max": 16.800000000017462,
+          "windowP95": 16.70000000001164,
+          "windowP99": 16.800000000017462
+        },
+        "work": {
+          "count": 14456,
+          "mean": 0.7789706696282535,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.7999999970197678
+        },
+        "heap": 3203703
+      },
+      {
+        "activeMs": 300904.6,
+        "fps": 60.002406078205524,
+        "frame": {
+          "count": 18055,
+          "mean": 16.66599833841041,
+          "max": 16.800000000046566,
+          "windowP95": 16.79999999998836,
+          "windowP99": 16.800000000017462
+        },
+        "work": {
+          "count": 18056,
+          "mean": 0.7361375719876643,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.7999999970197678
+        },
+        "heap": 4955486
+      },
+      {
+        "activeMs": 360902.2,
+        "fps": 60.00240508370411,
+        "frame": {
+          "count": 21655,
+          "mean": 16.665998614638653,
+          "max": 16.800000000046566,
+          "windowP95": 16.79999999998836,
+          "windowP99": 16.79999999998836
+        },
+        "work": {
+          "count": 21656,
+          "mean": 0.7059244550860893,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.7999999970197678
+        },
+        "heap": 2354227
+      },
+      {
+        "activeMs": 420916.4,
+        "fps": 60.002413780978834,
+        "frame": {
+          "count": 25256,
+          "mean": 16.66599619892303,
+          "max": 16.800000000046566,
+          "windowP95": 16.70000000001164,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 25257,
+          "mean": 0.6857702815043472,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.7999999970197678
+        },
+        "heap": 2531803
+      },
+      {
+        "activeMs": 480914.1,
+        "fps": 60.00239959693426,
+        "frame": {
+          "count": 28856,
+          "mean": 16.66600013861935,
+          "max": 16.800000000046566,
+          "windowP95": 16.70000000001164,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 28857,
+          "mean": 0.6728246179561496,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.7999999970197678
+        },
+        "heap": 3623602
+      },
+      {
+        "activeMs": 540911.7,
+        "fps": 60.002399652290755,
+        "frame": {
+          "count": 32456,
+          "mean": 16.666000123243776,
+          "max": 16.800000000046566,
+          "windowP95": 16.79999999993015,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 32457,
+          "mean": 0.6652278399070435,
+          "max": 14,
+          "windowP95": 0.7999999970197678,
+          "windowP99": 0.8999999910593033
+        },
+        "heap": 2003655
+      },
+      {
+        "activeMs": 600909.3,
+        "fps": 60.002399696593145,
+        "frame": {
+          "count": 36056,
+          "mean": 16.66600011093854,
+          "max": 16.800000000046566,
+          "windowP95": 16.70000000006985,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 36057,
+          "mean": 0.6546329422840068,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.7999999970197678
+        },
+        "heap": 3749997
+      },
+      {
+        "activeMs": 660906.9,
+        "fps": 60.002399732851934,
+        "frame": {
+          "count": 39656,
+          "mean": 16.66600010086746,
+          "max": 16.800000000046566,
+          "windowP95": 16.79999999993015,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 39657,
+          "mean": 0.646992964679127,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.7999999970197678
+        },
+        "heap": 4494989
+      },
+      {
+        "activeMs": 720904.5,
+        "fps": 60.00239976307542,
+        "frame": {
+          "count": 43256,
+          "mean": 16.66600009247272,
+          "max": 16.800000000046566,
+          "windowP95": 16.70000000006985,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 43257,
+          "mean": 0.6414337564020957,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.800000011920929
+        },
+        "heap": 3570198
+      },
+      {
+        "activeMs": 780902.1,
+        "fps": 60.002399788654685,
+        "frame": {
+          "count": 46856,
+          "mean": 16.666000085367934,
+          "max": 16.800000000046566,
+          "windowP95": 16.70000000006985,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 46857,
+          "mean": 0.6350961436176685,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.7999999970197678
+        },
+        "heap": 4409293
+      },
+      {
+        "activeMs": 840916.4,
+        "fps": 60.002397384567594,
+        "frame": {
+          "count": 50457,
+          "mean": 16.666000753116517,
+          "max": 16.800000000046566,
+          "windowP95": 16.70000000006985,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 50458,
+          "mean": 0.6291390859951134,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.7999999970197678
+        },
+        "heap": 4334993
+      },
+      {
+        "activeMs": 900914,
+        "fps": 60.002397565139404,
+        "frame": {
+          "count": 54057,
+          "mean": 16.66600070296169,
+          "max": 16.800000000046566,
+          "windowP95": 16.70000000006985,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 54058,
+          "mean": 0.6260276000201537,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.800000011920929
+        },
+        "heap": 5485439
+      },
+      {
+        "activeMs": 960911.6,
+        "fps": 60.00239772316205,
+        "frame": {
+          "count": 57657,
+          "mean": 16.66600065907002,
+          "max": 16.800000000046566,
+          "windowP95": 16.70000000006985,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 57658,
+          "mean": 0.6250112734109845,
+          "max": 14,
+          "windowP95": 0.7999999970197678,
+          "windowP99": 0.800000011920929
+        },
+        "heap": 4880642
+      },
+      {
+        "activeMs": 1020909.2,
+        "fps": 60.0023978626111,
+        "frame": {
+          "count": 61257,
+          "mean": 16.666000620337268,
+          "max": 16.800000000046566,
+          "windowP95": 16.70000000006985,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 61258,
+          "mean": 0.6210845930649533,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.7999999970197678
+        },
+        "heap": 2343717
+      },
+      {
+        "activeMs": 1080906.7,
+        "fps": 60.002403537696644,
+        "frame": {
+          "count": 64857,
+          "mean": 16.665999044050757,
+          "max": 16.800000000046566,
+          "windowP95": 16.799999999813735,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 64858,
+          "mean": 0.6176909556634026,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.800000011920929
+        },
+        "heap": 4741515
+      },
+      {
+        "activeMs": 1140904.4,
+        "fps": 60.002398097509314,
+        "frame": {
+          "count": 68457,
+          "mean": 16.666000555092978,
+          "max": 16.800000000046566,
+          "windowP95": 16.700000000186265,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 68458,
+          "mean": 0.6163092699484046,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.800000011920929
+        },
+        "heap": 1964264
+      },
+      {
+        "activeMs": 1200902,
+        "fps": 60.002398197354985,
+        "frame": {
+          "count": 72057,
+          "mean": 16.666000527360286,
+          "max": 16.800000000046566,
+          "windowP95": 16.700000000186265,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 72058,
+          "mean": 0.6163396153407429,
+          "max": 14,
+          "windowP95": 0.7999999970197678,
+          "windowP99": 0.9000000059604645
+        },
+        "heap": 1672845
+      },
+      {
+        "activeMs": 1260916.2,
+        "fps": 60.002401428421656,
+        "frame": {
+          "count": 75658,
+          "mean": 16.665999629913557,
+          "max": 16.800000000046566,
+          "windowP95": 16.700000000186265,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 75659,
+          "mean": 0.6159478713976032,
+          "max": 14,
+          "windowP95": 0.7999999970197678,
+          "windowP99": 0.800000011920929
+        },
+        "heap": 4774517
+      },
+      {
+        "activeMs": 1320913.8,
+        "fps": 60.00240136790152,
+        "frame": {
+          "count": 79258,
+          "mean": 16.66599964672336,
+          "max": 16.800000000046566,
+          "windowP95": 16.700000000186265,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 79259,
+          "mean": 0.6135795304249995,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.7999999970197678
+        },
+        "heap": 5604498
+      },
+      {
+        "activeMs": 1380911.5,
+        "fps": 60.00239696751023,
+        "frame": {
+          "count": 82858,
+          "mean": 16.666000868956527,
+          "max": 16.800000000046566,
+          "windowP95": 16.700000000186265,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 82859,
+          "mean": 0.6114326748027153,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.7999999970197678
+        },
+        "heap": 5475450
+      },
+      {
+        "activeMs": 1440909,
+        "fps": 60.00240126198115,
+        "frame": {
+          "count": 86458,
+          "mean": 16.66599967614333,
+          "max": 16.800000000046566,
+          "windowP95": 16.799999999813735,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 86459,
+          "mean": 0.6122821221829418,
+          "max": 14,
+          "windowP95": 0.7999999970197678,
+          "windowP99": 0.8999999910593033
+        },
+        "heap": 5401314
+      },
+      {
+        "activeMs": 1500906.6,
+        "fps": 60.00240121537209,
+        "frame": {
+          "count": 90058,
+          "mean": 16.665999689089254,
+          "max": 16.800000000046566,
+          "windowP95": 16.700000000186265,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 90059,
+          "mean": 0.6099890072245875,
+          "max": 14,
+          "windowP95": 0.7000000029802322,
+          "windowP99": 0.800000011920929
+        },
+        "heap": 4561160
+      },
+      {
+        "activeMs": 1560904.2,
+        "fps": 60.00240117234613,
+        "frame": {
+          "count": 93658,
+          "mean": 16.665999701039954,
+          "max": 16.800000000046566,
+          "windowP95": 16.700000000186265,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 93659,
+          "mean": 0.6071664229030446,
+          "max": 14,
+          "windowP95": 0.699999988079071,
+          "windowP99": 0.7999999821186066
+        },
+        "heap": 3424408
+      },
+      {
+        "activeMs": 1620918.5,
+        "fps": 60.00239987389865,
+        "frame": {
+          "count": 97259,
+          "mean": 16.666000061690948,
+          "max": 16.800000000046566,
+          "windowP95": 16.700000000186265,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 97260,
+          "mean": 0.606998766229436,
+          "max": 14,
+          "windowP95": 0.7999999821186066,
+          "windowP99": 1
+        },
+        "heap": 4987646
+      },
+      {
+        "activeMs": 1680916.1,
+        "fps": 60.00239988182634,
+        "frame": {
+          "count": 100859,
+          "mean": 16.66600005948899,
+          "max": 16.800000000046566,
+          "windowP95": 16.700000000186265,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 100860,
+          "mean": 0.6043357129037179,
+          "max": 14,
+          "windowP95": 0.699999988079071,
+          "windowP99": 0.7999999821186066
+        },
+        "heap": 2462871
+      },
+      {
+        "activeMs": 1740913.7,
+        "fps": 60.0023998892076,
+        "frame": {
+          "count": 104459,
+          "mean": 16.666000057438804,
+          "max": 16.800000000046566,
+          "windowP95": 16.799999999813735,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 104460,
+          "mean": 0.6039967452035584,
+          "max": 14,
+          "windowP95": 0.7000000178813934,
+          "windowP99": 0.800000011920929
+        },
+        "heap": 2923387
+      },
+      {
+        "activeMs": 1800911.3,
+        "fps": 60.002399896097046,
+        "frame": {
+          "count": 108059,
+          "mean": 16.666000055525224,
+          "max": 16.800000000046566,
+          "windowP95": 16.799999999813735,
+          "windowP99": 16.800000000046566
+        },
+        "work": {
+          "count": 108060,
+          "mean": 0.6037553211494483,
+          "max": 14,
+          "windowP95": 0.7999999821186066,
+          "windowP99": 0.800000011920929
+        },
+        "heap": 4035124
+      }
+    ],
+    "notes": "Percentiles use last 3600 samples. Work is per instance, including JS canvas submission, not full GPU time. Dropped frames are estimates against selected refresh rate. Heap is optional Chromium data, not post-GC or total memory. History retains at most 481 minute records."
+  },
+  "updatedAt": "2026-11-26T08:26:23.777Z"
+}

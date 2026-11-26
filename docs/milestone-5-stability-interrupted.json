@@ -1,0 +1,254 @@
+{
+  "status": "interrupted",
+  "startedAt": "2026-11-26T03:24:34.300Z",
+  "requestedSeconds": 1800,
+  "environment": "Native RAF in headless Chrome; not a physical display FPS certification.",
+  "samples": [
+    {
+      "wallMs": 33,
+      "activeMs": 0,
+      "hidden": false,
+      "fps": 0,
+      "frame": {
+        "count": 0,
+        "mean": 0,
+        "max": 0,
+        "windowP95": 0,
+        "windowP99": 0
+      },
+      "work": {
+        "count": 0,
+        "mean": 0,
+        "max": 0,
+        "windowP95": 0,
+        "windowP99": 0
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12595637,
+        "peak": 12595637,
+        "current": 12595637
+      },
+      "postGC": {
+        "usedSize": 3452988,
+        "totalSize": 5505024,
+        "embedderHeapUsedSize": 1910040,
+        "backingStorageSize": 1304407
+      },
+      "taskDurationSeconds": 0.105384
+    },
+    {
+      "wallMs": 60041,
+      "activeMs": 60030.9,
+      "hidden": false,
+      "fps": 60.002432080811715,
+      "frame": {
+        "count": 3602,
+        "mean": 16.66599111604664,
+        "max": 16.80000000000291,
+        "windowP95": 16.799999999995634,
+        "windowP99": 16.80000000000291
+      },
+      "work": {
+        "count": 3603,
+        "mean": 1.502636691621036,
+        "max": 12.899999991059303,
+        "windowP95": 4,
+        "windowP99": 4.5999999940395355
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12595637,
+        "peak": 12595637,
+        "current": 3275307
+      },
+      "postGC": null,
+      "taskDurationSeconds": 7.192608
+    },
+    {
+      "wallMs": 120049,
+      "activeMs": 120028.5,
+      "hidden": false,
+      "fps": 60.00241609284462,
+      "frame": {
+        "count": 7202,
+        "mean": 16.66599555678978,
+        "max": 16.80000000000291,
+        "windowP95": 16.79999999998836,
+        "windowP99": 16.80000000000291
+      },
+      "work": {
+        "count": 7203,
+        "mean": 1.00524781341894,
+        "max": 12.899999991059303,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12595637,
+        "peak": 12595637,
+        "current": 2943874
+      },
+      "postGC": null,
+      "taskDurationSeconds": 10.071693
+    },
+    {
+      "wallMs": 180056,
+      "activeMs": 180042.7,
+      "hidden": false,
+      "fps": 60.00243275622949,
+      "frame": {
+        "count": 10803,
+        "mean": 16.665990928445805,
+        "max": 16.800000000017462,
+        "windowP95": 16.79999999998836,
+        "windowP99": 16.800000000017462
+      },
+      "work": {
+        "count": 10804,
+        "mean": 0.8436504997525424,
+        "max": 12.899999991059303,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12595637,
+        "peak": 12595637,
+        "current": 5494830
+      },
+      "postGC": null,
+      "taskDurationSeconds": 12.849532
+    },
+    {
+      "wallMs": 240064,
+      "activeMs": 240040.3,
+      "hidden": false,
+      "fps": 60.00242459287045,
+      "frame": {
+        "count": 14403,
+        "mean": 16.665993195861972,
+        "max": 16.800000000017462,
+        "windowP95": 16.70000000001164,
+        "windowP99": 16.800000000017462
+      },
+      "work": {
+        "count": 14404,
+        "mean": 0.7725978894327307,
+        "max": 12.899999991059303,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12595637,
+        "peak": 12595637,
+        "current": 3167550
+      },
+      "postGC": null,
+      "taskDurationSeconds": 15.862025
+    },
+    {
+      "wallMs": 300073,
+      "activeMs": 300054.6,
+      "hidden": false,
+      "fps": 60.0024128941866,
+      "frame": {
+        "count": 18004,
+        "mean": 16.66599644523439,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000001164,
+        "windowP99": 16.800000000017462
+      },
+      "work": {
+        "count": 18005,
+        "mean": 0.7230769230537499,
+        "max": 12.899999991059303,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12595637,
+        "peak": 12595637,
+        "current": 2172266
+      },
+      "postGC": null,
+      "taskDurationSeconds": 18.822524
+    },
+    {
+      "wallMs": 360080,
+      "activeMs": 360068.9,
+      "hidden": false,
+      "fps": 60.00240509524704,
+      "frame": {
+        "count": 21605,
+        "mean": 16.66599861143254,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000001164,
+        "windowP99": 16.79999999998836
+      },
+      "work": {
+        "count": 21606,
+        "mean": 0.697338702170416,
+        "max": 12.899999991059303,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.800000011920929
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12595637,
+        "peak": 12595637,
+        "current": 3034614
+      },
+      "postGC": null,
+      "taskDurationSeconds": 21.909621
+    },
+    {
+      "wallMs": 420087,
+      "activeMs": 420066.5,
+      "hidden": false,
+      "fps": 60.00240438121107,
+      "frame": {
+        "count": 25205,
+        "mean": 16.66599880975997,
+        "max": 16.800000000046566,
+        "windowP95": 16.70000000001164,
+        "windowP99": 16.800000000046566
+      },
+      "work": {
+        "count": 25206,
+        "mean": 0.6737483138521352,
+        "max": 12.899999991059303,
+        "windowP95": 0.7000000029802322,
+        "windowP99": 0.7999999970197678
+      },
+      "interruptions": 0,
+      "dropped": 0,
+      "longTasks": 0,
+      "heap": {
+        "initial": 12595637,
+        "peak": 12595637,
+        "current": 3878271
+      },
+      "postGC": null,
+      "taskDurationSeconds": 24.850117
+    }
+  ],
+  "note": "Run process no longer existed when inspected on 2026-11-26. Last recorded sample contains about seven active minutes; interruption cause is unknown. This is not a completed 30-minute run."
+}

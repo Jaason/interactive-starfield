@@ -264,12 +264,15 @@ complete**. The user approved committing and pushing the current work on
 - Checked benchmark/reporting tasks below describe bounded samples, not long-run
   certification. Chromium checks used headless Chrome; mobile and refresh-rate
   emulation are not substitutes for physical devices/displays.
-- The 30-minute run is unexecuted. The user explicitly deferred the eight-hour
-  test on 2026-11-26; its runner and procedure are saved for later. Neither test
-  is marked as passed.
+- A fresh continuous 30-minute Chrome run completed on 2026-11-26: about 60 FPS,
+  no recorded errors/interruptions/dropped frames, and post-GC used JS heap
+  3.14 MiB at the start / 1.06 MiB at the end. Results and limitations are in
+  `docs/PERFORMANCE.md`; an earlier interrupted attempt is preserved separately.
+- The user explicitly deferred the eight-hour test on 2026-11-26. It remains
+  unexecuted, with its runner and procedure saved for later.
 - Safari rejected WebDriver because remote automation is disabled. Firefox and
   physical mobile hardware were unavailable. These checks remain open.
-- Physical-display performance targets, long-run trends, CPU/GPU usage, and
+- Physical-display performance targets, eight-hour trends, CPU/GPU usage, and
   benchmark overhead verification remain open. See `docs/PERFORMANCE.md`.
 
 ### Rendering and architecture review
@@ -359,7 +362,7 @@ complete**. The user approved committing and pushing the current work on
 
 #### Stability tests
 
-- [ ] Profile memory usage during a 30-minute animation
+- [x] Profile memory usage during a 30-minute animation (headless Chrome; see `docs/PERFORMANCE.md`)
 - [ ] Run an extended 8-hour stability test (deferred by user on 2026-11-26; see `docs/PERFORMANCE.md`)
 - [ ] Verify heap usage stabilizes over time
 - [x] Test 100 initialization and destruction cycles

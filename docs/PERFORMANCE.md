@@ -1,7 +1,8 @@
 # Performance and stability
 
 Milestone 5 is in progress. The checks below are bounded observations, not a
-production certification. The 30-minute and eight-hour tests have **not run**.
+production certification. A continuous 30-minute headless Chrome run completed
+on 2026-11-26; the eight-hour test has not run.
 The user explicitly deferred the eight-hour run on 2026-11-26. Safari automation is
 blocked by its disabled “Allow remote automation” setting; Firefox and a physical
 mobile device were unavailable. These acceptance items remain open.
@@ -156,6 +157,58 @@ No tracked listeners, observers, or RAF callbacks remained after destruction.
 This establishes bounded cleanup evidence, not eight-hour stability or total
 canvas/GPU memory behavior.
 
+## Completed 30-minute run — 2026-11-26
+
+Ran `node scripts/verify-stability.mjs 1800` against commit `be2312c`, from
+08:56 to 09:26 Europe/Warsaw. Raw results are in
+[milestone-5-stability.json](milestone-5-stability.json). A prior attempt stopped
+after about seven recorded minutes for an unknown reason; its process no longer
+existed when inspected. That incomplete attempt is preserved separately in
+[milestone-5-stability-interrupted.json](milestone-5-stability-interrupted.json)
+and is not combined with this run.
+
+This run used the Vite benchmark development server, one instance, 240 stars,
+all five effects enabled, a centered pointer, and native DPR 1. The viewport was
+1280×900 CSS pixels; the actual canvas was 1200×400 CSS/backing pixels. The
+benchmark explicitly opted out of reduced motion. Native RAF was used without
+an accelerated clock, forced canvas readback, input, or configuration changes.
+The eight-hour ceiling in `final.requestedActiveMs` is the benchmark UI setting;
+the runner's `requestedSeconds: 1800` controlled this test and stopped it after
+30 minutes. It is not an eight-hour test result.
+
+| Measurement | Result |
+| --- | --- |
+| Active duration | 1,801.028 seconds (30 min 1.028 sec) |
+| Measured instance callbacks | 108,067 |
+| Average native RAF rate | 60.002 FPS |
+| Mean interval / final-window p95 / p99 | 16.666 / 16.8 / 16.8 ms |
+| Mean instance work / final-window p95 / p99 | 0.604 / 0.8 / 0.8 ms |
+| Maximum measured instance work | 14.0 ms |
+| Recorded errors / interruptions / estimated dropped frames / long tasks | 0 / 0 / 0 / 0 |
+| Initial / observed peak page JS heap | 12,643,651 / 12,643,651 bytes |
+| Final page heap sample before GC | 8,320,801 bytes |
+| CDP used JS heap after GC, start / end | 3,290,216 / 1,109,996 bytes (3.14 / 1.06 MiB) |
+
+There was no sustained increase in frame intervals or instance work in this run.
+After the first minute, per-minute mean instance work ranged from about 0.50 to
+0.63 ms. At minutes 5, 10, 15, 20, 25 and 30, recent-window work p95 values were
+0.7, 0.7, 0.7, 0.8, 0.7 and 0.8 ms respectively. The more expensive first minute
+included the initial concentrated galaxy; the scene naturally drifts, so this
+is not a constant-density stress test or evidence of an optimization speedup.
+
+Page heap readings fluctuated and sometimes reached higher levels late in the
+run, then fell again. Final forced GC reduced used JS heap below the initial
+post-GC reading. These observations show no retained-heap growth in this tested
+run; they are not proof that every configuration or browser is leak-free. Only
+two forced-GC endpoints were measured, and page `performance.memory` readings
+are separate from CDP `Runtime.getHeapUsage` readings. Neither represents total
+canvas, process, or GPU memory. The lower final value is not claimed as a memory
+optimization. The raw report retains all 32 samples and the final snapshot.
+
+The headless/display limitations described above still apply. This completes
+the 30-minute profiling task, not the physical-display performance targets,
+eight-hour stability verification, or complete Milestone 5 acceptance.
+
 ## Long-duration protocol and outstanding acceptance
 
 The runner `node scripts/verify-stability.mjs 28800` uses the benchmark server
@@ -167,13 +220,14 @@ be considered when interpreting pauses. CDP TaskDuration is cumulative renderer
 task time, not GPU use or whole-device CPU utilization. A completed run still
 requires inspection for trends; process completion alone is not acceptance.
 
-The 30-minute and eight-hour runs remain unexecuted. The benchmark implementation
-and deterministic tests do not substitute for them. Also outstanding:
+The 30-minute run is recorded above. The eight-hour run remains deferred and
+unexecuted; neither that shorter run nor deterministic tests substitute for it.
+Also outstanding:
 
 - Safari: session creation rejected until remote automation is enabled by the host.
 - Firefox: not installed in this environment.
 - Physical mobile devices and physical 60/120/144 Hz displays.
-- Long-run heap/frame-time trends, total resource consumption, and CPU/GPU profiling.
+- Eight-hour heap/frame-time trends, total resource consumption, and CPU/GPU profiling.
 - Confirmation of default 60 FPS, 16.67 ms frame budget, and <8 ms library work on
   a documented physical reference display. Short headless results do not certify it.
 

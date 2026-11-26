@@ -404,9 +404,10 @@ No performance improvement or long-running memory stability is claimed.
 Implementation and bounded verification are in progress; this milestone is not
 complete. Run `npm run benchmark` for the measurement page. Tests, declarations,
 DPR caps, reduced motion, and rendering corrections are implemented. See
-[performance results and pending acceptance](docs/PERFORMANCE.md). The required
-30-minute test and full device/browser matrix remain outstanding; the eight-hour
-test has been explicitly deferred by the user.
+[performance results and pending acceptance](docs/PERFORMANCE.md). The continuous
+30-minute headless Chrome test completed without observed performance degradation
+or retained-heap growth in that run. The full device/browser matrix remains
+outstanding; the eight-hour test has been explicitly deferred by the user.
 The historical milestone measurements below describe their respective versions.
 
 ## Milestone 4 verification
