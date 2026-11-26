@@ -17,7 +17,7 @@ npm run dev
 ```
 
 Open the URL printed by Vite. Manually reload after source or CSS edits:
-hot module updates remain disabled in the minimal demo.
+hot module updates remain disabled so edits cannot retain old preview instances.
 
 Run tests, check declarations, build, and inspect the production demo:
 
@@ -29,8 +29,11 @@ npm run preview
 ```
 
 Vitest and TypeScript are development-only dependencies. The previous
-`verify:api`, `verify:lifecycle`, and `verify:presets` commands run their Vitest suites. The build writes the demo to
-`dist/`; library distribution builds and npm package exports are Milestone 8 work.
+`verify:api`, `verify:lifecycle`, and `verify:presets` commands run their Vitest suites.
+The build writes the playground to `dist/index.html` and the benchmark to
+`dist/benchmark/index.html`. Both use relative assets and links, including when
+served under `/interactive-starfield/`. Library distribution builds and npm
+package exports remain Milestone 8 work; deployment remains Milestone 9 work.
 
 ## Public API
 
@@ -288,7 +291,8 @@ preserved. Switching intentionally rerandomizes the field without a transition.
 No work is added to the animation loop. Milky Way draws more stars; Constellation
 has a larger local connection search area. Disabling connections or lowering
 counts changes appearance as well as cost; these are visual choices, not a
-universal performance guarantee. The demo stays on Default until Milestone 6.
+universal performance guarantee. The playground starts on Default and offers
+all four presets through its settings panel.
 
 ### Container sizing and interaction
 
@@ -363,7 +367,8 @@ state in this milestone.
 - `src/ShootingStar.js`: reusable shooting-star state and drawing.
 - `src/Starfield.js`: public constructor, canvas sizing, input, and frame orchestration.
 - `src/index.js`: public `Starfield` export.
-- `demo/`: minimal page, styling, and initialization through the entry point.
+- `demo/`: interactive playground, control metadata, update queue, and frame meter.
+- `demo/benchmark/`: benchmark HTML entry and imports of the shared benchmark implementation.
 - `tests/`: Vitest suites and TypeScript declaration checks.
 - `src/index.d.ts`: public source API declarations.
 - `benchmark/`: bounded timing and lifecycle measurement page.
@@ -398,6 +403,70 @@ Remaining limitations:
 
 These behaviors are retained for parity, not presented as production guarantees.
 No performance improvement or long-running memory stability is claimed.
+
+## Interactive playground
+
+Run `npm run dev` and open the printed URL. The canvas fills the viewport; the
+settings panel opens on desktop and starts collapsed on small screens. Settings
+include the four presets, star count/radius/speed, editable colors, distribution,
+galaxy shape, twinkle, parallax, repulsion, shooting stars, connections, glow,
+DPR cap, and respect for reduced motion. The panel can be closed for a clear view.
+
+- Preset selection and Reset restore the complete selected baseline. Reset uses
+  Default. They preserve the requested pause/play state and discard pending edits.
+- The Modified label compares the applied configuration with the selected preset.
+- Slider input is merged into at most one pending patch/timer and applied every
+  120 ms during dragging, with an immediate flush on change/release. Structural
+  changes still regenerate stars; effect-only changes use the library's existing
+  update behavior. Invalid values leave the last valid configuration intact and
+  show an error; correcting dependent bounds applies the retained patch together.
+- UI ranges and the eight-color editor limit are playground limits, not new
+  library restrictions. All original default and preset values remain intact.
+- Pause/Resume uses the public lifecycle API. Reduced motion and hidden-document
+  states suspend the independent frame meter too. The displayed FPS is browser
+  frame cadence, not GPU timing or a performance guarantee; use the benchmark
+  for detailed measurements. The meter keeps scalar counters, not frame history.
+- Configuration export provides resolved JSON, a source-based JavaScript example,
+  and local setup commands. It omits preset metadata, so copied overrides cannot
+  accidentally reset to another baseline. Clipboard denial selects the text for
+  manual copying. npm installation/linking awaits publication; repository access
+  is required while the repository is private.
+- Controls have labels and keyboard support. Escape closes the modal or panel;
+  closing returns focus to its trigger. Pointer movement over UI is stopped from
+  bubbling into the canvas listeners; movement elsewhere still controls stars.
+- One Starfield instance is used. Demo listeners use an AbortController, queued
+  updates are canceled, the meter stops, and the instance is destroyed on
+  pagehide. Two page lifecycle handlers retain the last applied configuration
+  for back/forward-cache restoration. The demo uses only the public constructor,
+  config, start/stop/updateConfig/destroy; it does not import internal presets or
+  inspect renderer state. No production-library files were changed for this demo.
+
+The Benchmark navigation link uses `./benchmark/` in both development and the
+shared build. `npm run benchmark` and `npm run build:benchmark` still provide a
+standalone benchmark, now using the same HTML entry in `demo/benchmark/`.
+No GitHub Pages workflow, deployment, or npm publication is included yet.
+
+### Milestone 6 verification
+
+Implemented, verified locally, and approved by the user on 2026-11-26.
+All 66 Vitest tests, TypeScript checks, the combined build, and the standalone
+benchmark build pass. Runtime dependencies remain empty. Chrome tested both the
+development page and the production build served under `/interactive-starfield/`.
+`node scripts/verify-demo.mjs [url]` repeats browser checks when a local server and
+Chrome debugging on port 9228 are running. It writes review screenshots to the
+system temporary directory and closes its own tabs.
+
+Checks cover preset values and modified-state restoration, validation, palette
+editing, JSON export, clipboard success/fallback, reduced motion, pause/resume,
+100 preset switches while paused, stable listener/observer/frame counts, UI input
+isolation, Escape and focus restoration, 390×844 layout and emulated touch, native
+background-tab suspension, and the relative benchmark link. Simulated
+pagehide/pageshow events verify cleanup/restoration; they are not a claim that
+native back/forward-cache eligibility was tested in every browser.
+
+Chrome screenshots were reviewed at 1440×900 and 390×844. Physical mobile-device
+checks remain outstanding. Safari/Firefox and eight-hour stability tests remain
+deferred as recorded in Milestone 5; this demo does not establish those results.
 
 ## Milestone 5 progress
 

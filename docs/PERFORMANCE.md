@@ -54,7 +54,8 @@ device test. Output is [milestone-5-native-results.json](milestone-5-native-resu
 ### Interactive benchmark
 
 `npm run benchmark` opens a separate Vite entry. `npm run build:benchmark` builds
-it into `dist-benchmark/`. Controls select star count, effects, preset, instance
+it into `dist-benchmark/`. The HTML entry is shared at `demo/benchmark/index.html`;
+the main demo build also includes it at `dist/benchmark/index.html`. Controls select star count, effects, preset, instance
 count, optional DPR cap, target refresh rate, and duration. Effect checkboxes
 explicitly override presets; selecting a preset does not synchronize those
 checkboxes or the count. The page deliberately opts out of reduced motion for

@@ -256,7 +256,8 @@ Milestone 5 has not been started.
 
 Implementation and bounded verification are in progress. Milestone 5 is **not
 complete**. The user approved committing and pushing the current work on
-2026-11-26. Deployment and Milestone 6 work have not been authorized.
+2026-11-26. The user subsequently authorized Milestone 6 while the outstanding
+Milestone 5 checks remain recorded below. Deployment has not been authorized.
 
 - 61 Vitest tests, TypeScript checks, demo and benchmark builds pass.
 - Browser checks cover corrected rendering, reduced motion, native visibility,
@@ -438,43 +439,69 @@ benchmark results.
 
 ## Milestone 6 — Interactive demo page
 
-- [ ] Create responsive demo layout
-- [ ] Create full-screen starfield preview
-- [ ] Add interactive configuration panel
-- [ ] Add preset selector
-- [ ] Add live configuration updates
-- [ ] Add star count controls
-- [ ] Add star size controls
-- [ ] Add star speed controls
-- [ ] Add star color controls
-- [ ] Add twinkle controls
-- [ ] Add parallax controls
-- [ ] Add mouse repulsion controls
-- [ ] Add shooting star controls
-- [ ] Add galaxy generation controls
-- [ ] Add connection controls
-- [ ] Add glow controls
-- [ ] Add reset to defaults
-- [ ] Add FPS counter
-- [ ] Add start and stop controls
-- [ ] Add copy configuration button
-- [ ] Add installation and usage examples
-- [ ] Add GitHub repository link
-- [ ] Add npm package link after publication
-- [ ] Add benchmark page link
-- [ ] Verify mobile layout
-- [ ] Verify keyboard accessibility
+- [x] Create responsive demo layout
+- [x] Create full-screen starfield preview
+- [x] Add interactive configuration panel
+- [x] Add preset selector
+- [x] Add live configuration updates
+- [x] Add star count controls
+- [x] Add star size controls
+- [x] Add star speed controls
+- [x] Add star color controls
+- [x] Add twinkle controls
+- [x] Add parallax controls
+- [x] Add mouse repulsion controls
+- [x] Add shooting star controls
+- [x] Add galaxy generation controls
+- [x] Add connection controls
+- [x] Add glow controls
+- [x] Add reset to defaults
+- [x] Add FPS counter
+- [x] Add start and stop controls
+- [x] Add copy configuration button
+- [x] Add installation and usage examples
+- [x] Add GitHub repository link
+- [ ] Add npm package link after publication (not applicable before publication)
+- [x] Add benchmark page link
+- [x] Verify mobile layout
+- [x] Verify keyboard accessibility
 
 ### Acceptance criteria
 
-- [ ] Configuration changes are reflected in real time
-- [ ] Configuration updates do not accumulate resources
-- [ ] Presets can be switched without page reload
-- [ ] Users can copy a valid configuration
-- [ ] Demo works on desktop and mobile devices
-- [ ] Demo uses the public library API
-- [ ] Demo does not depend on internal library implementation
-- [ ] Demo controls do not interfere with canvas interaction
+- [x] Configuration changes are reflected in real time
+- [x] Configuration updates do not accumulate resources
+- [x] Presets can be switched without page reload
+- [x] Users can copy a valid configuration
+- [ ] Demo works on desktop and mobile devices (desktop and mobile emulation verified; physical mobile check pending)
+- [x] Demo uses the public library API
+- [x] Demo does not depend on internal library implementation
+- [x] Demo controls do not interfere with canvas interaction
+
+### Playground implementation and verification
+
+Implemented, verified locally, and approved by the user on 2026-11-26.
+Outstanding device checks and the post-publication npm link remain recorded below.
+Milestone 5's deferred and outstanding verification remains open; no unexecuted
+browser/device checks are claimed here.
+
+- Responsive full-screen canvas, collapsible desktop panel/mobile sheet, all
+  configuration controls, preset/reset, pause/resume, bounded FPS meter, and
+  configuration/source export implemented using only the public library API.
+- Changes are coalesced in one pending timer/patch, with validation and cleanup;
+  UI pointer movement does not bubble into canvas interaction handlers.
+- Page teardown cancels the meter and queued changes, aborts demo listeners and
+  destroys its instance; page restoration creates one replacement instance.
+- Demo and benchmark share one production build with relative asset/link paths.
+  A local `/interactive-starfield/` production preview passed browser checks;
+  no hosting, GitHub Actions workflow, or publication was performed.
+- 66 Vitest tests, type checks, both builds, and zero runtime dependencies verified.
+- Chrome checked dev and built pages, 100 preset switches, fixed resource counts,
+  reduced motion, clipboard branches, keyboard/focus, native tab suspension,
+  simulated page lifecycle restoration, 390px layout and emulated touch.
+- Desktop and mobile screenshots reviewed; physical-mobile checks remain pending.
+  npm instructions accurately describe source usage until the package is published.
+- Library source and original prototype remain unchanged. README records the
+  demo contracts, validation method, and limitations.
 
 ---
 
