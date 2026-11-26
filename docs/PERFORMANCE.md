@@ -3,9 +3,10 @@
 Milestone 5 is in progress. The checks below are bounded observations, not a
 production certification. A continuous 30-minute headless Chrome run completed
 on 2026-11-26; the eight-hour test has not run.
-The user explicitly deferred the eight-hour run on 2026-11-26. Safari automation is
-blocked by its disabled “Allow remote automation” setting; Firefox and a physical
-mobile device were unavailable. These acceptance items remain open.
+The user explicitly deferred the eight-hour run and Safari/Firefox compatibility
+tests on 2026-11-26. Safari requires “Allow remote automation”; Firefox requires
+installation. Physical mobile tests remain outstanding. None of these deferred
+or unavailable checks is marked as passed.
 
 ## Environment and reproducibility
 
@@ -224,14 +225,16 @@ The 30-minute run is recorded above. The eight-hour run remains deferred and
 unexecuted; neither that shorter run nor deterministic tests substitute for it.
 Also outstanding:
 
-- Safari: session creation rejected until remote automation is enabled by the host.
-- Firefox: not installed in this environment.
+- Safari: deferred by the user on 2026-11-26; enable remote automation before testing.
+- Firefox: deferred by the user on 2026-11-26; install a browser or test build first.
 - Physical mobile devices and physical 60/120/144 Hz displays.
 - Eight-hour heap/frame-time trends, total resource consumption, and CPU/GPU profiling.
 - Confirmation of default 60 FPS, 16.67 ms frame budget, and <8 ms library work on
   a documented physical reference display. Short headless results do not certify it.
 
-The eight-hour run is explicitly deferred by the user; its checklist item remains
-unchecked and the runnable procedure is retained above. This deferral does not
-mark the test passed or waive the other outstanding checks. Milestone 5 remains
+The eight-hour run and Safari/Firefox tests are explicitly deferred by the user;
+their checklist items remain unchecked. When resuming browser compatibility work,
+check rendering, preset changes, resizing/DPR, start/stop, tab visibility, reduced
+motion, multiple instances, cleanup, console errors, and basic frame timing.
+These deferrals do not mark tests passed or waive the other outstanding checks. Milestone 5 remains
 open pending those checks and review.

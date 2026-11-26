@@ -270,8 +270,9 @@ complete**. The user approved committing and pushing the current work on
   `docs/PERFORMANCE.md`; an earlier interrupted attempt is preserved separately.
 - The user explicitly deferred the eight-hour test on 2026-11-26. It remains
   unexecuted, with its runner and procedure saved for later.
-- Safari rejected WebDriver because remote automation is disabled. Firefox and
-  physical mobile hardware were unavailable. These checks remain open.
+- The user explicitly deferred Safari and Firefox compatibility tests on
+  2026-11-26. Safari requires remote automation to be enabled; Firefox requires
+  installation. Physical mobile checks also remain outstanding.
 - Physical-display performance targets, eight-hour trends, CPU/GPU usage, and
   benchmark overhead verification remain open. See `docs/PERFORMANCE.md`.
 
@@ -306,8 +307,8 @@ complete**. The user approved committing and pushing the current work on
 - [x] Test different viewport sizes
 - [ ] Test different refresh rates
 - [x] Test Chromium-based browsers
-- [ ] Test Firefox
-- [ ] Test Safari
+- [ ] Test Firefox (deferred by user on 2026-11-26)
+- [ ] Test Safari (deferred by user on 2026-11-26)
 
 ### Automated testing
 

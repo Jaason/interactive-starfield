@@ -407,7 +407,8 @@ DPR caps, reduced motion, and rendering corrections are implemented. See
 [performance results and pending acceptance](docs/PERFORMANCE.md). The continuous
 30-minute headless Chrome test completed without observed performance degradation
 or retained-heap growth in that run. The full device/browser matrix remains
-outstanding; the eight-hour test has been explicitly deferred by the user.
+outstanding; the eight-hour test and Safari/Firefox checks have been explicitly
+deferred by the user.
 The historical milestone measurements below describe their respective versions.
 
 ## Milestone 4 verification
