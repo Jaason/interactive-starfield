@@ -1,4 +1,5 @@
 import defaultConfig from './defaultConfig.js';
+import presets from './presets.js';
 
 function requireObject(value, path) {
   if (value === null || typeof value !== 'object' || Array.isArray(value)) {
@@ -12,6 +13,7 @@ function requireObject(value, path) {
 
 function rejectUnknownKeys(value, defaults, path) {
   for (const key of Reflect.ownKeys(value)) {
+    if (path === '' && key === 'preset') continue;
     if (typeof key !== 'string' || !Object.hasOwn(defaults, key)) {
       throw new TypeError(`Starfield: unknown option ${path}${String(key)}.`);
     }
@@ -95,6 +97,17 @@ export function createConfig(options = {}, base = defaultConfig) {
   requireObject(options, 'options');
   rejectUnknownKeys(options, defaultConfig, '');
 
+  const presetName = Object.hasOwn(options, 'preset') ? options.preset : undefined;
+  let preset;
+  if (presetName !== undefined) {
+    if (typeof presetName !== 'string' || !Object.hasOwn(presets, presetName)) {
+      throw new TypeError('Starfield: preset must be "default", "deep-space", "milky-way", or "constellation".');
+    }
+    preset = presets[presetName];
+    // An explicit preset starts a fresh base, including when reselecting it.
+    base = defaultConfig;
+  }
+
   const config = {};
   for (const [name, defaults] of Object.entries(defaultConfig)) {
     const supplied = Object.hasOwn(options, name) ? options[name] : undefined;
@@ -105,7 +118,9 @@ export function createConfig(options = {}, base = defaultConfig) {
     const section = {};
     for (const key of Object.keys(defaults)) {
       const suppliedValue = Object.hasOwn(overrides, key) ? overrides[key] : undefined;
-      const value = suppliedValue === undefined ? base[name][key] : suppliedValue;
+      const presetValue = preset?.[name]?.[key];
+      const fallback = presetValue === undefined ? base[name][key] : presetValue;
+      const value = suppliedValue === undefined ? fallback : suppliedValue;
       section[key] = Array.isArray(value) ? [...value] : value;
     }
     config[name] = section;
