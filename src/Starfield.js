@@ -38,6 +38,8 @@ export default class Starfield {
     this.document = canvas.ownerDocument;
     this.config = config;
     this.stars = [];
+    this._nearbyStars = [];
+    this._motionQuery = null;
     this.shootingStar = null;
     this.pointer = null;
     this._destroyed = false;
@@ -63,6 +65,9 @@ export default class Starfield {
       if (this._destroyed) return;
       const touch = event.touches[0];
       if (touch) this.updatePointer(touch.clientX, touch.clientY);
+    };
+    this._onMotionChange = () => {
+      if (!this._destroyed) this._syncPlayback();
     };
     this._onVisibility = () => {
       if (this._destroyed) return;
@@ -92,6 +97,10 @@ export default class Starfield {
       if (typeof this.view.ResizeObserver === 'function') {
         this._observer = new this.view.ResizeObserver(this._onResize);
         this._observer.observe(this.canvas);
+      }
+      if (typeof this.view.matchMedia === 'function') {
+        this._motionQuery = this.view.matchMedia('(prefers-reduced-motion: reduce)');
+        this._motionQuery.addEventListener('change', this._onMotionChange);
       }
       this.start();
     } catch (error) {
@@ -127,6 +136,7 @@ export default class Starfield {
     this.view.removeEventListener('touchmove', this._onTouchMove);
     this.document.removeEventListener('visibilitychange', this._onVisibility);
     this._observer?.disconnect();
+    this._motionQuery?.removeEventListener('change', this._onMotionChange);
 
     this.ctx.save();
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -134,6 +144,10 @@ export default class Starfield {
     this.ctx.restore();
     this.stars.length = 0;
     this.stars = null;
+    this._nearbyStars.length = 0;
+    this._nearbyStars = null;
+    this._motionQuery = null;
+    this._onMotionChange = null;
     this.shootingStar = null;
     this.pointer = null;
     this.config = null;
@@ -161,6 +175,12 @@ export default class Starfield {
     this.stars = stars;
     for (const star of this.stars) star.config = next;
     this.shootingStar.config = next;
+    // Do not retain stars replaced by an update while stopped or hidden.
+    this._nearbyStars.length = 0;
+    if (changed.includes('rendering')) this._sizeDirty = true;
+    if (changed.includes('rendering') || changed.includes('accessibility') || this._reducedMotion()) {
+      this._syncPlayback();
+    }
     return this;
   }
 
@@ -171,6 +191,10 @@ export default class Starfield {
     this.lastTime = null;
   }
 
+  _reducedMotion() {
+    return this.config.accessibility.respectReducedMotion && this._motionQuery?.matches;
+  }
+
   _syncPlayback() {
     if (this._destroyed) return;
     if (!this._started || this.document.hidden) {
@@ -179,7 +203,10 @@ export default class Starfield {
     }
     if (this._sizeDirty) {
       this._sizeDirty = false;
-      if (this.resize()) {
+      const width = this.width;
+      const height = this.height;
+      if (this.resize() && (width !== this.width || height !== this.height)) {
+        this._nearbyStars.length = 0;
         this.stars = this.createStars();
         this.shootingStar.reset(this.width, this.height);
       }
@@ -188,12 +215,17 @@ export default class Starfield {
       this._suspend();
       return;
     }
+    if (this._reducedMotion()) {
+      this._suspend();
+      this._render();
+      return;
+    }
     this._queueFrame();
   }
 
   _queueFrame() {
     if (this._destroyed || !this._started || !this._sizeValid ||
-        this.document.hidden || this._frameId !== null) return;
+        this.document.hidden || this._reducedMotion() || this._frameId !== null) return;
     if (this._frameCallback === null) {
       // Reuse one callback per running period. A callback from a previous period
       // cannot consume the new frame or restart a stopped/destroyed instance.
@@ -230,7 +262,8 @@ export default class Starfield {
     const height = this.canvas.clientHeight;
     this._sizeValid = width > 0 && height > 0;
     if (!this._sizeValid) return false;
-    const dpr = this.view.devicePixelRatio || 1;
+    const nativeDpr = this.view.devicePixelRatio || 1;
+    const dpr = Math.min(nativeDpr, this.config.rendering.maxDpr ?? nativeDpr);
     if (width === this.width && height === this.height && dpr === this.dpr) return false;
     const previousWidth = this.canvas.width;
     const previousHeight = this.canvas.height;
@@ -266,54 +299,66 @@ export default class Starfield {
       this._suspend();
       return;
     }
+    if (this._reducedMotion()) {
+      this._syncPlayback();
+      return;
+    }
     const elapsed = this.lastTime === null ? 0 : Math.max(0, Math.min(50, time - this.lastTime));
     this.lastTime = time;
     this.elapsedTime += elapsed;
     const deltaTime = elapsed / 1000;
 
-    this.ctx.clearRect(0, 0, this.width, this.height);
     for (const star of this.stars) star.update(this.width, this.height, deltaTime);
-    this.drawConnections();
-    for (const star of this.stars) star.draw(this.ctx, this.elapsedTime);
 
     if (this.elapsedTime - this.lastShootingStarTime > 8000 && !this.shootingStar.active) {
       this.shootingStar.launch(this.width, this.height);
       this.lastShootingStarTime = this.elapsedTime;
     }
     this.shootingStar.update(this.width, this.height, deltaTime);
-    this.shootingStar.draw(this.ctx);
+    this._render();
     this._queueFrame();
   }
 
+  _render() {
+    this.ctx.clearRect(0, 0, this.width, this.height);
+    for (const star of this.stars) star.updateRenderPosition();
+    this.drawConnections();
+    for (const star of this.stars) star.draw(this.ctx, this.elapsedTime);
+    // Reduced motion presents a static starfield, without a frozen moving trail.
+    if (!this._reducedMotion()) this.shootingStar.draw(this.ctx);
+  }
+
   drawConnections() {
+    this._nearbyStars.length = 0;
     if (!this.config.connections.enabled || !this.pointer.active) return;
 
-    const starsNearMouse = this.stars.filter((star) => {
-      const dx = star.x - this.pointer.x;
-      const dy = star.y - this.pointer.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      return distance < this.config.connections.mouseRadius;
-    });
+    const starsNearMouse = this._nearbyStars;
+    const mouseRadiusSquared = this.config.connections.mouseRadius ** 2;
+    const radiusSquared = this.config.connections.radius ** 2;
+    for (const star of this.stars) {
+      const dx = star.renderX - this.pointer.x;
+      const dy = star.renderY - this.pointer.y;
+      if (dx * dx + dy * dy < mouseRadiusSquared) starsNearMouse.push(star);
+    }
 
     for (let i = 0; i < starsNearMouse.length; i++) {
       for (let j = i + 1; j < starsNearMouse.length; j++) {
         const starA = starsNearMouse[i];
         const starB = starsNearMouse[j];
 
-        const dx = starA.x - starB.x;
-        const dy = starA.y - starB.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (distance > this.config.connections.radius) continue;
+        const dx = starA.renderX - starB.renderX;
+        const dy = starA.renderY - starB.renderY;
+        const distanceSquared = dx * dx + dy * dy;
+        if (distanceSquared > radiusSquared) continue;
+        const distance = Math.sqrt(distanceSquared);
 
         const opacity =
           (1 - distance / this.config.connections.radius) *
           this.config.connections.lineOpacity;
 
         this.ctx.beginPath();
-        this.ctx.moveTo(starA.x, starA.y);
-        this.ctx.lineTo(starB.x, starB.y);
+        this.ctx.moveTo(starA.renderX, starA.renderY);
+        this.ctx.lineTo(starB.renderX, starB.renderY);
         this.ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
         this.ctx.lineWidth = this.config.connections.lineWidth;
         this.ctx.stroke();

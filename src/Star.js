@@ -21,6 +21,8 @@ export default class Star {
 
     this.offsetX = 0;
     this.offsetY = 0;
+    this.renderX = this.x;
+    this.renderY = this.y;
 
     const angle = Math.random() * Math.PI * 2;
     const speed =
@@ -50,45 +52,40 @@ export default class Star {
     if (this.y < -10) this.y = height + 10;
     if (this.y > height + 10) this.y = -10;
 
-    if (this.config.repulsion.enabled && this.pointer.active) {
-      this.applyMouseRepulsion();
+    // Exact extension of offsetNext = (offset + force) * friction at 60 Hz.
+    // With a stationary force, splitting elapsed time produces the same result.
+    const steps = deltaTime * 60;
+    if (steps > 0) {
+      const friction = this.config.repulsion.friction;
+      const decay = Math.pow(friction, steps);
+      const gain = friction * (1 - decay) / (1 - friction);
+      this.offsetX *= decay;
+      this.offsetY *= decay;
+      if (this.config.repulsion.enabled && this.pointer.active) {
+        this.applyMouseRepulsion(gain);
+      }
     }
-
-    this.offsetX *= this.config.repulsion.friction;
-    this.offsetY *= this.config.repulsion.friction;
   }
 
-  applyMouseRepulsion() {
+  applyMouseRepulsion(gain) {
     const dx = this.x - this.pointer.x;
     const dy = this.y - this.pointer.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    if (distance > this.config.repulsion.radius || distance === 0) return;
-
-    const force = 1 - distance / this.config.repulsion.radius;
-    const angle = Math.atan2(dy, dx);
-
-    this.offsetX += Math.cos(angle) * force * this.config.repulsion.strength;
-    this.offsetY += Math.sin(angle) * force * this.config.repulsion.strength;
+    const distanceSquared = dx * dx + dy * dy;
+    const radius = this.config.repulsion.radius;
+    if (distanceSquared > radius * radius || distanceSquared === 0) return;
+    const distance = Math.sqrt(distanceSquared);
+    const force = (1 - distance / radius) * this.config.repulsion.strength * gain;
+    this.offsetX += dx / distance * force;
+    this.offsetY += dy / distance * force;
   }
 
-  getParallaxOffset() {
-    if (!this.config.parallax.enabled) {
-      return { x: 0, y: 0 };
-    }
-
-    return {
-      x: this.pointer.normalizedX * this.config.parallax.strength * this.depth,
-      y: this.pointer.normalizedY * this.config.parallax.strength * this.depth,
-    };
+  updateRenderPosition() {
+    const strength = this.config.parallax.enabled ? this.config.parallax.strength * this.depth : 0;
+    this.renderX = this.x + this.pointer.normalizedX * strength + this.offsetX;
+    this.renderY = this.y + this.pointer.normalizedY * strength + this.offsetY;
   }
 
   draw(ctx, time) {
-    const parallax = this.getParallaxOffset();
-
-    const x = this.x + parallax.x + this.offsetX;
-    const y = this.y + parallax.y + this.offsetY;
-
     let opacity = this.baseOpacity;
 
     if (this.config.twinkle.enabled) {
@@ -110,7 +107,7 @@ export default class Star {
     }
 
     ctx.beginPath();
-    ctx.arc(x, y, this.radius, 0, Math.PI * 2);
+    ctx.arc(this.renderX, this.renderY, this.radius, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(${this.color}, ${opacity})`;
     ctx.fill();
 

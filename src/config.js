@@ -32,6 +32,13 @@ function requireRange(value, path, min, max = Infinity, exclusiveMin = false, ex
 }
 
 function validate(config) {
+  if (config.rendering.maxDpr !== null) {
+    requireRange(config.rendering.maxDpr, 'rendering.maxDpr', 0, Infinity, true);
+  }
+  if (typeof config.accessibility.respectReducedMotion !== 'boolean') {
+    throw new TypeError('Starfield: accessibility.respectReducedMotion must be a boolean.');
+  }
+
   for (const name of ['twinkle', 'parallax', 'repulsion', 'connections', 'glow']) {
     if (typeof config[name].enabled !== 'boolean') {
       throw new TypeError(`Starfield: ${name}.enabled must be a boolean.`);

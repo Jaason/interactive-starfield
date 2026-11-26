@@ -1,4 +1,12 @@
 const defaultConfig = {
+  rendering: {
+    maxDpr: null, // Native DPR unless explicitly capped.
+  },
+
+  accessibility: {
+    respectReducedMotion: true,
+  },
+
   stars: {
     count: 240,
     minRadius: 0.5,
