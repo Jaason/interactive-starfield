@@ -1,13 +1,57 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css" />
-    <title>Interactive Starfield</title>
-  </head>
-  <body>
-    <canvas id="starfield" aria-hidden="true"></canvas>
-    <script type="module" src="./main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#080b10" />
+  <meta name="description" content="An interactive Canvas 2D starfield. Explore four presets, tune every effect, and take the configuration with you." />
+  <link rel="stylesheet" href="./style.css" />
+  <title>Interactive Starfield — Playground</title>
+</head>
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <header class="site-header" data-ui>
+    <a class="brand" href="./" aria-label="Interactive Starfield home"><svg width="27" height="27" viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="M14 1v26M1 14h26M5 5l18 18M5 23L23 5" stroke="currentColor"/><circle cx="14" cy="14" r="4" fill="currentColor"/></svg><span>interactive<span class="brand-light"> / starfield</span></span></a>
+    <nav aria-label="Project"><a href="./benchmark/">Benchmark</a><a href="https://github.com/Jaason/interactive-starfield" target="_blank" rel="noopener noreferrer">GitHub <span class="external-note">(new tab)</span></a></nav>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="title" data-ui>
+      <p class="eyebrow">Canvas 2D · Zero runtime dependencies</p>
+      <h1 id="title">Make a little<br /><em>space.</em></h1>
+      <p class="intro-copy">An interactive starfield for the web.<br />Move through it. Make it yours.</p>
+      <button id="open-code" class="text-button" type="button" disabled>Get the configuration <span aria-hidden="true">{ }</span></button>
+    </section>
+    <aside id="controls" class="panel" aria-labelledby="panel-title" hidden data-ui>
+      <div class="panel-heading"><div><p class="eyebrow">PLAYGROUND</p><h2 id="panel-title">Your universe</h2></div><button id="close-controls" class="icon-button" aria-label="Close settings" type="button">×</button></div>
+      <div class="panel-scroll">
+        <div class="preset-heading"><label for="preset">Start with a preset</label><span id="custom-label" class="tag" hidden>Modified</span></div>
+        <select id="preset"><option value="default">Default</option><option value="deep-space">Deep Space</option><option value="milky-way">Milky Way</option><option value="constellation">Constellation</option></select>
+        <p id="preset-description" class="hint">The original galaxy, with every effect in play.</p>
+        <form id="settings" novalidate><div id="setting-groups"></div></form>
+        <button id="reset" class="reset-button" type="button">Reset to original defaults</button>
+        <p class="hint">Changes apply live. Reshaping the field creates a new arrangement of stars.</p>
+      </div>
+      <div class="panel-footer"><span>Made to be yours.</span><button id="panel-code" class="text-button" type="button">Copy configuration</button></div>
+    </aside>
+    <div class="bottom-bar" data-ui>
+      <div class="scene-info"><span class="status-dot" id="status-dot" aria-hidden="true"></span><span id="playback-status" role="status">Loading</span><span class="divider">/</span><span id="star-count">240 stars</span><span class="divider">/</span><span title="Browser frame cadence while playing; not a GPU benchmark"><span id="fps">—</span> FPS</span></div>
+      <div class="actions"><button id="playback" type="button" disabled>Pause</button><button id="toggle-controls" type="button" aria-expanded="false" aria-controls="controls" disabled>Settings <span aria-hidden="true">☷</span></button></div>
+    </div>
+    <p id="notice" role="status" class="notice" hidden data-ui></p>
+  </main>
+  <dialog id="code-dialog" aria-labelledby="code-title" data-ui>
+    <div class="dialog-heading"><div><p class="eyebrow">TAKE IT WITH YOU</p><h2 id="code-title">A small piece of space.</h2></div><button id="close-code" class="icon-button" type="button" aria-label="Close configuration">×</button></div>
+    <p>Use your current settings in another project. The npm package is not published yet; source imports are available now.</p>
+    <label for="code-format">Format</label><select id="code-format"><option value="javascript">JavaScript</option><option value="json">Configuration JSON</option><option value="setup">Local setup</option></select>
+    <textarea id="code-output" readonly spellcheck="false" aria-label="Code to copy"></textarea>
+    <details class="setup-help"><summary>Prepare your canvas</summary><pre>&lt;canvas id="starfield" aria-hidden="true"&gt;&lt;/canvas&gt;
+&lt;style&gt;
+  #starfield { width: 100%; height: 100vh;
+    display: block; pointer-events: none; }
+&lt;/style&gt;</pre><p class="hint">Give the canvas a positive CSS size before initialization. Call field.destroy() when removing it.</p></details>
+    <div class="dialog-footer"><span id="copy-status" role="status"></span><button id="copy-code" class="primary-button" type="button">Copy code</button></div>
+  </dialog>
+  <noscript><p class="no-script">Enable JavaScript to explore the starfield. <a href="https://github.com/Jaason/interactive-starfield">View the source on GitHub.</a></p></noscript>
+  <script type="module" src="./main.js"></script>
+</body>
 </html>
