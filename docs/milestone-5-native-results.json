@@ -1,0 +1,240 @@
+{
+  "initial": {
+    "startedAt": "2026-11-26T03:18:24.937Z",
+    "exportedAt": "2026-11-26T03:18:28.437Z",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+    "viewport": [
+      756,
+      469
+    ],
+    "devicePixelRatio": 1,
+    "targetHz": 60,
+    "config": {
+      "preset": "default",
+      "stars": {
+        "count": 240
+      },
+      "accessibility": {
+        "respectReducedMotion": false
+      },
+      "rendering": {
+        "maxDpr": null
+      },
+      "twinkle": {
+        "enabled": true
+      },
+      "parallax": {
+        "enabled": true
+      },
+      "repulsion": {
+        "enabled": true
+      },
+      "connections": {
+        "enabled": true
+      },
+      "glow": {
+        "enabled": true
+      }
+    },
+    "canvasSizes": [
+      {
+        "css": [
+          708,
+          400
+        ],
+        "buffer": [
+          708,
+          400
+        ]
+      }
+    ],
+    "instances": 1,
+    "requestedActiveMs": 60000,
+    "activeMs": 3483.2,
+    "hidden": false,
+    "fps": 60.002296738631145,
+    "frame": {
+      "count": 209,
+      "mean": 16.66602870813397,
+      "max": 16.800000000000182,
+      "windowP95": 16.700000000000273,
+      "windowP99": 16.800000000000182
+    },
+    "instanceWork": {
+      "count": 210,
+      "mean": 3.6133333336739315,
+      "max": 20.899999991059303,
+      "windowP95": 5.700000002980232,
+      "windowP99": 11.799999997019768
+    },
+    "instanceRender": {
+      "count": 210,
+      "mean": 3.591904761961528,
+      "max": 20.899999991059303,
+      "windowP95": 5.700000002980232,
+      "windowP99": 11.400000005960464
+    },
+    "instanceUpdate": {
+      "count": 210,
+      "mean": 0.02142857171240307,
+      "max": 0.3999999910593033,
+      "windowP95": 0.10000000894069672,
+      "windowP99": 0.20000000298023224
+    },
+    "interruptions": 0,
+    "errors": 0,
+    "estimatedDroppedFrames": 0,
+    "longTasks": 0,
+    "heap": {
+      "initial": 1290447,
+      "peak": 5602658,
+      "current": 6069844
+    },
+    "history": [
+      {
+        "activeMs": 0,
+        "fps": 0,
+        "frame": {
+          "count": 0,
+          "mean": 0,
+          "max": 0,
+          "windowP95": 0,
+          "windowP99": 0
+        },
+        "work": {
+          "count": 0,
+          "mean": 0,
+          "max": 0,
+          "windowP95": 0,
+          "windowP99": 0
+        },
+        "heap": 1290447
+      }
+    ],
+    "notes": "Percentiles use last 3600 samples. Work is per instance, including JS canvas submission, not full GPU time. Dropped frames are estimates against selected refresh rate. Heap is optional Chromium data, not post-GC or total memory. History retains at most 481 minute records."
+  },
+  "after": {
+    "startedAt": "2026-11-26T03:18:28.439Z",
+    "exportedAt": "2026-11-26T03:18:31.557Z",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+    "viewport": [
+      390,
+      844
+    ],
+    "devicePixelRatio": 3,
+    "targetHz": 60,
+    "config": {
+      "preset": "default",
+      "stars": {
+        "count": 100
+      },
+      "accessibility": {
+        "respectReducedMotion": false
+      },
+      "rendering": {
+        "maxDpr": 1
+      },
+      "twinkle": {
+        "enabled": true
+      },
+      "parallax": {
+        "enabled": true
+      },
+      "repulsion": {
+        "enabled": true
+      },
+      "connections": {
+        "enabled": true
+      },
+      "glow": {
+        "enabled": true
+      }
+    },
+    "canvasSizes": [
+      {
+        "css": [
+          342,
+          400
+        ],
+        "buffer": [
+          342,
+          400
+        ]
+      },
+      {
+        "css": [
+          342,
+          400
+        ],
+        "buffer": [
+          342,
+          400
+        ]
+      }
+    ],
+    "instances": 2,
+    "requestedActiveMs": 60000,
+    "activeMs": 2516.6,
+    "hidden": false,
+    "fps": 60.00158944607804,
+    "frame": {
+      "count": 151,
+      "mean": 16.666225165562913,
+      "max": 16.800000000000182,
+      "windowP95": 16.700000000000728,
+      "windowP99": 16.800000000000182
+    },
+    "instanceWork": {
+      "count": 308,
+      "mean": 0.6993506496602838,
+      "max": 3.0999999940395355,
+      "windowP95": 1.2000000029802322,
+      "windowP99": 1.8999999910593033
+    },
+    "instanceRender": {
+      "count": 308,
+      "mean": 0.6905844158359936,
+      "max": 3.0999999940395355,
+      "windowP95": 1.2000000029802322,
+      "windowP99": 1.8999999910593033
+    },
+    "instanceUpdate": {
+      "count": 308,
+      "mean": 0.008766233824290239,
+      "max": 0.20000000298023224,
+      "windowP95": 0.09999999403953552,
+      "windowP99": 0.10000000894069672
+    },
+    "interruptions": 0,
+    "errors": 0,
+    "estimatedDroppedFrames": 0,
+    "longTasks": 0,
+    "heap": {
+      "initial": 6069844,
+      "peak": 6142776,
+      "current": 2192792
+    },
+    "history": [
+      {
+        "activeMs": 0,
+        "fps": 0,
+        "frame": {
+          "count": 0,
+          "mean": 0,
+          "max": 0,
+          "windowP95": 0,
+          "windowP99": 0
+        },
+        "work": {
+          "count": 0,
+          "mean": 0,
+          "max": 0,
+          "windowP95": 0,
+          "windowP99": 0
+        },
+        "heap": 6069844
+      }
+    ],
+    "notes": "Percentiles use last 3600 samples. Work is per instance, including JS canvas submission, not full GPU time. Dropped frames are estimates against selected refresh rate. Heap is optional Chromium data, not post-GC or total memory. History retains at most 481 minute records."
+  }
+}

@@ -19,18 +19,17 @@ npm run dev
 Open the URL printed by Vite. Manually reload after source or CSS edits:
 hot module updates remain disabled in the minimal demo.
 
-Run focused API checks, build, and inspect the production demo:
+Run tests, check declarations, build, and inspect the production demo:
 
 ```sh
-npm run verify:api
-npm run verify:lifecycle
-npm run verify:presets
+npm test
+npm run typecheck
 npm run build
 npm run preview
 ```
 
-The API, lifecycle, and preset checks use Node built-ins without additional dependencies. The full
-Vitest suite remains planned for Milestone 5. The build writes the demo to
+Vitest and TypeScript are development-only dependencies. The previous
+`verify:api`, `verify:lifecycle`, and `verify:presets` commands run their Vitest suites. The build writes the demo to
 `dist/`; library distribution builds and npm package exports are Milestone 8 work.
 
 ## Public API
@@ -50,7 +49,8 @@ const field = new Starfield('#starfield', {
 
 `new Starfield(target, options?)` accepts a canvas element or a CSS selector.
 A selector resolves the first matching element in the current document; that
-element must be a canvas. The library obtains its 2D context and starts animation.
+element must be a canvas. The library obtains its 2D context and requests playback,
+respecting document visibility and the system reduced-motion preference.
 The former development signature `new Starfield(canvas, ctx)` is replaced.
 
 A canvas element can also be passed directly:
@@ -80,11 +80,14 @@ retains the default star colors, sizes, speeds, and other effects.
 - Use `updateConfig()` for runtime changes. Direct writes to instance internals
   are not a supported API.
 
-All numeric settings must be finite numbers; numeric strings are not converted.
+Numeric settings must be finite numbers (except `rendering.maxDpr`, which also
+accepts `null` for native DPR); numeric strings are not converted.
 The following constraints apply even when an effect is disabled:
 
 | Settings | Valid values |
 | --- | --- |
+| `rendering.maxDpr` | `null` (native, default), or a finite number > 0 |
+| `accessibility.respectReducedMotion` | Boolean, default `true` |
 | `stars.count` | Nonnegative safe integer, including `0` |
 | `stars.minRadius`, `stars.maxRadius` | Minimum >= 0, maximum > 0, minimum <= maximum |
 | Star and shooting-star speed ranges | Both >= 0, minimum <= maximum |
@@ -193,6 +196,41 @@ visibly rerandomizes the scene. Visual-only changes avoid that regeneration.
 Changing a twinkle parameter can intentionally change its phase/appearance;
 pausing alone does not advance its clock.
 
+### Reduced motion and rendering resolution
+
+By default, the library respects `prefers-reduced-motion: reduce`: it draws a
+static starfield without scheduling animation frames or showing a shooting-star
+trail. Configuration and resize changes redraw it; pointer movement alone does
+not. Changing the system preference suspends or resumes requested playback,
+without overriding `stop()`, hidden-document suspension, or destruction.
+The media-query listener is removed by `destroy()`. Without `matchMedia`, normal
+animation remains available.
+
+```js
+field.updateConfig({ rendering: { maxDpr: 2 } });
+// Opt out only when the host application intentionally manages motion preferences:
+field.updateConfig({ accessibility: { respectReducedMotion: false } });
+```
+
+`rendering.maxDpr` defaults to `null`, preserving native display resolution.
+A positive cap lowers canvas memory and pixel workload at the cost of sharpness.
+CSS dimensions and pointer coordinates are unchanged. DPR-only changes retain
+particles and shooting-star state; actual CSS-size changes still regenerate the
+field. Changes made while stopped or hidden are applied when playback can resume.
+Preset selection resets these options too, unless overrides accompany the preset.
+
+For decorative usage, set `aria-hidden="true"` on the canvas and
+`pointer-events: none` in CSS, as the demo does. The library leaves host-owned DOM
+attributes and styles alone. Keep meaningful content in accessible HTML.
+
+### TypeScript
+
+Source imports from `src/index.js` resolve the adjacent declarations. They cover
+`Starfield`, `StarfieldOptions`, `PresetName`, and readonly resolved configuration.
+`config` becomes `null` after destruction. Runtime validation still checks numeric
+ranges and color contents that TypeScript cannot express. Package-level type
+exports and distribution verification remain Milestone 8 work.
+
 ## Presets
 
 ```js
@@ -285,8 +323,8 @@ It does not assign inline CSS sizes. Use canvases without padding, borders, or C
 transforms; set presentation and borders on their containers instead.
 
 Dimensions are read at initialization, on window resize, and through one
-`ResizeObserver` per instance when available. A real size or DPR change regenerates
-stars and resets the shooting star. Repeated notifications for unchanged dimensions
+`ResizeObserver` per instance when available. A CSS-size change regenerates stars and resets the shooting star. DPR-only
+changes resize the backing buffer while preserving particle state. Repeated notifications for unchanged dimensions
 do not regenerate or clear the scene. No layout is read in the animation loop.
 Without `ResizeObserver`, window resize remains supported; changes to a container
 alone require a subsequent window resize or a stop/start cycle to be detected.
@@ -326,7 +364,11 @@ state in this milestone.
 - `src/Starfield.js`: public constructor, canvas sizing, input, and frame orchestration.
 - `src/index.js`: public `Starfield` export.
 - `demo/`: minimal page, styling, and initialization through the entry point.
-- `scripts/verify-api.mjs`: focused, repeatable API verification using Node built-ins.
+- `tests/`: Vitest suites and TypeScript declaration checks.
+- `src/index.d.ts`: public source API declarations.
+- `benchmark/`: bounded timing and lifecycle measurement page.
+- `docs/PERFORMANCE.md`: methodology, results, trade-offs, and outstanding checks.
+- `scripts/verify-api.mjs`: compatibility command for API tests.
 - `scripts/verify-lifecycle.mjs`: lifecycle, update, rollback, and resource checks.
 - `scripts/verify-presets.mjs`: preset precedence, isolation, switching, and cleanup checks.
 - `scripts/helpers/browser-fixture.mjs`: shared browser doubles for those checks.
@@ -337,7 +379,8 @@ The prototype's defaults, generation formulas, drawing order, and visual effects
 are preserved. The original files remain unchanged. The demo loads the supplied
 CSS, which the original HTML does not link. Container coordinates, the active-time
 clock, and skipping redundant resize regeneration are intentional API/lifecycle
-changes documented above. The previous lifecycle cleanup exception is resolved
+changes documented above. Milestone 5 also aligns connection endpoints, normalizes
+repulsion to elapsed time, and respects reduced motion. The previous lifecycle cleanup exception is resolved
 by the implementation and verification in Milestone 3.
 
 Remaining limitations:
@@ -345,16 +388,26 @@ Remaining limitations:
 - Off-screen canvases with positive size are not automatically suspended.
 - The canvas must have a positive, independent CSS size at initialization.
 - Resize observation depends on browser support; there is a window-resize fallback.
-- Repulsion and friction depend on frame rate. Connections use undisplaced
-  positions, while visible stars also include parallax and repulsion offsets.
+- Repulsion follows elapsed time, but moving pointer forces are sampled per frame;
+  trajectories need not be identical at different refresh rates.
 - Galaxy generation is an initial distribution; stars subsequently drift and wrap.
 - Connections have quadratic cost among nearby stars. Per-star glow,
-  temporary allocations, and uncapped DPR may be expensive on some devices.
-- Reduced-motion support, TypeScript declarations, the Vitest suite, and
-  extended performance/stability verification are planned for later milestones.
+  remaining temporary allocations, and native DPR may be expensive on some devices.
+- Extended stability, physical-device, and cross-browser verification remain
+  outstanding in Milestone 5. See [performance notes](docs/PERFORMANCE.md).
 
 These behaviors are retained for parity, not presented as production guarantees.
 No performance improvement or long-running memory stability is claimed.
+
+## Milestone 5 progress
+
+Implementation and bounded verification are in progress; this milestone is not
+complete. Run `npm run benchmark` for the measurement page. Tests, declarations,
+DPR caps, reduced motion, and rendering corrections are implemented. See
+[performance results and pending acceptance](docs/PERFORMANCE.md). The required
+30-minute test and full device/browser matrix remain outstanding; the eight-hour
+test has been explicitly deferred by the user.
+The historical milestone measurements below describe their respective versions.
 
 ## Milestone 4 verification
 

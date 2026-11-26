@@ -252,72 +252,92 @@ Milestone 5 has not been started.
 
 ## Milestone 5 — Quality and performance
 
+### Current status — 2026-11-26
+
+Implementation and bounded verification are in progress. Milestone 5 is **not
+complete**. The user approved committing and pushing the current work on
+2026-11-26. Deployment and Milestone 6 work have not been authorized.
+
+- 61 Vitest tests, TypeScript checks, demo and benchmark builds pass.
+- Browser checks cover corrected rendering, reduced motion, native visibility,
+  emulated touch/viewport sizes, DPR, multiple instances, and post-GC cleanup.
+- Checked benchmark/reporting tasks below describe bounded samples, not long-run
+  certification. Chromium checks used headless Chrome; mobile and refresh-rate
+  emulation are not substitutes for physical devices/displays.
+- The 30-minute run is unexecuted. The user explicitly deferred the eight-hour
+  test on 2026-11-26; its runner and procedure are saved for later. Neither test
+  is marked as passed.
+- Safari rejected WebDriver because remote automation is disabled. Firefox and
+  physical mobile hardware were unavailable. These checks remain open.
+- Physical-display performance targets, long-run trends, CPU/GPU usage, and
+  benchmark overhead verification remain open. See `docs/PERFORMANCE.md`.
+
 ### Rendering and architecture review
 
-- [ ] Review deltaTime handling
-- [ ] Review frame-rate-dependent mouse repulsion
-- [ ] Align connections with rendered star positions
-- [ ] Review galaxy generation algorithm
-- [ ] Review rendering performance
-- [ ] Review per-frame object and array allocations
-- [ ] Review quadratic connection calculations
-- [ ] Review Canvas 2D shadowBlur performance
-- [ ] Review canvas resizing behavior
-- [ ] Review high-DPI canvas memory consumption
-- [ ] Evaluate configurable device pixel ratio limits
-- [ ] Evaluate configurable rendering limits
-- [ ] Review resource cleanup
-- [ ] Review garbage collection behavior
-- [ ] Avoid premature optimization
-- [ ] Measure performance before and after optimizations
+- [x] Review deltaTime handling
+- [x] Review frame-rate-dependent mouse repulsion
+- [x] Align connections with rendered star positions
+- [x] Review galaxy generation algorithm
+- [x] Review rendering performance
+- [x] Review per-frame object and array allocations
+- [x] Review quadratic connection calculations
+- [x] Review Canvas 2D shadowBlur performance
+- [x] Review canvas resizing behavior
+- [x] Review high-DPI canvas memory consumption
+- [x] Evaluate configurable device pixel ratio limits
+- [x] Evaluate configurable rendering limits
+- [x] Review resource cleanup
+- [x] Review garbage collection behavior
+- [x] Avoid premature optimization
+- [x] Measure performance before and after optimizations
 
 ### Accessibility and compatibility
 
-- [ ] Support prefers-reduced-motion
-- [ ] Ensure decorative canvas does not interfere
+- [x] Support prefers-reduced-motion
+- [x] Ensure decorative canvas does not interfere
       with accessibility
-- [ ] Ensure canvas does not block page interaction
+- [x] Ensure canvas does not block page interaction
 - [ ] Test mobile behavior
-- [ ] Test touch interaction
-- [ ] Test high-DPI displays
-- [ ] Test different viewport sizes
+- [x] Test touch interaction
+- [x] Test high-DPI displays
+- [x] Test different viewport sizes
 - [ ] Test different refresh rates
-- [ ] Test Chromium-based browsers
+- [x] Test Chromium-based browsers
 - [ ] Test Firefox
 - [ ] Test Safari
 
 ### Automated testing
 
-- [ ] Configure Vitest
-- [ ] Add configuration merging tests
-- [ ] Add configuration validation tests
-- [ ] Add preset tests
-- [ ] Add star generation tests
-- [ ] Add lifecycle management tests
-- [ ] Add resource cleanup tests
-- [ ] Add multiple instance tests
-- [ ] Add deltaTime handling tests
-- [ ] Add regression tests for identified bugs
-- [ ] Add TypeScript declarations
-- [ ] Verify TypeScript declarations
+- [x] Configure Vitest
+- [x] Add configuration merging tests
+- [x] Add configuration validation tests
+- [x] Add preset tests
+- [x] Add star generation tests
+- [x] Add lifecycle management tests
+- [x] Add resource cleanup tests
+- [x] Add multiple instance tests
+- [x] Add deltaTime handling tests
+- [x] Add regression tests for identified bugs
+- [x] Add TypeScript declarations
+- [x] Verify TypeScript declarations
 
 ### Benchmark infrastructure
 
-- [ ] Create benchmark/ directory
-- [ ] Create dedicated benchmark page
-- [ ] Implement FPS measurement
-- [ ] Implement frame duration measurement
-- [ ] Implement update and rendering time measurement
-- [ ] Implement dropped frame tracking
-- [ ] Implement configurable star count
-- [ ] Implement individual effect toggles
-- [ ] Implement multiple instance testing
-- [ ] Implement repeated lifecycle testing
-- [ ] Implement long-running test scenarios
-- [ ] Ensure benchmark data does not grow indefinitely
+- [x] Create benchmark/ directory
+- [x] Create dedicated benchmark page
+- [x] Implement FPS measurement
+- [x] Implement frame duration measurement
+- [x] Implement update and rendering time measurement
+- [x] Implement dropped frame tracking
+- [x] Implement configurable star count
+- [x] Implement individual effect toggles
+- [x] Implement multiple instance testing
+- [x] Implement repeated lifecycle testing
+- [x] Implement long-running test scenarios
+- [x] Ensure benchmark data does not grow indefinitely
 - [ ] Ensure benchmark instrumentation does not introduce
       significant performance overhead
-- [ ] Create docs/PERFORMANCE.md
+- [x] Create docs/PERFORMANCE.md
 
 ### Long-running stability and performance tests
 
@@ -340,20 +360,20 @@ Milestone 5 has not been started.
 #### Stability tests
 
 - [ ] Profile memory usage during a 30-minute animation
-- [ ] Run an extended 8-hour stability test
+- [ ] Run an extended 8-hour stability test (deferred by user on 2026-11-26; see `docs/PERFORMANCE.md`)
 - [ ] Verify heap usage stabilizes over time
-- [ ] Test 100 initialization and destruction cycles
-- [ ] Test 100 start and stop cycles
-- [ ] Test 100 configuration updates
-- [ ] Test repeated canvas resizing
-- [ ] Test background tab and visibility changes
-- [ ] Test high-DPI displays
+- [x] Test 100 initialization and destruction cycles
+- [x] Test 100 start and stop cycles
+- [x] Test 100 configuration updates
+- [x] Test repeated canvas resizing
+- [x] Test background tab and visibility changes
+- [x] Test high-DPI displays
 - [ ] Test desktop and mobile devices
-- [ ] Benchmark 100, 250, 500 and 1000 stars
-- [ ] Benchmark with all visual effects enabled
-- [ ] Benchmark individual visual effects
-- [ ] Benchmark multiple simultaneous instances
-- [ ] Verify resource cleanup after destroy()
+- [x] Benchmark 100, 250, 500 and 1000 stars
+- [x] Benchmark with all visual effects enabled
+- [x] Benchmark individual visual effects
+- [x] Benchmark multiple simultaneous instances
+- [x] Verify resource cleanup after destroy()
 
 #### Acceptance criteria
 
@@ -372,25 +392,25 @@ Milestone 5 has not been started.
 - [ ] Stable behavior after repeated configuration changes
 - [ ] Stable behavior after repeated resizing
 - [ ] Performance targets met with the default configuration
-- [ ] Zero runtime dependencies verified
+- [x] Zero runtime dependencies verified
 
 #### Benchmark reporting
 
-- [ ] Document reference hardware and operating system
-- [ ] Document browser and browser version
-- [ ] Document viewport size and device pixel ratio
+- [x] Document reference hardware and operating system
+- [x] Document browser and browser version
+- [x] Document viewport size and device pixel ratio
 - [ ] Document display refresh rate
-- [ ] Record tested configuration and enabled effects
-- [ ] Record test duration
-- [ ] Record average FPS and frame duration
-- [ ] Record p95 and p99 frame duration
-- [ ] Record dropped frames and long tasks
-- [ ] Record initial, peak and final heap usage
-- [ ] Record post-GC heap usage where measurable
+- [x] Record tested configuration and enabled effects
+- [x] Record test duration
+- [x] Record average FPS and frame duration
+- [x] Record p95 and p99 frame duration
+- [x] Record dropped frames and long tasks
+- [x] Record initial, peak and final heap usage
+- [x] Record post-GC heap usage where measurable
 - [ ] Record CPU and GPU usage where measurable
-- [ ] Compare results before and after optimizations
-- [ ] Document known limitations and trade-offs
-- [ ] Save benchmark results in docs/PERFORMANCE.md
+- [x] Compare results before and after optimizations
+- [x] Document known limitations and trade-offs
+- [x] Save benchmark results in docs/PERFORMANCE.md
 
 Performance targets are reference goals, not universal
 guarantees across all devices and configurations.
