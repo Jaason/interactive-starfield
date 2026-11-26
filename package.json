@@ -13,7 +13,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "verify:api": "node scripts/verify-api.mjs",
-    "verify:lifecycle": "node scripts/verify-lifecycle.mjs"
+    "verify:lifecycle": "node scripts/verify-lifecycle.mjs",
+    "verify:presets": "node scripts/verify-presets.mjs"
   },
   "devDependencies": {
     "vite": "^8.3.8"
