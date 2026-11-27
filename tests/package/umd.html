@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Installed package: UMD script</title>
+<canvas style="width:600px;height:300px" aria-hidden="true"></canvas>
+<script src="./starfield.umd.js"></script>
+<script>
+window.mount = () => { window.field = new InteractiveStarfield.Starfield('canvas', { accessibility: { respectReducedMotion: false } }); };
+window.unmount = () => { window.field.destroy(); window.field = null; };
+window.mount();
+window.ready = true;
+</script>
+</html>
