@@ -42,6 +42,7 @@
     "build:lib": "vite build --config vite.lib.config.js",
     "prepack": "npm run build:lib -- --logLevel silent",
     "verify:package": "node scripts/verify-package.mjs",
+    "verify:site": "node scripts/verify-site.mjs",
     "preview": "vite preview",
     "verify:api": "node scripts/verify-api.mjs",
     "verify:lifecycle": "node scripts/verify-lifecycle.mjs",
