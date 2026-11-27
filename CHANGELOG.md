@@ -27,6 +27,7 @@ User-visible changes are recorded here. No npm release has been published;
   vanilla JavaScript, TypeScript, and React effect cleanup.
 - Prepared GitHub Actions CI and a manual, validation-gated Pages workflow;
   local production-site path checks for root and project-site hosting.
+- CI status badge and recorded successful first hosted main-branch validation.
 
 ### Changed from the prototype
 
@@ -44,7 +45,7 @@ User-visible changes are recorded here. No npm release has been published;
 - Original prototype files and configuration values remain preserved. Approved
   behavior changes above are intentional; full pixel parity is not claimed.
 - Local npm packaging/exports are prepared. Release publication, GitHub Pages
-  deployment, and first hosted CI execution remain pending. The package stays private with
+  deployment remain pending. Hosted main-branch CI has passed. The package stays private with
   development version `0.0.0`; no registry installation is advertised.
 - Safari/Firefox compatibility checks and the eight-hour stability test are
   explicitly deferred. Physical-mobile and physical-display performance checks

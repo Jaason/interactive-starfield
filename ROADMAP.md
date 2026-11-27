@@ -667,10 +667,10 @@ Publication, deployment, and Milestone 9 remain separate approval steps.
 The user approved preparing CI for the private repository and a Pages workflow
 for later use after making it public. Configuration and local verification are
 implemented and approved for commit/push on 2026-11-27; Milestone 9 is **not
-complete**. Hosted Actions verification remains pending. Visibility changes
-and deployment require separate approval.
-Checked automation tasks below mean workflow configuration is prepared and
-locally validated, not that GitHub has executed it successfully.
+complete**. The first main-push CI run passed on GitHub. Pull-request and Pages
+verification remain pending. Visibility changes and deployment require separate
+approval. Checked CI automation tasks are verified locally and by that hosted run;
+the Pages workflow is prepared but has not been executed.
 
 - [x] Configure GitHub Actions
 - [x] Automate dependency installation
@@ -681,16 +681,16 @@ locally validated, not that GitHub has executed it successfully.
 - [x] Configure demo deployment workflow
 - [ ] Deploy demo to GitHub Pages
 - [ ] Deploy benchmark page
-- [x] Verify production build (local; hosted verification remains pending)
+- [x] Verify production build (local and hosted CI; live deployment pending)
 - [x] Verify asset paths (local root/project-path checks; live URL pending)
 - [ ] Update GitHub website URL
-- [ ] Add CI status badge to README (after the first hosted run)
+- [x] Add CI status badge to README
 - [ ] Add npm version badge after publication
 - [x] Add license badge to README
 
 ### Acceptance criteria
 
-- [ ] CI runs on pull requests and main branch updates
+- [ ] CI runs on pull requests and main branch updates (main push verified; PR pending)
 - [ ] Failed tests prevent successful CI validation
 - [ ] Failed builds prevent deployment
 - [ ] Demo deployment is reproducible
@@ -705,8 +705,8 @@ for private repositories.
 
 - CI targets main pushes and PRs, using one Ubuntu job with Node 26.2.0,
   lockfile installation, unit/type/site/package/documentation checks, cache,
-  timeout, and cancellation of superseded checks. Hosted Linux execution and
-  PR-trigger behavior have not yet been tested.
+  timeout, and cancellation of superseded checks. Hosted Linux execution passed
+  in run #1 for commit `04e9911`; PR-trigger behavior remains untested.
 - Pages is manual-only and gated on main/public visibility. It reuses CI before
   building/uploading `dist/`; deployment depends on successful validation/build.
   Actions are pinned to official release SHAs; job permissions are scoped, checkout
@@ -718,10 +718,29 @@ for private repositories.
   with absolute asset paths, missing links, or missing module entries failed.
   This is not a browser renderer or a check of JavaScript-generated URLs.
 - No hosting, repository visibility/metadata changes, or publication occurred.
-  CI badge, live demo links, hosted checks, and deployment acceptance remain open.
+  CI badge is added. Live demo links, PR checks, and deployment acceptance remain open.
   See `docs/DEPLOYMENT.md` for activation steps, permissions, and verification limits.
 - Library/prototype behavior and runtime dependencies are unchanged. Deferred
   browser/device/eight-hour verification remains open.
+
+### First CI result and pre-publication review — 2026-11-27
+
+- GitHub CI run `45966417354` completed successfully for main-push commit
+  `04e99116fd775e5fb794142167217c83fc6c302f`; all installation, test, type,
+  build, path, package, and documentation steps passed. Pages was not triggered.
+- A bounded review covered 29 reachable commits and 144 historical file blobs,
+  filenames, commit messages, and author metadata. Gitleaks 8.30.1 found no leaks;
+  supplementary checks found no common credential patterns or local user paths.
+  Commit emails are GitHub noreply addresses. No AI conversation transcripts
+  were found; project instructions and milestone records can remain in history.
+- Scope and limitations are documented in `docs/DEPLOYMENT.md`. This does not
+  certify every possible sensitive datum or replace review of subsequent changes.
+  No history rewriting, visibility changes, deployment, or publication occurred.
+- Separately reviewed the complete log of the only available hosted run/attempt
+  (job `140396044889`). Token inputs and authorization are masked; no unmasked
+  credentials, personal emails, developer-machine paths, or private conversations
+  were found. Visible paths/IDs are hosted-runner metadata. No log deletion or
+  workflow change was needed; subsequent runs require their own review.
 
 ---
 

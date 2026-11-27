@@ -1,6 +1,7 @@
 # interactive-starfield
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/Jaason/interactive-starfield/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/Jaason/interactive-starfield/actions/workflows/ci.yml)
 
 A lightweight, dependency-free JavaScript library for interactive Canvas 2D
 starfield backgrounds. Framework-agnostic, configurable, and based on the
@@ -11,7 +12,7 @@ preserved [original prototype](prototype/starfield.js).
 **Development status:** source usage and the local playground work today. The npm
 package and public demo have not been published; the package is marked private.
 The API is still under development. GitHub Pages deployment is planned separately.
-CI and a manual Pages workflow are prepared; their first hosted runs are pending.
+CI passed its first hosted run on `main`; the manual Pages deployment is pending.
 See [CI and deployment](docs/DEPLOYMENT.md) for the rollout steps.
 
 [Quick start](#quick-start) · [Configuration](#configuration) · [Presets](#presets) ·

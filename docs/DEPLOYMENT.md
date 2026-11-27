@@ -1,8 +1,9 @@
 # CI and GitHub Pages
 
 Milestone 9 is partially implemented. Workflows are prepared, locally checked,
-and approved for commit/push on 2026-11-27. First hosted verification remains
-pending. No site has been deployed.
+and pushed after approval on 2026-11-27. The first hosted CI run passed on
+`main`; pull-request and Pages deployment verification remain pending.
+No site has been deployed.
 GitHub Free supports Actions for this private repository within its included
 usage allowance. Pages will be enabled after a separately approved change to
 public visibility. No paid plan is required for that path.
@@ -72,21 +73,19 @@ group. An active deployment is not cancelled by a newer dispatch. The workflow
 does not enable Pages, change repository visibility, publish npm, or update the
 repository website URL automatically.
 
-## First hosted run and deployment
+## Remaining hosted checks and deployment
 
 These steps remain pending and must follow the project's approval workflow:
 
-1. Commit/push the prepared workflows after approval. Inspect the first CI run
-   on GitHub; local checks are not proof that hosted runners have passed.
-2. Add the CI badge after that run is available. Confirm pull-request checks on
-   a real PR before marking that acceptance criterion complete.
-3. After approval to publish the repository/site, review the release checklist
+1. Confirm pull-request checks on a real PR before marking that acceptance
+   criterion complete. The first main-push CI run has already passed.
+2. After approval to publish the repository/site, review the release checklist
    and change repository visibility to public.
-4. In **Settings → Pages → Build and deployment**, select **GitHub Actions**.
+3. In **Settings → Pages → Build and deployment**, select **GitHub Actions**.
    Restrict the `github-pages` environment to `main`; add any desired available
    deployment protection. The workflow's branch guard already requires `main`.
-5. In **Actions → GitHub Pages → Run workflow**, select `main` and dispatch.
-6. Inspect validation, build, and deployment. Open the URL returned by the
+4. In **Actions → GitHub Pages → Run workflow**, select `main` and dispatch.
+5. Inspect validation, build, and deployment. Open the URL returned by the
    deployment, then verify the demo, controls, benchmark link, and assets in a
    browser. Record the actual URL, update README/package homepage and GitHub's
    website field, and only then mark the hosted checks complete.
@@ -108,10 +107,80 @@ references. Temporary copies with an absolute asset path, missing page link,
 or missing module entry failed as expected. Previous Chrome production checks
 are recorded in [packaging verification](PACKAGING.md); rendering code is unchanged.
 
-Hosted Linux execution, real PR events, environment/OIDC authorization, artifact
-upload/download, and public hosting have not been exercised. No hosted success,
-deployment reproducibility, or live-site availability is claimed yet. Workflow
-files contain no custom credentials; this is not a release history/secrets audit.
+## Hosted CI result
+
+On 2026-11-27, [CI run #1](https://github.com/Jaason/interactive-starfield/actions/runs/45966417354)
+completed successfully for main-push commit
+`04e99116fd775e5fb794142167217c83fc6c302f` on the configured Ubuntu runner.
+GitHub job results confirm every step passed: installation, unit tests, types,
+both site builds, both path checks, package verification, and documentation.
+README now includes a branch-specific CI badge without any embedded token.
+While the repository is private, unauthenticated readers may not see its status.
+
+Real PR events, deliberate failure propagation on hosted runners, Pages
+environment/OIDC authorization, artifact upload/download, and public hosting
+remain untested. Hosted CI success is not a claim of deployment reproducibility
+or live-site availability.
+
+## Pre-publication repository review
+
+The 2026-11-27 review covered the tracked repository at `04e9911`, all 29 commits
+reachable from local refs (main/origin/main), commit messages/author metadata,
+and 144 unique historical file blobs. Gitleaks 8.30.1 scanned all those commits
+with its default rules and full output redaction: no leaks were detected. Its
+temporary release binary was verified against the official release checksum;
+neither the tool nor its reports were added as project dependencies/artifacts.
+
+Additional pattern checks found no private-key headers, common service tokens,
+credentials in HTTP URLs, local user-home paths, or sensitive-looking filenames
+such as `.env`, `.npmrc`, or private-key files. Author/committer email addresses
+use GitHub `noreply`. The author's name is intentionally present in commit
+metadata and the MIT license. Benchmark reports contain test environment details
+and measurements; those are part of the documented verification context.
+
+`AGENTS.md`, milestone approvals, and engineering verification records are project
+documentation. No saved AI conversation transcripts were found in the reviewed
+files. Retaining the development history is appropriate; no history rewrite or
+removal of AI-related workflow instructions was performed.
+
+Markdown URL inventory (current files and their reachable historical versions)
+contains 12 distinct external addresses: this repository and its CI run/workflow/
+badge, the original JSFiddle prototype, official GitHub/npm/Vite documentation,
+and the public MIT badge. URL parameters only select the CI branch/event; no
+embedded access token was found. Current relative Markdown links stay inside the
+repository. Loopback addresses are local test instructions, not private-service
+links. The JSFiddle content could not be independently fetched by the review tool.
+Repository and CI URLs currently require repository access; the links themselves
+do not grant that access. Hosted CI logs were reviewed separately below.
+
+### Hosted log review
+
+On 2026-11-27 the GitHub API listed one workflow run, one attempt, and one job.
+The complete decoded log for run `45966417354`, job `140396044889`, was reviewed
+for credentials, private data, URLs, and local paths. Common service-token,
+private-key, and credential-bearing URL pattern checks found no matches; the
+content review found no unmasked credentials, personal email addresses, private
+conversation content, or paths from the author's computer.
+
+Both action token inputs and the checkout authorization header show `***`.
+The log records removal of the temporary checkout credentials configuration.
+Visible paths belong to the hosted runner (`/home/runner`, `/tmp`, tool-cache
+directories), not the developer's machine. Other visible metadata consists of
+the repository name, commit/action SHAs, runner image/region and temporary IDs,
+tool versions, test results, bundle sizes, and the npm cache key. These are
+ordinary build details, not access credentials. URLs point to this repository
+or official GitHub action/runner/Node resources; no URL query tokens were found.
+
+No log redaction changes or deletion were needed based on this review. This is
+limited to the one available run at the time of inspection; later runs and
+content already masked by GitHub are not covered. No raw log was added to the
+repository, and this log review did not rerun Gitleaks against the log text.
+
+This is a bounded pre-publication review, not proof that every possible secret,
+encoded payload, or private detail has been detected. Ignored/untracked local
+files, unreachable Git objects, GitHub issues/PR discussions, and account settings
+are outside this review. Review new commits before publication. Repository
+visibility, deployment, and npm publication remain separate approval steps.
 
 References: [GitHub Pages custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages),
 [GitHub Actions usage](https://docs.github.com/en/billing/concepts/product-billing/github-actions),
