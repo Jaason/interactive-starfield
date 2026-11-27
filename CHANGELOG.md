@@ -21,6 +21,10 @@ User-visible changes are recorded here. No npm release has been published;
   headless Chrome stability results.
 - User-facing documentation, runnable examples, contribution guide, and separate
   historical verification records.
+- ESM and UMD distribution builds, conditional exports with matching TypeScript
+  declarations, package metadata, and automatic local-tarball builds.
+- Package-content, installed-consumer, rendering-parity, and browser checks for
+  vanilla JavaScript, TypeScript, and React effect cleanup.
 
 ### Changed from the prototype
 
@@ -37,8 +41,9 @@ User-visible changes are recorded here. No npm release has been published;
 
 - Original prototype files and configuration values remain preserved. Approved
   behavior changes above are intentional; full pixel parity is not claimed.
-- npm packaging/exports, release publication, GitHub Pages deployment, and CI
-  remain future milestones. The source and local demo are available now.
+- Local npm packaging/exports are prepared. Release publication, GitHub Pages
+  deployment, and CI remain future milestones. The package stays private with
+  development version `0.0.0`; no registry installation is advertised.
 - Safari/Firefox compatibility checks and the eight-hour stability test are
   explicitly deferred. Physical-mobile and physical-display performance checks
   remain outstanding. A 30-minute headless result does not replace them.

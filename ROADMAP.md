@@ -584,41 +584,79 @@ replaced with speculative links; source usage and local commands are documented.
 
 ## Milestone 8 — npm package preparation
 
-- [ ] Configure Vite library mode
-- [ ] Generate ESM build
-- [ ] Generate UMD build
-- [ ] Configure package exports
-- [ ] Include TypeScript declarations
-- [ ] Configure package metadata
-- [ ] Configure package keywords
-- [ ] Configure repository URL
-- [ ] Configure homepage URL
-- [ ] Configure bugs URL
-- [ ] Configure published files
-- [ ] Exclude prototype from npm package
-- [ ] Exclude demo from npm package
-- [ ] Exclude benchmark from npm package
-- [ ] Exclude development-only files
-- [ ] Verify zero runtime dependencies
-- [ ] Verify package bundle size
-- [ ] Inspect npm pack output
-- [ ] Test package in an external vanilla JavaScript project
-- [ ] Test package in an external TypeScript project
-- [ ] Test package in a React application
-- [ ] Verify npm package name availability
+- [x] Configure Vite library mode
+- [x] Generate ESM build
+- [x] Generate UMD build
+- [x] Configure package exports
+- [x] Include TypeScript declarations
+- [x] Configure package metadata
+- [x] Configure package keywords
+- [x] Configure repository URL
+- [x] Configure homepage URL
+- [x] Configure bugs URL
+- [x] Configure published files
+- [x] Exclude prototype from npm package
+- [x] Exclude demo from npm package
+- [x] Exclude benchmark from npm package
+- [x] Exclude development-only files
+- [x] Verify zero runtime dependencies
+- [x] Verify package bundle size
+- [x] Inspect npm pack output
+- [x] Test package in an external vanilla JavaScript project
+- [x] Test package in an external TypeScript project
+- [x] Test package in a React application
+- [x] Verify npm package name availability
 
 ### Acceptance criteria
 
-- [ ] Package builds successfully
-- [ ] ESM imports work correctly
-- [ ] UMD build works correctly
-- [ ] TypeScript declarations are resolved correctly
-- [ ] Package contains only intended distribution files
-- [ ] Package can be installed from a local npm tarball
-- [ ] Library works outside the development repository
-- [ ] Importing the package does not start rendering
+- [x] Package builds successfully
+- [x] ESM imports work correctly
+- [x] UMD build works correctly
+- [x] TypeScript declarations are resolved correctly
+- [x] Package contains only intended distribution files
+- [x] Package can be installed from a local npm tarball
+- [x] Library works outside the development repository
+- [x] Importing the package does not start rendering
       or access browser globals prematurely
-- [ ] Zero runtime dependencies verified
+- [x] Zero runtime dependencies verified
+
+### Package verification
+
+Implemented, verified, and approved by the user on 2026-11-27.
+The user authorized committing and pushing this milestone on 2026-11-27.
+Publication, deployment, and Milestone 9 remain separate approval steps.
+
+- Added an independent Vite library build in `dist-lib/`, ESM and UMD formats,
+  conditional import/require exports, matching ESM/CommonJS declarations,
+  repository/homepage/issues metadata, keywords, and an explicit files allowlist.
+- `npm pack` rebuilds through `prepack`. The real tarball contains exactly eight
+  intended files and installs in an isolated external project with no runtime,
+  optional, or peer dependencies. Prototype, demo, benchmark, source, tests,
+  development tooling, and screenshots are excluded.
+- Verified ESM/CommonJS imports with browser-global reads made to throw; package
+  import performs no initialization. Installed declarations passed NodeNext in
+  ESM/CommonJS and Bundler modes, including invalid API cases.
+- Seeded ESM/UMD rendering operations match the unchanged source. Per-format
+  checks cover independent instances, configuration, visibility, and 100 lifecycle
+  cycles with no tracked frames/listeners/observers left after destruction.
+- External vanilla JavaScript, TypeScript, classic UMD, and React 19.3.1 pages
+  passed headless Chrome checks in development and production: rendered pixels,
+  ten remounts each, fixed resource counts, cleanup, and no runtime exceptions.
+  React development StrictMode effect replay was explicitly verified.
+- All 66 existing Vitest tests, source type checks, site/library builds, package
+  and documentation verification passed. Production playground browser checks
+  also passed, including the benchmark link; standalone benchmark initialization
+  passed as well. A side-effects allowlist preserves
+  repository startup scripts that a blanket `sideEffects: false` would remove.
+- ESM is 19,705 bytes / 5,515 bytes gzip; UMD is 16,718 / 5,082. The tested archive
+  is 19,286 bytes compressed and 61,994 bytes unpacked. These are bundle-size
+  measurements, not claims of improved animation performance.
+- Public npm registry lookup returned E404 for `interactive-starfield`; no public
+  package was found. Availability is not reserved or guaranteed and must be
+  rechecked before publication. `private: true` and version `0.0.0` are retained.
+- See `docs/PACKAGING.md` for commands, results, format choices, and limits.
+  Source, original prototype hashes, and repository dependencies are unchanged.
+  Deferred browser/device/eight-hour verification remains open.
 
 ---
 

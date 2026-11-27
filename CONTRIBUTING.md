@@ -43,6 +43,7 @@ npm test
 npm run typecheck
 npm run build
 npm run build:benchmark
+npm run verify:package
 npm ls --omit=dev
 node scripts/verify-docs.mjs
 ```
@@ -54,7 +55,14 @@ tests for changed behavior; do not add tests that merely reproduce implementatio
 
 `npm run build` produces the playground and benchmark in `dist/`.
 `npm run preview` serves that build locally. `npm run build:benchmark` creates
-`dist-benchmark/` separately. These are site builds, not npm library distributions.
+`dist-benchmark/` separately. `npm run build:lib` creates ESM/UMD builds and copied
+declarations in `dist-lib/`; neither build clears the other build's directory.
+`npm pack` rebuilds the library through `prepack`. `npm run verify:package` packs
+and installs into a fresh temporary consumer, checks its contents, declarations,
+import safety, rendering parity, and cleanup. It leaves that temporary directory
+and prints its path for the optional external browser/React check described in
+[PACKAGING.md](docs/PACKAGING.md). React is installed only in that external fixture,
+not as a library dependency.
 
 For browser fixtures, ports and prerequisites, use
 [PERFORMANCE.md](docs/PERFORMANCE.md#browser-checks). Browser scripts require a

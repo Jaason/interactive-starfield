@@ -21,7 +21,7 @@ The API is still under development. GitHub Pages deployment is planned separatel
 - Four presets, partial configuration, and runtime updates.
 - Multiple independent instances, CSS-based sizing, and high-DPI rendering.
 - Start/stop/destroy lifecycle, visibility suspension, and reduced-motion support.
-- Zero runtime dependencies, ES module source, and TypeScript declarations.
+- Zero runtime dependencies, ESM/UMD builds, and TypeScript declarations.
 - An interactive playground and a separate measurement page.
 
 ## Run the playground
@@ -45,8 +45,41 @@ and a link to the benchmark. It starts with Default and respects reduced motion.
 Reload manually after edits; HMR is disabled to avoid retaining old instances.
 [Playground behavior and controls](docs/PLAYGROUND.md).
 
-There is no public live-demo URL or npm install command yet. Do not substitute
-an unverified package or deployment URL. Source imports are shown below.
+There is no public live-demo URL or registry installation yet. Source imports are
+shown below; the prepared package can also be installed from a local tarball.
+
+## Install the local package
+
+From this checkout, create the distribution archive (the `prepack` hook rebuilds
+the library automatically):
+
+```sh
+npm pack
+```
+
+In another project, install the resulting file using its actual path:
+
+```sh
+npm install /path/to/interactive-starfield/interactive-starfield-0.0.0.tgz
+```
+
+Then use `import { Starfield } from 'interactive-starfield'` in JavaScript or
+TypeScript. Mount and size the canvas as shown in the quick start below. No build
+step runs when installing this tarball, and the package has no runtime dependencies.
+`0.0.0` is a local development version, not an npm release.
+
+For a classic browser script, copy `dist-lib/starfield.umd.cjs` from the installed
+package to your site's public assets as `starfield.umd.js`, load it with a normal
+`<script src="/assets/starfield.umd.js"></script>`, and construct
+`new InteractiveStarfield.Starfield('#starfield')` after the canvas is mounted.
+Serve the file with a JavaScript MIME type. CommonJS consumers can use
+`const { Starfield } = require('interactive-starfield')`.
+
+The tarball includes only the builds, declarations, README, changelog, license,
+and package metadata. Linked guides, source examples, and screenshots live in the
+[repository](https://github.com/Jaason/interactive-starfield), which is still private.
+See [package preparation and verification](docs/PACKAGING.md) for formats, sizes,
+external-project tests, and release limitations.
 
 ## Quick start
 
@@ -76,7 +109,7 @@ npm exec -- vite .
 
 Open `/docs/examples/quick-start.html` under the printed local URL. Use HTTP,
 not `file://`. Adapt `../../src/index.js` to the source location in your own app;
-package-name imports and distribution builds await the packaging milestone.
+after installing the local tarball, replace it with `interactive-starfield`.
 
 Use one instance per canvas. Do not reinitialize the same canvas before calling
 `destroy()` on the previous instance. The library leaves canvas DOM/CSS ownership
