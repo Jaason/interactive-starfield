@@ -664,13 +664,11 @@ Publication, deployment, and Milestone 9 remain separate approval steps.
 
 ### Current status — 2026-11-27
 
-The user approved preparing CI for the private repository and a Pages workflow
-for later use after making it public. Configuration and local verification are
-implemented and approved for commit/push on 2026-11-27; Milestone 9 is **not
-complete**. The first main-push CI run passed on GitHub. Pull-request and Pages
-verification remain pending. Visibility changes and deployment require separate
-approval. Checked CI automation tasks are verified locally and by that hosted run;
-the Pages workflow is prepared but has not been executed.
+The user approved public repository visibility and Pages deployment on 2026-11-27.
+The repository is public and the first Pages deployment passed for commit
+`da8e4ad` in run `45977542241`. Live Chrome checks passed for the playground
+and benchmark. Milestone 9 remains open for PR/failure-path and repeated
+deployment verification. The user approved committing and pushing these records.
 
 - [x] Configure GitHub Actions
 - [x] Automate dependency installation
@@ -679,11 +677,11 @@ the Pages workflow is prepared but has not been executed.
 - [x] Automate TypeScript declaration validation
 - [x] Automate npm package validation
 - [x] Configure demo deployment workflow
-- [ ] Deploy demo to GitHub Pages
-- [ ] Deploy benchmark page
-- [x] Verify production build (local and hosted CI; live deployment pending)
-- [x] Verify asset paths (local root/project-path checks; live URL pending)
-- [ ] Update GitHub website URL
+- [x] Deploy demo to GitHub Pages
+- [x] Deploy benchmark page
+- [x] Verify production build (local, hosted CI, and live deployment)
+- [x] Verify asset paths (local and live HTTPS assets verified)
+- [x] Update GitHub website URL
 - [x] Add CI status badge to README
 - [ ] Add npm version badge after publication
 - [x] Add license badge to README
@@ -694,7 +692,7 @@ the Pages workflow is prepared but has not been executed.
 - [ ] Failed tests prevent successful CI validation
 - [ ] Failed builds prevent deployment
 - [ ] Demo deployment is reproducible
-- [ ] Production demo works correctly
+- [x] Production demo works correctly
 - [ ] No credentials or secrets are exposed
 
 GitHub Pages deployment may require making the repository
@@ -840,3 +838,14 @@ Future features should be justified by actual use cases,
 performance measurements or user feedback.
 
 Avoid increasing complexity without a measurable benefit.
+
+## Public demo deployment record — 2026-11-27
+
+- Playground: https://jaason.github.io/interactive-starfield/
+- Benchmark: https://jaason.github.io/interactive-starfield/benchmark/
+- Pages run `45977542241` passed validation, build, and deployment. HTTPS is enforced.
+- Live Chrome checks passed for controls, presets, lifecycle, accessibility,
+  emulated mobile layout/touch, and the benchmark link without runtime exceptions.
+- All seven public HTML/CSS/JS files returned HTTP 200 with correct MIME types
+  and matched the local build byte for byte. GitHub website metadata was updated.
+- npm remains unpublished. Deferred browser/device/eight-hour checks remain open.

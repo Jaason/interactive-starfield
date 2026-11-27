@@ -23,8 +23,8 @@ DPR cap, and respect for reduced motion. The panel can be closed for a clear vie
 - Configuration export provides resolved JSON, a source-based JavaScript example,
   and local setup commands. It omits preset metadata, so copied overrides cannot
   accidentally reset to another baseline. Clipboard denial selects the text for
-  manual copying. npm installation/linking awaits publication; repository access
-  is required while the repository is private.
+  manual copying. npm installation/linking awaits publication; the repository
+  and the [hosted playground](https://jaason.github.io/interactive-starfield/) are public.
 - Controls have labels and keyboard support. Escape closes the modal or panel;
   closing returns focus to its trigger. Pointer movement over UI is stopped from
   bubbling into the canvas listeners; movement elsewhere still controls stars.

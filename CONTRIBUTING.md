@@ -1,7 +1,7 @@
 # Contributing
 
-This project is under development and has not been published to npm. Repository
-access is required while it is private. Read [AGENTS.md](AGENTS.md) and
+This project is under development and has not been published to npm. The repository
+and [demo](https://jaason.github.io/interactive-starfield/) are public. Read [AGENTS.md](AGENTS.md) and
 [ROADMAP.md](ROADMAP.md) before making changes.
 
 ## Local setup
@@ -74,8 +74,8 @@ tabs/processes created for a test, and do not reuse personal browser sessions.
 and physical-mobile checks remain separate. The eight-hour test is deferred and
 must not be launched as part of a routine check run.
 
-The prepared GitHub Actions workflow runs the core checks on `main` pushes and
-pull requests after it is committed and pushed. Pages is manual and gated on the
+The GitHub Actions workflow runs the core checks on `main` pushes and
+pull requests. Pages is manual and gated on the
 same checks, `main`, and public repository visibility. See
 [CI and deployment](docs/DEPLOYMENT.md) for permissions, local verification,
 remaining hosted checks, and the separately approved deployment procedure.

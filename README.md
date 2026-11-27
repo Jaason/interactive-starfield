@@ -9,11 +9,13 @@ preserved [original prototype](prototype/starfield.js).
 
 ![Interactive Starfield playground with the default galaxy and settings panel](docs/images/playground.png)
 
-**Development status:** source usage and the local playground work today. The npm
-package and public demo have not been published; the package is marked private.
-The API is still under development. GitHub Pages deployment is planned separately.
-CI passed its first hosted run on `main`; the manual Pages deployment is pending.
-See [CI and deployment](docs/DEPLOYMENT.md) for the rollout steps.
+**Development status:** the repository and demo are public. The npm package is
+not published; `private: true` remains in package metadata. The API is still under
+development. CI and the first manual Pages deployment passed on GitHub.
+See [CI and deployment](docs/DEPLOYMENT.md) for verification and remaining work.
+
+[Live demo](https://jaason.github.io/interactive-starfield/) ·
+[Benchmark](https://jaason.github.io/interactive-starfield/benchmark/)
 
 [Quick start](#quick-start) · [Configuration](#configuration) · [Presets](#presets) ·
 [API details](docs/API.md) · [Performance](docs/PERFORMANCE.md) ·
@@ -31,7 +33,8 @@ See [CI and deployment](docs/DEPLOYMENT.md) for the rollout steps.
 
 ## Run the playground
 
-With repository access, clone and install the development dependencies:
+Try the [hosted playground](https://jaason.github.io/interactive-starfield/),
+or clone and install the development dependencies to run it locally:
 
 ```sh
 git clone https://github.com/Jaason/interactive-starfield.git
@@ -50,8 +53,8 @@ and a link to the benchmark. It starts with Default and respects reduced motion.
 Reload manually after edits; HMR is disabled to avoid retaining old instances.
 [Playground behavior and controls](docs/PLAYGROUND.md).
 
-There is no public live-demo URL or registry installation yet. Source imports are
-shown below; the prepared package can also be installed from a local tarball.
+Registry installation remains pending publication. Source imports are shown
+below; the prepared package can also be installed from a local tarball.
 
 ## Install the local package
 
@@ -82,7 +85,7 @@ Serve the file with a JavaScript MIME type. CommonJS consumers can use
 
 The tarball includes only the builds, declarations, README, changelog, license,
 and package metadata. Linked guides, source examples, and screenshots live in the
-[repository](https://github.com/Jaason/interactive-starfield), which is still private.
+[public repository](https://github.com/Jaason/interactive-starfield).
 See [package preparation and verification](docs/PACKAGING.md) for formats, sizes,
 external-project tests, and release limitations.
 
@@ -248,8 +251,9 @@ export function mountTypedBackground(canvas: HTMLCanvasElement): () => void {
 ```
 
 `StarfieldOptions` accepts partial sections; `ResolvedStarfieldConfig` is readonly.
-Numeric ranges and RGB contents are still validated at runtime. npm type exports
-and external package installation checks are pending packaging/publication.
+Numeric ranges and RGB contents are still validated at runtime. Package type
+exports and external installations were verified using local tarballs;
+installation from the npm registry awaits publication.
 
 ## Accessibility and browser compatibility
 

@@ -1,12 +1,10 @@
 # CI and GitHub Pages
 
-Milestone 9 is partially implemented. Workflows are prepared, locally checked,
-and pushed after approval on 2026-11-27. The first hosted CI run passed on
-`main`; pull-request and Pages deployment verification remain pending.
-No site has been deployed.
-GitHub Free supports Actions for this private repository within its included
-usage allowance. Pages will be enabled after a separately approved change to
-public visibility. No paid plan is required for that path.
+The repository was made public and GitHub Pages deployed with explicit approval
+on 2026-11-27. The [playground](https://jaason.github.io/interactive-starfield/)
+and [benchmark](https://jaason.github.io/interactive-starfield/benchmark/) are live.
+CI and the deployment passed; remaining PR/failure-path checks mean Milestone 9
+is not yet fully verified. npm publication remains separate.
 
 ## Continuous integration
 
@@ -73,19 +71,17 @@ group. An active deployment is not cancelled by a newer dispatch. The workflow
 does not enable Pages, change repository visibility, publish npm, or update the
 repository website URL automatically.
 
-## Remaining hosted checks and deployment
+## Deploying updates and remaining checks
 
-These steps remain pending and must follow the project's approval workflow:
+The first deployment and public-visibility change are complete. For later updates,
+follow the project's approval workflow:
 
 1. Confirm pull-request checks on a real PR before marking that acceptance
    criterion complete. The first main-push CI run has already passed.
-2. After approval to publish the repository/site, review the release checklist
-   and change repository visibility to public.
-3. In **Settings → Pages → Build and deployment**, select **GitHub Actions**.
-   Restrict the `github-pages` environment to `main`; add any desired available
-   deployment protection. The workflow's branch guard already requires `main`.
-4. In **Actions → GitHub Pages → Run workflow**, select `main` and dispatch.
-5. Inspect validation, build, and deployment. Open the URL returned by the
+2. Review and approve the revision to deploy. Pages is already configured to use
+   **GitHub Actions**. The workflow requires public visibility and `main`.
+3. In **Actions → GitHub Pages → Run workflow**, select `main` and dispatch.
+4. Inspect validation, build, and deployment. Open the URL returned by the
    deployment, then verify the demo, controls, benchmark link, and assets in a
    browser. Record the actual URL, update README/package homepage and GitHub's
    website field, and only then mark the hosted checks complete.
@@ -115,12 +111,29 @@ completed successfully for main-push commit
 GitHub job results confirm every step passed: installation, unit tests, types,
 both site builds, both path checks, package verification, and documentation.
 README now includes a branch-specific CI badge without any embedded token.
-While the repository is private, unauthenticated readers may not see its status.
+The repository is now public, so the CI badge can be viewed without repository access.
 
-Real PR events, deliberate failure propagation on hosted runners, Pages
-environment/OIDC authorization, artifact upload/download, and public hosting
-remain untested. Hosted CI success is not a claim of deployment reproducibility
-or live-site availability.
+Real PR events, deliberate failure propagation on hosted runners, and repeated
+deployment reproducibility remain untested. The first successful Pages run below
+verified environment/OIDC authorization, artifact transfer, and public hosting.
+
+## First public deployment — 2026-11-27
+
+[Pages run #1](https://github.com/Jaason/interactive-starfield/actions/runs/45977542241)
+deployed commit `da8e4adc704fdbfc976d078d0fa354db1ceeb2dd`. Its validation, build,
+and deploy jobs all succeeded. Pages uses the workflow build type, HTTPS is
+enforced, and the repository website field points to the live playground.
+
+The existing Chrome verifier passed against the actual HTTPS URL: default scene,
+presets, configuration export/validation, pause/resume, 100 paused preset switches,
+fixed resource counts, reduced motion, clipboard branches, keyboard/focus,
+simulated page restoration, native tab hiding, 390px layout/emulated touch, and
+the relative benchmark link. No JavaScript exceptions were recorded. Desktop
+capture was reviewed; physical mobile and Safari/Firefox checks remain deferred.
+
+Public pages and assets are checked without authentication. No custom domain,
+npm publication, or automatic push-triggered deployment was configured. Browser
+checks are bounded functional checks, not new performance or eight-hour results.
 
 ## Pre-publication repository review
 

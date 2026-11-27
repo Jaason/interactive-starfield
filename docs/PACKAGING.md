@@ -2,8 +2,9 @@
 
 The library is prepared for local tarball installation, not published to npm.
 `private: true` and development version `0.0.0` remain in place. Changing them,
-publishing, tagging, repository visibility, and deployment belong to the release
-workflow and require approval. Deferred Safari/Firefox, physical-device, and
+publishing, and tagging require release approval. The repository and demo were
+made public with approval on 2026-11-27; this did not publish the npm package.
+Deferred Safari/Firefox, physical-device, and
 eight-hour checks remain open; see [performance notes](PERFORMANCE.md).
 
 ## Build and package layout
@@ -24,8 +25,8 @@ Consumers of the tarball do not need Vite and run no installation build hook.
 | `package.json`, `README.md`, `CHANGELOG.md`, `LICENSE` | Metadata and distribution documentation |
 
 The `files` allowlist excludes source, prototype, demo, benchmark, tests, tooling,
-screenshots, and development reports. The README links to repository guides;
-those guides require repository access while it is private. No extra runtime
+screenshots, and development reports. The README links to public repository guides.
+No extra runtime
 packages, polyfills, CSS, images, or source maps are bundled. Syntax is targeted
 at ES2020; this is not a browser compatibility certification.
 
@@ -48,8 +49,8 @@ distribution extension also allows `require` under the package's `type: module`.
 Loading ESM and UMD together creates separate class identities; normally choose
 one format for a host application. Imports alone do not initialize a canvas.
 
-The homepage points to the existing repository README, not a speculative Pages
-URL. The public npm registry returned E404 for `interactive-starfield` on
+The homepage points to the verified [Pages demo](https://jaason.github.io/interactive-starfield/).
+The public npm registry returned E404 for `interactive-starfield` on
 2026-11-27. No public package was found; this does not reserve the name or
 guarantee publication rights. Check again immediately before publication.
 
