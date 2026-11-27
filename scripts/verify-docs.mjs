@@ -8,7 +8,7 @@ import { fixture } from './helpers/browser-fixture.mjs';
 import { mountBackgrounds } from '../docs/examples/lifecycle.js';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
-const documents = ['README.md', 'CONTRIBUTING.md', 'CHANGELOG.md', 'docs/API.md', 'docs/PLAYGROUND.md', 'docs/PERFORMANCE.md', 'docs/VERIFICATION.md', 'docs/PACKAGING.md'];
+const documents = ['README.md', 'CONTRIBUTING.md', 'CHANGELOG.md', 'docs/API.md', 'docs/PLAYGROUND.md', 'docs/PERFORMANCE.md', 'docs/VERIFICATION.md', 'docs/PACKAGING.md', 'docs/DEPLOYMENT.md'];
 const texts = new Map(await Promise.all(documents.map(async name => [name, await readFile(resolve(root, name), 'utf8')])));
 const slug = heading => heading.toLowerCase().replace(/[^\p{L}\p{N}\s_-]/gu, '').replace(/ /g, '-');
 let links = 0;

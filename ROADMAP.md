@@ -662,21 +662,31 @@ Publication, deployment, and Milestone 9 remain separate approval steps.
 
 ## Milestone 9 — CI/CD and deployment
 
-- [ ] Configure GitHub Actions
-- [ ] Automate dependency installation
-- [ ] Automate unit tests
-- [ ] Automate build validation
-- [ ] Automate TypeScript declaration validation
-- [ ] Automate npm package validation
-- [ ] Configure demo deployment workflow
+### Current status — 2026-11-27
+
+The user approved preparing CI for the private repository and a Pages workflow
+for later use after making it public. Configuration and local verification are
+implemented and approved for commit/push on 2026-11-27; Milestone 9 is **not
+complete**. Hosted Actions verification remains pending. Visibility changes
+and deployment require separate approval.
+Checked automation tasks below mean workflow configuration is prepared and
+locally validated, not that GitHub has executed it successfully.
+
+- [x] Configure GitHub Actions
+- [x] Automate dependency installation
+- [x] Automate unit tests
+- [x] Automate build validation
+- [x] Automate TypeScript declaration validation
+- [x] Automate npm package validation
+- [x] Configure demo deployment workflow
 - [ ] Deploy demo to GitHub Pages
 - [ ] Deploy benchmark page
-- [ ] Verify production build
-- [ ] Verify asset paths
+- [x] Verify production build (local; hosted verification remains pending)
+- [x] Verify asset paths (local root/project-path checks; live URL pending)
 - [ ] Update GitHub website URL
-- [ ] Add CI status badge to README
+- [ ] Add CI status badge to README (after the first hosted run)
 - [ ] Add npm version badge after publication
-- [ ] Add license badge to README
+- [x] Add license badge to README
 
 ### Acceptance criteria
 
@@ -690,6 +700,28 @@ Publication, deployment, and Milestone 9 remain separate approval steps.
 GitHub Pages deployment may require making the repository
 public or using a GitHub plan that supports Pages
 for private repositories.
+
+### Prepared workflow verification
+
+- CI targets main pushes and PRs, using one Ubuntu job with Node 26.2.0,
+  lockfile installation, unit/type/site/package/documentation checks, cache,
+  timeout, and cancellation of superseded checks. Hosted Linux execution and
+  PR-trigger behavior have not yet been tested.
+- Pages is manual-only and gated on main/public visibility. It reuses CI before
+  building/uploading `dist/`; deployment depends on successful validation/build.
+  Actions are pinned to official release SHAs; job permissions are scoped, checkout
+  credentials are not persisted, and no personal/npm credentials are configured.
+- actionlint 1.7.12 passed for both workflows. All 66 tests, types, builds, package
+  and documentation checks passed locally; isolated lockfile installation passed.
+- New site verification checks emitted HTML/CSS references at `/` and
+  `/interactive-starfield/`. Both site builds passed; temporary broken builds
+  with absolute asset paths, missing links, or missing module entries failed.
+  This is not a browser renderer or a check of JavaScript-generated URLs.
+- No hosting, repository visibility/metadata changes, or publication occurred.
+  CI badge, live demo links, hosted checks, and deployment acceptance remain open.
+  See `docs/DEPLOYMENT.md` for activation steps, permissions, and verification limits.
+- Library/prototype behavior and runtime dependencies are unchanged. Deferred
+  browser/device/eight-hour verification remains open.
 
 ---
 

@@ -43,6 +43,8 @@ npm test
 npm run typecheck
 npm run build
 npm run build:benchmark
+npm run verify:site
+npm run verify:site -- dist-benchmark
 npm run verify:package
 npm ls --omit=dev
 node scripts/verify-docs.mjs
@@ -71,6 +73,12 @@ tabs/processes created for a test, and do not reuse personal browser sessions.
 `node scripts/verify-demo.mjs [url]` covers playground behavior; Safari/Firefox
 and physical-mobile checks remain separate. The eight-hour test is deferred and
 must not be launched as part of a routine check run.
+
+The prepared GitHub Actions workflow runs the core checks on `main` pushes and
+pull requests after it is committed and pushed. Pages is manual and gated on the
+same checks, `main`, and public repository visibility. See
+[CI and deployment](docs/DEPLOYMENT.md) for permissions, local verification,
+remaining hosted checks, and the separately approved deployment procedure.
 
 Runnable documentation examples are under `docs/examples/`. Start a repository-root
 server with `npm exec -- vite .` and open `/docs/examples/quick-start.html` or
