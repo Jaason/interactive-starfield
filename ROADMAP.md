@@ -509,45 +509,76 @@ browser/device checks are claimed here.
 
 ### README
 
-- [ ] Project introduction
-- [ ] Feature overview
-- [ ] Live demo link
-- [ ] Installation instructions
-- [ ] Quick start
-- [ ] Configuration reference
-- [ ] Presets reference
-- [ ] Public API documentation
-- [ ] Lifecycle management documentation
-- [ ] Usage examples
-- [ ] TypeScript usage examples
-- [ ] Browser compatibility
-- [ ] Accessibility recommendations
-- [ ] Performance recommendations
-- [ ] Known limitations
-- [ ] Demo screenshots or GIFs
-- [ ] Benchmark results summary
-- [ ] License information
-- [ ] Contribution guidelines
+- [x] Project introduction
+- [x] Feature overview
+- [ ] Live demo link (pending deployment; local demo instructions provided)
+- [x] Installation instructions
+- [x] Quick start
+- [x] Configuration reference
+- [x] Presets reference
+- [x] Public API documentation
+- [x] Lifecycle management documentation
+- [x] Usage examples
+- [x] TypeScript usage examples
+- [x] Browser compatibility
+- [x] Accessibility recommendations
+- [x] Performance recommendations
+- [x] Known limitations
+- [x] Demo screenshots or GIFs
+- [x] Benchmark results summary
+- [x] License information
+- [x] Contribution guidelines
 
 ### Additional documentation
 
-- [ ] Complete docs/PERFORMANCE.md
-- [ ] Document benchmark methodology
-- [ ] Document reference hardware
-- [ ] Document performance results
-- [ ] Document memory management approach
-- [ ] Document rendering trade-offs
-- [ ] Create CONTRIBUTING.md
-- [ ] Create CHANGELOG.md
+- [x] Complete docs/PERFORMANCE.md
+- [x] Document benchmark methodology
+- [x] Document reference hardware
+- [x] Document performance results
+- [x] Document memory management approach
+- [x] Document rendering trade-offs
+- [x] Create CONTRIBUTING.md
+- [x] Create CHANGELOG.md
 
 ### Acceptance criteria
 
-- [ ] Installation instructions are verified
-- [ ] All documented examples work
-- [ ] All public API methods are documented
-- [ ] Configuration options and defaults are documented
-- [ ] Performance claims are supported by measurements
-- [ ] Known limitations are clearly documented
+- [x] Installation instructions are verified
+- [x] All documented examples work
+- [x] All public API methods are documented
+- [x] Configuration options and defaults are documented
+- [x] Performance claims are supported by measurements
+- [x] Known limitations are clearly documented
+
+### Documentation verification
+
+Implemented and verified on 2026-11-26; approved by the user on 2026-11-27.
+The live-demo link remains pending deployment, as recorded above.
+The npm package and public demo remain unpublished. Missing public URLs are not
+replaced with speculative links; source usage and local commands are documented.
+
+- README now provides the feature overview, screenshot, source quick start, all
+  32 resolved option defaults, presets, API/lifecycle, TypeScript, accessibility,
+  compatibility status, performance summary, license, and contributor links.
+- Detailed API and playground contracts are in `docs/API.md` and
+  `docs/PLAYGROUND.md`. Earlier verification reports moved to
+  `docs/VERIFICATION.md`, preserving their historical context and measurements.
+- Added `CONTRIBUTING.md` and `CHANGELOG.md` with an Unreleased section; no release
+  or compatibility results were fabricated. Performance documentation now also
+  explains ownership, cleanup, and the limits of JS-heap measurements.
+- `npm ci` succeeded against the current package and lockfile in an isolated
+  temporary directory. The documented repository-root Vite command served the
+  examples and demo successfully. Full tooling requirements distinguish Vitest 5
+  from Vite's broader Node engine range; no package metadata was changed.
+- All 66 existing Vitest tests, type checks (including the documented TypeScript
+  example), both site builds, and the documentation verifier passed.
+- The verifier checks local links/anchors, all 32 defaults, seven JavaScript
+  snippets, synchronized TypeScript text, and two-instance cleanup. Chrome also
+  rendered both HTML examples, exercised cleanup/restoration, and captured the
+  actual playground image used in README.
+- The GitHub repository URL and private visibility were confirmed through the
+  connected GitHub metadata API. No npm or public deployment URL is claimed.
+- Library, demo behavior, original prototype, runtime dependencies, and API remain
+  unchanged. Deferred browser/device/eight-hour checks remain explicitly recorded.
 
 ---
 
