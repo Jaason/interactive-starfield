@@ -5,12 +5,43 @@
   "description": "A lightweight, dependency-free Canvas 2D starfield library.",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jaason/interactive-starfield.git"
+  },
+  "homepage": "https://github.com/Jaason/interactive-starfield#readme",
+  "bugs": {
+    "url": "https://github.com/Jaason/interactive-starfield/issues"
+  },
+  "keywords": ["starfield", "canvas", "canvas2d", "particles", "background", "animation", "dependency-free"],
+  "main": "./dist-lib/starfield.umd.cjs",
+  "module": "./dist-lib/starfield.js",
+  "types": "./dist-lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist-lib/index.d.ts",
+        "default": "./dist-lib/starfield.js"
+      },
+      "require": {
+        "types": "./dist-lib/index.d.cts",
+        "default": "./dist-lib/starfield.umd.cjs"
+      }
+    },
+    "./starfield.umd.cjs": "./dist-lib/starfield.umd.cjs",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": ["./demo/**", "./benchmark/**", "**/*.css"],
+  "files": ["dist-lib", "README.md", "LICENSE", "CHANGELOG.md"],
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:lib": "vite build --config vite.lib.config.js",
+    "prepack": "npm run build:lib -- --logLevel silent",
+    "verify:package": "node scripts/verify-package.mjs",
     "preview": "vite preview",
     "verify:api": "node scripts/verify-api.mjs",
     "verify:lifecycle": "node scripts/verify-lifecycle.mjs",

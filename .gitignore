@@ -158,3 +158,6 @@ vite.config.ts.timestamp-*
 
 # Local benchmark build
 dist-benchmark/
+
+# Library distribution (separate from the site build)
+dist-lib/
