@@ -27,9 +27,10 @@ npm run build:benchmark
 npm ls --omit=dev
 ```
 
-The 61 Vitest tests cover original API behavior, presets, lifecycle, failure
+The 61 core Vitest tests cover original API behavior, presets, lifecycle, failure
 rollback, star generation, fixed-time repulsion, shared drawing coordinates,
 DPR caps, media-query transitions, cleanup, and bounded benchmark storage.
+Milestone 6 adds five playground tests (66 total at that milestone).
 The old `verify:api`, `verify:lifecycle`, and `verify:presets` commands remain
 aliases for the corresponding Vitest suites. TypeScript checks cover supported
 calls, immutable resolved configuration, and expected type errors.
@@ -79,6 +80,28 @@ recorded as interruptions and excluded from active-duration completion; their
 cost still appears in interval statistics. A visibility pause is not rendering
 time. Estimated dropped frames depend on the selected refresh rate and are not
 compositor measurements.
+
+## Memory ownership and verification limits
+
+Each instance owns its immutable resolved configuration, particle collection,
+reusable shooting-star object, pointer, resize observer, event handlers, and one
+animation frame chain. There is no global instance registry. Nearby-star storage
+is reused and cleared when replaced particles would otherwise be retained.
+Changing configuration copies caller arrays and does not retain the caller's
+objects. Allocations still occur during configuration updates, regeneration,
+color-string creation, and shooting-star gradient drawing.
+
+`stop()` cancels animation but deliberately retains resumable scene state and
+listeners. `destroy()` cancels the pending frame, removes window/document/media
+listeners, disconnects the observer, clears rendering, and releases instance-owned
+DOM/context/config/particle references. The host still owns the canvas and any
+references it keeps; destroying the instance does not remove the DOM element or
+promise that browser/GPU canvas backing storage is immediately released.
+
+Post-GC weak-reference tests and the completed 30-minute run below support only
+the tested scenarios. JS heap is not total memory, and the benchmark's bounded
+history and measurement overhead are part of the test environment. Do not infer
+universal leak freedom or eight-hour stability from a lower final heap reading.
 
 ## Rendering changes and trade-offs
 

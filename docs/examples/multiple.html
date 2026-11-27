@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Independent starfields</title>
+  <style>
+    body { background: #080b10; color: white; font: 16px system-ui; }
+    canvas { display: block; width: 100%; height: 260px; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <h1>Independent instances</h1>
+  <h2>Deep Space · 120 stars</h2><canvas id="first" aria-hidden="true"></canvas>
+  <h2>Milky Way · 200 stars</h2><canvas id="second" aria-hidden="true"></canvas>
+  <button id="remove" type="button">Destroy both backgrounds</button>
+  <script type="module">
+    import { mountBackgrounds } from './lifecycle.js';
+    const first = document.querySelector('#first');
+    const second = document.querySelector('#second');
+    let remove = mountBackgrounds(first, second);
+    let removed = false;
+    document.querySelector('#remove').addEventListener('click', () => { remove?.(); remove = null; removed = true; });
+    window.addEventListener('pagehide', () => { remove?.(); remove = null; });
+    window.addEventListener('pageshow', event => {
+      if (event.persisted && !removed) remove = mountBackgrounds(first, second);
+    });
+  </script>
+</body>
+</html>
